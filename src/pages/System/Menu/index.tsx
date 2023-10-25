@@ -16,7 +16,6 @@ import {
 import {
   ActionType,
   FooterToolbar,
-  PageContainer,
   ProColumns,
   ProTable,
 } from '@ant-design/pro-components';
@@ -228,7 +227,7 @@ const MenuTableList: React.FC = () => {
   ];
 
   return (
-    <PageContainer>
+    <div>
       <div style={{ width: '100%', float: 'right' }}>
         <ProTable<API.System.Menu>
           headerTitle="信息"
@@ -383,7 +382,7 @@ const MenuTableList: React.FC = () => {
         statusOptions={statusOptions}
         menuTree={menuTree}
       />
-    </PageContainer>
+    </div>
   );
 };
 

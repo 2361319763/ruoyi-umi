@@ -1,5 +1,5 @@
 import * as AntdIcons from '@ant-design/icons';
-import { Modal, Popover, Progress, Result, Spin, Tooltip, Upload } from 'antd';
+import { Modal, Progress, Result, Spin, Tooltip, Upload } from 'antd';
 import React, { useCallback, useEffect, useState } from 'react';
 import './style.less';
 
@@ -19,7 +19,6 @@ declare global {
 interface PicSearcherState {
   loading: boolean;
   modalOpen: boolean;
-  popoverVisible: boolean;
   icons: iconObject[];
   fileList: any[];
   error: boolean;
@@ -35,7 +34,6 @@ const PicSearcher: React.FC = () => {
   const [state, setState] = useState<PicSearcherState>({
     loading: false,
     modalOpen: false,
-    popoverVisible: false,
     icons: [],
     fileList: [],
     error: false,
@@ -104,7 +102,6 @@ const PicSearcher: React.FC = () => {
     setState((prev) => ({
       ...prev,
       modalOpen: !prev.modalOpen,
-      popoverVisible: false,
       fileList: [],
       icons: [],
     }));
@@ -125,7 +122,6 @@ const PicSearcher: React.FC = () => {
     document.head.appendChild(script);
     setState((prev) => ({
       ...prev,
-      popoverVisible: !localStorage.getItem('disableIconTip'),
     }));
     return () => {
       document.removeEventListener('paste', onPaste);
@@ -134,15 +130,10 @@ const PicSearcher: React.FC = () => {
 
   return (
     <div className="iconPicSearcher">
-      <Popover
-        content="AI 截图搜索上线了，快来体验吧！🎉"
-        open={state.popoverVisible}
-      >
-        <AntdIcons.CameraOutlined
-          className="icon-pic-btn"
-          onClick={toggleModal}
-        />
-      </Popover>
+      <AntdIcons.CameraOutlined
+        className="icon-pic-btn"
+        onClick={toggleModal}
+      />
       <Modal
         title="信息"
         open={state.modalOpen}

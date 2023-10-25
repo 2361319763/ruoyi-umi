@@ -1,5 +1,6 @@
 import { getDeptTree } from '@/services/system/user';
 import { Tree, message } from 'antd';
+import type { DataNode, DirectoryTreeProps } from 'antd/es/tree';
 import React, { useEffect, useState } from 'react';
 
 const { DirectoryTree } = Tree;
@@ -36,12 +37,12 @@ const DeptTree: React.FC<TreeProps> = (props) => {
     fetchDeptList();
   }, []);
 
-  const onSelect = (keys: React.Key[], info: any) => {
+  const onSelect: DirectoryTreeProps['onSelect'] = (keys, info) => {
     props.onSelect(info.node);
   };
 
-  const onExpand = (expandedKeysValue: React.Key[]) => {
-    setExpandedKeys(expandedKeysValue);
+  const onExpand: DirectoryTreeProps['onExpand'] = (keys, info) => {
+    setExpandedKeys(keys);
     setAutoExpandParent(false);
   };
 

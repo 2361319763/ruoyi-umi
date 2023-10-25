@@ -1,5 +1,6 @@
 import Footer from '@/components/Footer';
 import RightContent from '@/components/RightContent';
+import MainContent from '@/components/MainContent';
 import {
   getMatchMenuItem,
   getRemoteMenu,
@@ -7,6 +8,7 @@ import {
   getUserInfo,
   patchRouteWithRemoteMenus,
   setRemoteMenu,
+  getKeepAliveRoutes
 } from '@/services/session';
 import { getAccessToken } from '@/utils/auth';
 import requestConfig from '@/utils/request';
@@ -27,6 +29,7 @@ export async function getInitialState(): Promise<{
   fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
 }> {
   const fetchUserInfo = async () => {
+    console.log('App fetchUserInfo getUserInfo');
     try {
       const response = await getUserInfo({
         skipErrorHandler: true,
@@ -76,6 +79,7 @@ export const layout: RunTimeLayoutConfig = ({
         userId: initialState?.currentUser?.userId,
       },
       request: async () => {
+        console.log('App layout menu request');
         if (!initialState?.currentUser?.userId) {
           return [];
         }
@@ -84,6 +88,7 @@ export const layout: RunTimeLayoutConfig = ({
     },
     footerRender: () => <Footer />,
     onPageChange: () => {
+      console.log('App layout onPageChange');
       const { location } = history;
 
       // 如果没有登录，重定向到 login
@@ -96,7 +101,9 @@ export const layout: RunTimeLayoutConfig = ({
     childrenRender: (children) => {
       return (
         <>
-          {children}
+          <MainContent>
+            { children }
+          </MainContent>
           <SettingDrawer
             disableUrlParams
             enableDarkTheme
@@ -116,6 +123,7 @@ export const layout: RunTimeLayoutConfig = ({
 };
 
 export async function onRouteChange({ location }) {
+  console.log('App onRouteChange => getRemoteMenu');
   const menus = getRemoteMenu();
   const lastItem = getMatchMenuItem(location.pathname, menus)[0];
   if (menus === null && location.pathname !== PageEnum.LOGIN) {
@@ -126,10 +134,12 @@ export async function onRouteChange({ location }) {
 }
 
 export async function patchClientRoutes({ routes }) {
+  console.log('App patchClientRoutes');
   patchRouteWithRemoteMenus(routes);
 }
 
 export function render(oldRender: () => void) {
+  console.log('App render => getRoutersInfo');
   const token = getAccessToken();
   if (!token || token?.length === 0) {
     history.push(PageEnum.LOGIN);

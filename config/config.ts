@@ -116,5 +116,5 @@ export default defineConfig({
    * @description 基于 initialState 的权限插件，必须先打开 initialState
    * @doc https://umijs.org/docs/max/access
    */
-  access: {},
+  access: {}
 });

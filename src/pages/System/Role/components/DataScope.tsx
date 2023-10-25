@@ -101,6 +101,7 @@ const DataScopeForm: React.FC<DataScopeFormProps> = (props) => {
         grid={true}
         layout="horizontal"
         onFinish={handleFinish}
+        submitter={false}
         initialValues={{
           login_password: '',
           confirm_password: '',

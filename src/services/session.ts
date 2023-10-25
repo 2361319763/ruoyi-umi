@@ -4,6 +4,7 @@ import { request } from '@umijs/max';
 import React, { lazy } from 'react';
 
 let remoteMenu: any = null;
+let keepAliveRoutes: string[] = [];
 
 export function getRemoteMenu() {
   return remoteMenu;
@@ -11,6 +12,10 @@ export function getRemoteMenu() {
 
 export function setRemoteMenu(data: any) {
   remoteMenu = data;
+}
+
+export function getKeepAliveRoutes() {
+  return keepAliveRoutes;
 }
 
 function patchRouteItems(route: any, menu: any, parentPath: string) {
@@ -109,6 +114,9 @@ export async function getRouters(): Promise<any> {
 
 export function convertCompatRouters(childrens: API.RoutersMenuItem[]): any[] {
   return childrens.map((item: API.RoutersMenuItem) => {
+    if (!item.meta?.noCache) {
+      keepAliveRoutes.push(item.path)
+    }
     return {
       path: item.path,
       icon: createIcon(item.meta.icon),
@@ -118,6 +126,7 @@ export function convertCompatRouters(childrens: API.RoutersMenuItem[]): any[] {
       hideInMenu: item.hidden,
       component: item.component,
       authority: item.perms,
+      meta: item.meta,
     };
   });
 }
@@ -125,6 +134,7 @@ export function convertCompatRouters(childrens: API.RoutersMenuItem[]): any[] {
 export async function getRoutersInfo(): Promise<MenuDataItem[]> {
   return getRouters().then((res) => {
     if (res?.code === 200) {
+      keepAliveRoutes = [];
       return convertCompatRouters(res.data);
     } else {
       return [];
@@ -134,7 +144,7 @@ export async function getRoutersInfo(): Promise<MenuDataItem[]> {
 
 export function getMatchMenuItem(
   path: string,
-  menuData: MenuDataItem[] | undefined,
+  menuData: MenuDataItem[] | undefined = remoteMenu,
 ): MenuDataItem[] {
   if (!menuData) return [];
   let items: MenuDataItem[] = [];

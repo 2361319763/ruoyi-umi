@@ -23,7 +23,6 @@ import {
 import {
   ActionType,
   FooterToolbar,
-  PageContainer,
   ProColumns,
   ProTable,
 } from '@ant-design/pro-components';
@@ -367,7 +366,7 @@ const RoleTableList: React.FC = () => {
   ];
 
   return (
-    <PageContainer>
+    <div>
       {contextHolder}
       <div style={{ width: '100%', float: 'right' }}>
         <ProTable<API.System.Role>
@@ -536,7 +535,7 @@ const RoleTableList: React.FC = () => {
         deptTree={menuTree || []}
         deptCheckedKeys={menuIds || []}
       />
-    </PageContainer>
+    </div>
   );
 };
 
