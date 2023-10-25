@@ -118,7 +118,6 @@ export const layout: RunTimeLayoutConfig = ({
 export async function onRouteChange({ location }) {
   const menus = getRemoteMenu();
   const lastItem = getMatchMenuItem(location.pathname, menus)[0];
-  console.log(lastItem);
   if (menus === null && location.pathname !== PageEnum.LOGIN) {
     history.go(0);
   } else if (lastItem?.component === 'Layout') {
@@ -133,6 +132,7 @@ export async function patchClientRoutes({ routes }) {
 export function render(oldRender: () => void) {
   const token = getAccessToken();
   if (!token || token?.length === 0) {
+    history.push(PageEnum.LOGIN);
     oldRender();
     return;
   }

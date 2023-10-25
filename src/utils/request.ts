@@ -6,7 +6,9 @@ import {
 } from '@/utils/auth';
 import errorCode from '@/utils/errorCode';
 import type { RequestConfig } from '@umijs/max';
+import { history } from '@umijs/max';
 import { message, notification } from 'antd';
+import { PageEnum } from '../enums/pagesEnums';
 
 const baseApi = '/dev-api';
 const checkRegion = 5 * 60 * 1000;
@@ -93,8 +95,6 @@ const requestConfig: RequestConfig = {
     (url: any, options: { headers: any }) => {
       const headers = options.headers ? options.headers : [];
 
-      // console.log('request ====>:', url);
-
       const authHeader = headers['Authorization'];
       const isToken = headers['isToken'];
       if (!authHeader && isToken !== false) {
@@ -136,7 +136,13 @@ const requestConfig: RequestConfig = {
         return response.data;
       }
       if (code === 401) {
-        return '无效的会话，或者会话已过期，请重新登录。';
+        notification.open({
+          message: '无效的会话，或者会话已过期，请重新登录。',
+          type: 'error',
+        });
+        clearSessionToken();
+        history.push(PageEnum.LOGIN);
+        return Promise.reject(msg);
       } else if (code === 500) {
         message.error(msg);
       } else if (code === 601) {

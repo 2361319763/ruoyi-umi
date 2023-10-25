@@ -33,7 +33,7 @@ export async function getDictValueEnum(
       method: 'GET',
     },
   );
-  if (resp.code === HttpResult.SUCCESS) {
+  if (resp?.code === HttpResult.SUCCESS) {
     const opts: DictValueEnumObj = {};
     resp.data.forEach((item: any) => {
       opts[item.dictValue] = {
@@ -61,7 +61,7 @@ export async function getDictSelectOption(
       method: 'GET',
     },
   );
-  if (resp.code === 200) {
+  if (resp?.code === 200) {
     const options: DictValueEnumObj[] = resp.data.map((item) => {
       return {
         text: item.dictLabel,

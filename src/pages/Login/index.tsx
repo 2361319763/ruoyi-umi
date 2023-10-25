@@ -60,6 +60,10 @@ const Login: React.FC = () => {
   };
 
   const fetchUserInfo = async () => {
+    setInitialState((s) => ({
+      ...s,
+      currentUser: undefined,
+    }));
     const userInfo = await initialState?.fetchUserInfo?.();
     if (userInfo) {
       flushSync(() => {
