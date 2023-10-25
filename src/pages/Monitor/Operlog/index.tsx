@@ -1,14 +1,29 @@
-
-import React, { useState, useRef, useEffect } from 'react';
+import DictTag from '@/components/DictTag';
+import {
+  addOperlog,
+  exportOperlog,
+  getOperlogList,
+  removeOperlog,
+  updateOperlog,
+} from '@/services/monitor/operlog';
+import { getDictValueEnum } from '@/services/system/dict';
+import {
+  DeleteOutlined,
+  ExclamationCircleOutlined,
+  PlusOutlined,
+} from '@ant-design/icons';
+import {
+  ActionType,
+  FooterToolbar,
+  PageContainer,
+  ProColumns,
+  ProTable,
+} from '@ant-design/pro-components';
 import { useAccess } from '@umijs/max';
 import type { FormInstance } from 'antd';
-import { Button, message, Modal } from 'antd';
-import { ActionType, FooterToolbar, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
-import { PlusOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import { getOperlogList, removeOperlog, addOperlog, updateOperlog, exportOperlog } from '@/services/monitor/operlog';
+import { Button, Modal, message } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
 import UpdateForm from './detail';
-import { getDictValueEnum } from '@/services/system/dict';
-import DictTag from '@/components/DictTag';
 
 /**
  * 添加节点
@@ -65,7 +80,9 @@ const handleRemove = async (selectedRows: API.Monitor.Operlog[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
-    const resp = await removeOperlog(selectedRows.map((row) => row.operId).join(','));
+    const resp = await removeOperlog(
+      selectedRows.map((row) => row.operId).join(','),
+    );
     hide();
     if (resp.code === 200) {
       message.success('删除成功，即将刷新');
@@ -79,12 +96,11 @@ const handleRemove = async (selectedRows: API.Monitor.Operlog[]) => {
     return false;
   }
 };
- 
 
 /**
  * 导出数据
  *
- * 
+ *
  */
 const handleExport = async () => {
   const hide = message.loading('正在导出');
@@ -99,7 +115,6 @@ const handleExport = async () => {
     return false;
   }
 };
-
 
 const OperlogTableList: React.FC = () => {
   const formTableRef = useRef<FormInstance>();
@@ -130,70 +145,76 @@ const OperlogTableList: React.FC = () => {
 
   const columns: ProColumns<API.Monitor.Operlog>[] = [
     {
-      title: "日志主键",
+      title: '日志主键',
       dataIndex: 'operId',
       valueType: 'text',
       hideInSearch: true,
     },
     {
-      title: "操作模块",
+      title: '操作模块',
       dataIndex: 'title',
       valueType: 'text',
     },
     {
-      title: "业务类型",
+      title: '业务类型',
       dataIndex: 'businessType',
       valueType: 'select',
       valueEnum: businessTypeOptions,
       render: (_, record) => {
-        return (<DictTag enums={businessTypeOptions} value={record.businessType} />);
+        return (
+          <DictTag enums={businessTypeOptions} value={record.businessType} />
+        );
       },
     },
     {
-      title: "请求方式",
+      title: '请求方式',
       dataIndex: 'requestMethod',
       valueType: 'text',
     },
     {
-      title: "操作类别",
+      title: '操作类别',
       dataIndex: 'operatorType',
       valueType: 'select',
       valueEnum: operatorTypeOptions,
       render: (_, record) => {
-        return (<DictTag enums={operatorTypeOptions} value={record.operatorType} />);
+        return (
+          <DictTag enums={operatorTypeOptions} value={record.operatorType} />
+        );
       },
     },
     {
-      title: "操作人员",
+      title: '操作人员',
       dataIndex: 'operName',
       valueType: 'text',
     },
     {
-      title: "主机地址",
+      title: '主机地址',
       dataIndex: 'operIp',
       valueType: 'text',
     },
     {
-      title: "操作地点",
+      title: '操作地点',
       dataIndex: 'operLocation',
       valueType: 'text',
     },
     {
-      title: "操作状态",
+      title: '操作状态',
       dataIndex: 'status',
       valueType: 'select',
       valueEnum: statusOptions,
       render: (_, record) => {
-        return (<DictTag key="status" enums={statusOptions} value={record.status} />);
+        return (
+          <DictTag key="status" enums={statusOptions} value={record.status} />
+        );
       },
     },
     {
-      title: "操作时间",
+      title: '操作时间',
       dataIndex: 'operTime',
       valueType: 'dateTime',
     },
     {
-      title: "操作",
+      title: '操作',
       dataIndex: 'option',
       width: '120px',
       valueType: 'option',
@@ -218,7 +239,7 @@ const OperlogTableList: React.FC = () => {
     <PageContainer>
       <div style={{ width: '100%', float: 'right' }}>
         <ProTable<API.Monitor.Operlog>
-          headerTitle='信息'
+          headerTitle="信息"
           actionRef={actionRef}
           formRef={formTableRef}
           rowKey="operId"
@@ -241,7 +262,10 @@ const OperlogTableList: React.FC = () => {
             <Button
               type="primary"
               key="remove"
-              hidden={selectedRows?.length === 0 || !access.hasPerms('system:operlog:remove')}
+              hidden={
+                selectedRows?.length === 0 ||
+                !access.hasPerms('system:operlog:remove')
+              }
               onClick={async () => {
                 Modal.confirm({
                   title: '是否确认删除所选数据项?',
@@ -254,7 +278,7 @@ const OperlogTableList: React.FC = () => {
                       actionRef.current?.reloadAndRest?.();
                     }
                   },
-                  onCancel() { },
+                  onCancel() {},
                 });
               }}
             >
@@ -274,14 +298,16 @@ const OperlogTableList: React.FC = () => {
             </Button>,
           ]}
           request={(params) =>
-            getOperlogList({ ...params } as API.Monitor.OperlogListParams).then((res) => {
-              const result = {
-                data: res.rows,
-                total: res.total,
-                success: true,
-              };
-              return result;
-            })
+            getOperlogList({ ...params } as API.Monitor.OperlogListParams).then(
+              (res) => {
+                const result = {
+                  data: res.rows,
+                  total: res.total,
+                  success: true,
+                };
+                return result;
+              },
+            )
           }
           columns={columns}
           rowSelection={{
@@ -296,8 +322,7 @@ const OperlogTableList: React.FC = () => {
           extra={
             <div>
               已选择
-              <a style={{ fontWeight: 600 }}>{selectedRows.length}</a>
-              项
+              <a style={{ fontWeight: 600 }}>{selectedRows.length}</a>项
             </div>
           }
         >

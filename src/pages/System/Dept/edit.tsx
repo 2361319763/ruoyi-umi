@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react';
+import { DictValueEnumObj } from '@/components/DictTag';
 import {
   ProForm,
   ProFormDigit,
-  ProFormText,
   ProFormRadio,
+  ProFormText,
   ProFormTreeSelect,
 } from '@ant-design/pro-components';
-import { Form, Modal} from 'antd';
+import { Form, Modal } from 'antd';
 import { DataNode } from 'antd/es/tree';
-import { DictValueEnumObj } from '@/components/DictTag';
+import React, { useEffect } from 'react';
 
 export type DeptFormData = Record<string, unknown> & Partial<API.System.Dept>;
 
@@ -59,7 +59,7 @@ const DeptForm: React.FC<DeptFormProps> = (props) => {
   return (
     <Modal
       width={640}
-      title='编辑部门'
+      title="编辑部门"
       open={props.open}
       forceRender
       destroyOnClose
@@ -71,10 +71,11 @@ const DeptForm: React.FC<DeptFormProps> = (props) => {
         grid={true}
         submitter={false}
         layout="horizontal"
-        onFinish={handleFinish}>
+        onFinish={handleFinish}
+      >
         <ProFormDigit
           name="deptId"
-          label='部门id'
+          label="部门id"
           colProps={{ md: 12, xl: 12 }}
           placeholder="请输入部门id"
           disabled
@@ -82,13 +83,13 @@ const DeptForm: React.FC<DeptFormProps> = (props) => {
           rules={[
             {
               required: false,
-              message: "请输入部门id！",
+              message: '请输入部门id！',
             },
           ]}
         />
         <ProFormTreeSelect
           name="parentId"
-          label='上级部门:'
+          label="上级部门:"
           request={async () => {
             return deptTree;
           }}
@@ -96,82 +97,80 @@ const DeptForm: React.FC<DeptFormProps> = (props) => {
           rules={[
             {
               required: true,
-              message: (
-                "请选择上级部门!"
-              ),
+              message: '请选择上级部门!',
             },
           ]}
         />
         <ProFormText
           name="deptName"
-          label='部门名称'
+          label="部门名称"
           colProps={{ md: 12, xl: 12 }}
           placeholder="请输入部门名称"
           rules={[
             {
               required: false,
-              message: "请输入部门名称！",
+              message: '请输入部门名称！',
             },
           ]}
         />
         <ProFormDigit
           name="orderNum"
-          label='显示顺序'
+          label="显示顺序"
           colProps={{ md: 12, xl: 12 }}
           placeholder="请输入显示顺序"
           rules={[
             {
               required: false,
-              message: "请输入显示顺序！",
+              message: '请输入显示顺序！',
             },
           ]}
         />
         <ProFormText
           name="leader"
-          label='负责人'
+          label="负责人"
           colProps={{ md: 12, xl: 12 }}
           placeholder="请输入负责人"
           rules={[
             {
               required: false,
-              message: "请输入负责人！",
+              message: '请输入负责人！',
             },
           ]}
         />
         <ProFormText
           name="phone"
-          label='联系电话'
+          label="联系电话"
           colProps={{ md: 12, xl: 12 }}
           placeholder="请输入联系电话"
           rules={[
             {
               required: false,
-              message: "请输入联系电话！",
+              message: '请输入联系电话！',
             },
           ]}
         />
         <ProFormText
           name="email"
-          label='邮箱'
+          label="邮箱"
           colProps={{ md: 12, xl: 12 }}
           placeholder="请输入邮箱"
           rules={[
             {
               required: false,
-              message: "请输入邮箱！",
+              message: '请输入邮箱！',
             },
           ]}
         />
         <ProFormRadio.Group
           valueEnum={statusOptions}
           name="status"
-          label='部门状态'
+          label="部门状态"
           colProps={{ md: 12, xl: 12 }}
           placeholder="请输入部门状态"
           rules={[
             {
               required: false,
-              message: "请输入部门状态！",
+              message: '请输入部门状态！',
             },
           ]}
         />

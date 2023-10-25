@@ -1,6 +1,6 @@
-import { request } from '@umijs/max';
 import { downLoadZip } from '@/utils/downloadfile';
-import type { GenCodeType, GenCodeTableListParams } from './data.d';
+import { request } from '@umijs/max';
+import type { GenCodeTableListParams, GenCodeType } from './data.d';
 
 // 查询分页列表
 export async function getGenCodeList(params?: GenCodeTableListParams) {

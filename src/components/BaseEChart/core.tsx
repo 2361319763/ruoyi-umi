@@ -1,11 +1,11 @@
 import type { ECharts } from 'echarts';
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { bind, clear } from 'size-sensor';
-import { pick } from './helper/pick';
+import { isEqual } from './helper/is-equal';
 import { isFunction } from './helper/is-function';
 import { isString } from './helper/is-string';
-import { isEqual } from './helper/is-equal';
-import { EChartsReactProps, EChartsInstance } from './types';
+import { pick } from './helper/pick';
+import { EChartsInstance, EChartsReactProps } from './types';
 
 /**
  * core component for echarts binding
@@ -45,7 +45,10 @@ export default class EChartsReactCore extends PureComponent<EChartsReactProps> {
      * default is true
      */
     const { shouldSetOption } = this.props;
-    if (isFunction(shouldSetOption) && !shouldSetOption(prevProps, this.props)) {
+    if (
+      isFunction(shouldSetOption) &&
+      !shouldSetOption(prevProps, this.props)
+    ) {
       return;
     }
 
@@ -65,7 +68,13 @@ export default class EChartsReactCore extends PureComponent<EChartsReactProps> {
     }
 
     // when these props are not isEqual, update echarts
-    const pickKeys = ['option', 'notMerge', 'lazyUpdate', 'showLoading', 'loadingOption'];
+    const pickKeys = [
+      'option',
+      'notMerge',
+      'lazyUpdate',
+      'showLoading',
+      'loadingOption',
+    ];
     if (!isEqual(pick(this.props, pickKeys), pick(prevProps, pickKeys))) {
       this.updateEChartsOption();
     }
@@ -73,7 +82,10 @@ export default class EChartsReactCore extends PureComponent<EChartsReactProps> {
     /**
      * when style or class name updated, change size.
      */
-    if (!isEqual(prevProps.style, this.props.style) || !isEqual(prevProps.className, this.props.className)) {
+    if (
+      !isEqual(prevProps.style, this.props.style) ||
+      !isEqual(prevProps.className, this.props.className)
+    ) {
       this.resize();
     }
   }
@@ -183,7 +195,13 @@ export default class EChartsReactCore extends PureComponent<EChartsReactProps> {
    * render the echarts
    */
   private updateEChartsOption(): EChartsInstance {
-    const { option, notMerge = false, lazyUpdate = false, showLoading, loadingOption = null } = this.props;
+    const {
+      option,
+      notMerge = false,
+      lazyUpdate = false,
+      showLoading,
+      loadingOption = null,
+    } = this.props;
     // 1. get or initial the echarts object
     const echartInstance = this.getEchartsInstance();
     // 2. set the echarts option

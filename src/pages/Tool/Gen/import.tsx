@@ -1,10 +1,10 @@
-import { Button, Card, message, Layout } from 'antd';
-import React, { useState } from 'react';
-import { history } from '@umijs/max';
-import { importTables, queryTableList } from './service';
-import type { GenCodeType } from './data.d';
-import { ProColumns, ProTable } from '@ant-design/pro-components';
 import { PlusOutlined, RollbackOutlined } from '@ant-design/icons';
+import { ProColumns, ProTable } from '@ant-design/pro-components';
+import { history } from '@umijs/max';
+import { Button, Card, Layout, message } from 'antd';
+import React, { useState } from 'react';
+import type { GenCodeType } from './data.d';
+import { importTables, queryTableList } from './service';
 
 const { Content } = Layout;
 
@@ -66,7 +66,8 @@ const ImportTableList: React.FC = () => {
                 }
               }}
             >
-              <PlusOutlined />提交
+              <PlusOutlined />
+              提交
             </Button>,
             <Button
               type="primary"

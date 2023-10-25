@@ -1,14 +1,33 @@
-
-import React, { useState, useRef, useEffect } from 'react';
-import { useAccess, history, useParams } from '@umijs/max';
-import type { FormInstance } from 'antd';
-import { Button, message, Modal } from 'antd';
-import { ActionType, FooterToolbar, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
-import { PlusOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import { getDictDataList, removeDictData, addDictData, updateDictData, exportDictData } from '@/services/system/dictdata';
-import UpdateForm from './edit';
-import { getDictValueEnum, getDictType, getDictTypeOptionSelect } from '@/services/system/dict';
 import DictTag from '@/components/DictTag';
+import {
+  getDictType,
+  getDictTypeOptionSelect,
+  getDictValueEnum,
+} from '@/services/system/dict';
+import {
+  addDictData,
+  exportDictData,
+  getDictDataList,
+  removeDictData,
+  updateDictData,
+} from '@/services/system/dictdata';
+import {
+  DeleteOutlined,
+  ExclamationCircleOutlined,
+  PlusOutlined,
+} from '@ant-design/icons';
+import {
+  ActionType,
+  FooterToolbar,
+  PageContainer,
+  ProColumns,
+  ProTable,
+} from '@ant-design/pro-components';
+import { history, useAccess, useParams } from '@umijs/max';
+import type { FormInstance } from 'antd';
+import { Button, Modal, message } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
+import UpdateForm from './edit';
 
 /**
  * 添加节点
@@ -65,7 +84,9 @@ const handleRemove = async (selectedRows: API.System.DictData[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
-    const resp = await removeDictData(selectedRows.map((row) => row.dictCode).join(','));
+    const resp = await removeDictData(
+      selectedRows.map((row) => row.dictCode).join(','),
+    );
     hide();
     if (resp.code === 200) {
       message.success('删除成功，即将刷新');
@@ -123,9 +144,7 @@ export type DictTypeArgs = {
   id: string;
 };
 
-
 const DictDataTableList: React.FC = () => {
-
   const formTableRef = useRef<FormInstance>();
 
   const [dictId, setDictId] = useState<string>('');
@@ -179,18 +198,18 @@ const DictDataTableList: React.FC = () => {
 
   const columns: ProColumns<API.System.DictData>[] = [
     {
-      title: "字典编码",
+      title: '字典编码',
       dataIndex: 'dictCode',
       valueType: 'text',
       hideInSearch: true,
     },
     {
-      title: "字典标签",
+      title: '字典标签',
       dataIndex: 'dictLabel',
       valueType: 'text',
     },
     {
-      title: "字典类型",
+      title: '字典类型',
       dataIndex: 'dictType',
       valueType: 'select',
       hideInTable: true,
@@ -203,36 +222,36 @@ const DictDataTableList: React.FC = () => {
       },
     },
     {
-      title: "字典键值",
+      title: '字典键值',
       dataIndex: 'dictValue',
       valueType: 'text',
     },
     {
-      title: "字典排序",
+      title: '字典排序',
       dataIndex: 'dictSort',
       valueType: 'text',
     },
     {
-      title: "状态",
+      title: '状态',
       dataIndex: 'status',
       valueType: 'select',
       valueEnum: statusOptions,
       render: (_, record) => {
-        return (<DictTag enums={statusOptions} value={record.status} />);
+        return <DictTag enums={statusOptions} value={record.status} />;
       },
     },
     {
-      title: "备注",
+      title: '备注',
       dataIndex: 'remark',
       valueType: 'textarea',
       hideInSearch: true,
     },
     {
-      title: "创建时间",
+      title: '创建时间',
       dataIndex: 'createTime',
       valueType: 'dateRange',
       render: (_, record) => {
-        return (<span>{record.createTime.toString()} </span>);
+        return <span>{record.createTime.toString()} </span>;
       },
       search: {
         transform: (value) => {
@@ -244,7 +263,7 @@ const DictDataTableList: React.FC = () => {
       },
     },
     {
-      title: "操作",
+      title: '操作',
       dataIndex: 'option',
       width: '120px',
       valueType: 'option',
@@ -294,7 +313,7 @@ const DictDataTableList: React.FC = () => {
     <PageContainer>
       <div style={{ width: '100%', float: 'right' }}>
         <ProTable<API.System.DictData>
-          headerTitle='信息'
+          headerTitle="信息"
           actionRef={actionRef}
           formRef={formTableRef}
           rowKey="dictCode"
@@ -308,7 +327,11 @@ const DictDataTableList: React.FC = () => {
               key="add"
               hidden={!access.hasPerms('system:data:add')}
               onClick={async () => {
-                setCurrentRow({ dictType: dictType, isDefault: 'N', status: '0' } as API.System.DictData);
+                setCurrentRow({
+                  dictType: dictType,
+                  isDefault: 'N',
+                  status: '0',
+                } as API.System.DictData);
                 setModalVisible(true);
               }}
             >
@@ -317,7 +340,10 @@ const DictDataTableList: React.FC = () => {
             <Button
               type="primary"
               key="remove"
-              hidden={selectedRows?.length === 0 || !access.hasPerms('system:data:remove')}
+              hidden={
+                selectedRows?.length === 0 ||
+                !access.hasPerms('system:data:remove')
+              }
               onClick={async () => {
                 Modal.confirm({
                   title: '是否确认删除所选数据项?',
@@ -330,7 +356,7 @@ const DictDataTableList: React.FC = () => {
                       actionRef.current?.reloadAndRest?.();
                     }
                   },
-                  onCancel() { },
+                  onCancel() {},
                 });
               }}
             >
@@ -350,7 +376,10 @@ const DictDataTableList: React.FC = () => {
             </Button>,
           ]}
           request={(params) =>
-            getDictDataList({ ...params, dictType } as API.System.DictDataListParams).then((res) => {
+            getDictDataList({
+              ...params,
+              dictType,
+            } as API.System.DictDataListParams).then((res) => {
               const result = {
                 data: res.rows,
                 total: res.total,
@@ -372,8 +401,7 @@ const DictDataTableList: React.FC = () => {
           extra={
             <div>
               已选择
-              <a style={{ fontWeight: 600 }}>{selectedRows.length}</a>
-              项
+              <a style={{ fontWeight: 600 }}>{selectedRows.length}</a>项
             </div>
           }
         >

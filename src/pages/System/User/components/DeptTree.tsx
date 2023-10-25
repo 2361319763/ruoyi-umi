@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Tree, message } from 'antd';
 import { getDeptTree } from '@/services/system/user';
+import { Tree, message } from 'antd';
+import React, { useEffect, useState } from 'react';
 
 const { DirectoryTree } = Tree;
 

@@ -1,11 +1,15 @@
+import { forceLogout, getOnlineUserList } from '@/services/monitor/online';
+import { DeleteOutlined } from '@ant-design/icons';
+import {
+  ActionType,
+  PageContainer,
+  ProColumns,
+  ProTable,
+} from '@ant-design/pro-components';
+import { useAccess } from '@umijs/max';
 import type { FormInstance } from 'antd';
 import { Button, message, Modal } from 'antd';
-import React, { useRef, useEffect } from 'react';
-import { useAccess } from '@umijs/max';
-import { getOnlineUserList, forceLogout } from '@/services/monitor/online';
-import { ActionType, ProColumns, ProTable, PageContainer } from '@ant-design/pro-components';
-import { DeleteOutlined } from '@ant-design/icons';
-
+import React, { useEffect, useRef } from 'react';
 
 const handleForceLogout = async (selectedRow: API.Monitor.OnlineUserType) => {
   const hide = message.loading('正在强制下线');
@@ -30,47 +34,47 @@ const OnlineUserTableList: React.FC = () => {
 
   const columns: ProColumns<API.Monitor.OnlineUserType>[] = [
     {
-      title: "会话编号",
+      title: '会话编号',
       dataIndex: 'tokenId',
       valueType: 'text',
       hideInSearch: true,
     },
     {
-      title: "用户账号",
+      title: '用户账号',
       dataIndex: 'userName',
       valueType: 'text',
     },
     {
-      title: "部门名称",
+      title: '部门名称',
       dataIndex: 'deptName',
       valueType: 'text',
       hideInSearch: true,
     },
     {
-      title: "登录IP地址",
+      title: '登录IP地址',
       dataIndex: 'ipaddr',
       valueType: 'text',
     },
     {
-      title: "登录地点",
+      title: '登录地点',
       dataIndex: 'loginLocation',
       valueType: 'text',
       hideInSearch: true,
     },
     {
-      title: "浏览器类型",
+      title: '浏览器类型',
       dataIndex: 'browser',
       valueType: 'text',
       hideInSearch: true,
     },
     {
-      title: "操作系统",
+      title: '操作系统',
       dataIndex: 'os',
       valueType: 'text',
       hideInSearch: true,
     },
     {
-      title: "登录时间",
+      title: '登录时间',
       dataIndex: 'loginTime',
       valueType: 'dateRange',
       render: (_, record) => <span>{record.loginTime}</span>,
@@ -85,7 +89,7 @@ const OnlineUserTableList: React.FC = () => {
       },
     },
     {
-      title: "操作",
+      title: '操作',
       dataIndex: 'option',
       width: '60px',
       valueType: 'option',
@@ -121,29 +125,31 @@ const OnlineUserTableList: React.FC = () => {
   ];
 
   return (
-      <PageContainer>
-        <ProTable<API.Monitor.OnlineUserType>
-          headerTitle='信息'
-          actionRef={actionRef}
-          formRef={formTableRef}
-          rowKey="tokenId"
-          key="logininforList"
-          search={{
-            labelWidth: 120,
-          }}
-          request={(params) =>
-            getOnlineUserList({ ...params } as API.Monitor.OnlineUserListParams).then((res) => {
-              const result = {
-                data: res.rows,
-                total: res.total,
-                success: true,
-              };
-              return result;
-            })
-          }
-          columns={columns}
-        />
-      </PageContainer>
+    <PageContainer>
+      <ProTable<API.Monitor.OnlineUserType>
+        headerTitle="信息"
+        actionRef={actionRef}
+        formRef={formTableRef}
+        rowKey="tokenId"
+        key="logininforList"
+        search={{
+          labelWidth: 120,
+        }}
+        request={(params) =>
+          getOnlineUserList({
+            ...params,
+          } as API.Monitor.OnlineUserListParams).then((res) => {
+            const result = {
+              data: res.rows,
+              total: res.total,
+              success: true,
+            };
+            return result;
+          })
+        }
+        columns={columns}
+      />
+    </PageContainer>
   );
 };
 

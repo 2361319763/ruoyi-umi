@@ -1,16 +1,16 @@
+import { getDictTypeList } from '@/services/system/dict';
+import { getMenuTree } from '@/services/system/menu';
+import { formatTreeData } from '@/utils/tree';
+import { useLocation } from '@umijs/max';
+import { Card, Layout, Steps, message } from 'antd';
+import queryString from 'query-string';
 import React, { useEffect, useState } from 'react';
 import BaseInfo from './components/BaseInfo';
-import { Card, Layout, message, Steps } from 'antd';
 import ColumnInfo from './components/ColumnInfo';
 import GenInfo from './components/GenInfo';
-import { getGenCode, updateData } from './service';
-import { formatTreeData } from '@/utils/tree';
-import styles from './style.less';
 import type { GenCodeType } from './data';
-import { getMenuTree } from '@/services/system/menu';
-import { getDictTypeList } from '@/services/system/dict';
-import queryString from 'query-string';
-import { useLocation } from '@umijs/max';
+import { getGenCode, updateData } from './service';
+import styles from './style.less';
 
 const { Content } = Layout;
 
@@ -163,17 +163,21 @@ const TableList: React.FC = () => {
   return (
     <Content>
       <Card className={styles.tabsCard} bordered={false}>
-        <Steps current={currentStep} className={styles.steps} items={[
-          {
-            title: '基本信息',
-          },
-          {
-            title: '字段信息',
-          },
-          {
-            title: '生成信息',
-          },
-        ]} />
+        <Steps
+          current={currentStep}
+          className={styles.steps}
+          items={[
+            {
+              title: '基本信息',
+            },
+            {
+              title: '字段信息',
+            },
+            {
+              title: '生成信息',
+            },
+          ]}
+        />
         {stepComponent}
       </Card>
     </Content>

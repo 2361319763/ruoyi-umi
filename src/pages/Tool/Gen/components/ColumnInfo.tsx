@@ -1,10 +1,10 @@
+import { EditableProTable, ProColumns } from '@ant-design/pro-components';
+import { history } from '@umijs/max';
+import type { FormInstance } from 'antd';
+import { Button, Checkbox, Col, Row, Tag } from 'antd';
 import React, { Fragment, useEffect, useRef, useState } from 'react';
 import type { GenCodeType } from '../data';
-import { Button, Checkbox, Col, Row, Tag } from 'antd';
-import type { FormInstance } from 'antd';
-import { history } from '@umijs/max';
 import styles from '../style.less';
-import { EditableProTable, ProColumns } from '@ant-design/pro-components';
 
 export type ColumnInfoProps = {
   parentType?: string;

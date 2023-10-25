@@ -1,16 +1,46 @@
-
-import React, { useState, useRef, useEffect } from 'react';
-import { useAccess, history } from '@umijs/max';
-import { DataNode } from 'antd/es/tree';
-import { Button, message, Modal, Dropdown, FormInstance, Space, Switch } from 'antd';
-import { ActionType, FooterToolbar, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
-import { PlusOutlined, EditOutlined, DeleteOutlined, ExclamationCircleOutlined, DownOutlined } from '@ant-design/icons';
-import { getRoleList, removeRole, addRole, updateRole, exportRole, getRoleMenuList, changeRoleStatus, updateRoleDataScope, getDeptTreeSelect, getRole } from '@/services/system/role';
-import UpdateForm from './edit';
 import { getDictValueEnum } from '@/services/system/dict';
-import { formatTreeData } from '@/utils/tree';
 import { getMenuTree } from '@/services/system/menu';
+import {
+  addRole,
+  changeRoleStatus,
+  exportRole,
+  getDeptTreeSelect,
+  getRole,
+  getRoleList,
+  getRoleMenuList,
+  removeRole,
+  updateRole,
+  updateRoleDataScope,
+} from '@/services/system/role';
+import { formatTreeData } from '@/utils/tree';
+import {
+  DeleteOutlined,
+  DownOutlined,
+  EditOutlined,
+  ExclamationCircleOutlined,
+  PlusOutlined,
+} from '@ant-design/icons';
+import {
+  ActionType,
+  FooterToolbar,
+  PageContainer,
+  ProColumns,
+  ProTable,
+} from '@ant-design/pro-components';
+import { history, useAccess } from '@umijs/max';
+import {
+  Button,
+  Dropdown,
+  FormInstance,
+  Modal,
+  Space,
+  Switch,
+  message,
+} from 'antd';
+import { DataNode } from 'antd/es/tree';
+import React, { useEffect, useRef, useState } from 'react';
 import DataScopeForm from './components/DataScope';
+import UpdateForm from './edit';
 
 const { confirm } = Modal;
 
@@ -69,7 +99,9 @@ const handleRemove = async (selectedRows: API.System.Role[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
-    const resp = await removeRole(selectedRows.map((row) => row.roleId).join(','));
+    const resp = await removeRole(
+      selectedRows.map((row) => row.roleId).join(','),
+    );
     hide();
     if (resp.code === 200) {
       message.success('删除成功，即将刷新');
@@ -107,7 +139,7 @@ const handleRemoveOne = async (selectedRow: API.System.Role) => {
 /**
  * 导出数据
  *
- * 
+ *
  */
 const handleExport = async () => {
   const hide = message.loading('正在导出');
@@ -123,9 +155,7 @@ const handleExport = async () => {
   }
 };
 
-
 const RoleTableList: React.FC = () => {
-
   const [messageApi, contextHolder] = message.useMessage();
   const formTableRef = useRef<FormInstance>();
 
@@ -149,12 +179,12 @@ const RoleTableList: React.FC = () => {
   }, []);
 
   const showChangeStatusConfirm = (record: API.System.Role) => {
-    let text = record.status === "1" ? "启用" : "停用";
+    let text = record.status === '1' ? '启用' : '停用';
     const newStatus = record.status === '0' ? '1' : '0';
     confirm({
       title: `确认要${text}${record.roleName}角色吗？`,
       onOk() {
-        changeRoleStatus(record.roleId, newStatus).then(resp => {
+        changeRoleStatus(record.roleId, newStatus).then((resp) => {
           if (resp.code === 200) {
             messageApi.open({
               type: 'success',
@@ -174,29 +204,29 @@ const RoleTableList: React.FC = () => {
 
   const columns: ProColumns<API.System.Role>[] = [
     {
-      title: "角色编号",
+      title: '角色编号',
       dataIndex: 'roleId',
       valueType: 'text',
     },
     {
-      title: "角色名称",
+      title: '角色名称',
       dataIndex: 'roleName',
       valueType: 'text',
     },
     {
-      title: "角色权限字符串",
+      title: '角色权限字符串',
       dataIndex: 'roleKey',
       valueType: 'text',
       hideInSearch: true,
     },
     {
-      title: "显示顺序",
+      title: '显示顺序',
       dataIndex: 'roleSort',
       valueType: 'text',
       hideInSearch: true,
     },
     {
-      title: "角色状态",
+      title: '角色状态',
       dataIndex: 'status',
       valueType: 'select',
       valueEnum: statusOptions,
@@ -208,15 +238,16 @@ const RoleTableList: React.FC = () => {
             unCheckedChildren="停用"
             defaultChecked
             onClick={() => showChangeStatusConfirm(record)}
-          />)
+          />
+        );
       },
     },
     {
-      title: "创建时间",
+      title: '创建时间',
       dataIndex: 'createTime',
       valueType: 'dateRange',
       render: (_, record) => {
-        return (<span>{record.createTime.toString()} </span>);
+        return <span>{record.createTime.toString()} </span>;
       },
       search: {
         transform: (value) => {
@@ -228,7 +259,7 @@ const RoleTableList: React.FC = () => {
       },
     },
     {
-      title: "操作",
+      title: '操作',
       dataIndex: 'option',
       width: '220px',
       valueType: 'option',
@@ -244,9 +275,11 @@ const RoleTableList: React.FC = () => {
               if (res.code === 200) {
                 const treeData = formatTreeData(res.menus);
                 setMenuTree(treeData);
-                setMenuIds(res.checkedKeys.map(item => {
-                  return `${item}`
-                }));
+                setMenuIds(
+                  res.checkedKeys.map((item) => {
+                    return `${item}`;
+                  }),
+                );
                 setModalVisible(true);
                 setCurrentRow(record);
               } else {
@@ -300,25 +333,26 @@ const RoleTableList: React.FC = () => {
             ],
             onClick: ({ key }: any) => {
               if (key === 'datascope') {
-                getRole(record.roleId).then(resp => {
-                  if(resp.code === 200) {
+                getRole(record.roleId).then((resp) => {
+                  if (resp.code === 200) {
                     setCurrentRow(resp.data);
                     setDataScopeModalOpen(true);
                   }
-                })
-                getDeptTreeSelect(record.roleId).then(resp => {
+                });
+                getDeptTreeSelect(record.roleId).then((resp) => {
                   if (resp.code === 200) {
                     setMenuTree(formatTreeData(resp.depts));
-                    setMenuIds(resp.checkedKeys.map((item:number) => {
-                      return `${item}`
-                    }));
+                    setMenuIds(
+                      resp.checkedKeys.map((item: number) => {
+                        return `${item}`;
+                      }),
+                    );
                   }
-                })
-              }
-              else if (key === 'authUser') {
+                });
+              } else if (key === 'authUser') {
                 history.push(`/system/role-auth/user/${record.roleId}`);
               }
-            }
+            },
           }}
         >
           <a onClick={(e) => e.preventDefault()}>
@@ -337,7 +371,7 @@ const RoleTableList: React.FC = () => {
       {contextHolder}
       <div style={{ width: '100%', float: 'right' }}>
         <ProTable<API.System.Role>
-          headerTitle='信息'
+          headerTitle="信息"
           actionRef={actionRef}
           formRef={formTableRef}
           rowKey="roleId"
@@ -369,7 +403,10 @@ const RoleTableList: React.FC = () => {
             <Button
               type="primary"
               key="remove"
-              hidden={selectedRows?.length === 0 || !access.hasPerms('system:role:remove')}
+              hidden={
+                selectedRows?.length === 0 ||
+                !access.hasPerms('system:role:remove')
+              }
               onClick={async () => {
                 Modal.confirm({
                   title: '是否确认删除所选数据项?',
@@ -382,7 +419,7 @@ const RoleTableList: React.FC = () => {
                       actionRef.current?.reloadAndRest?.();
                     }
                   },
-                  onCancel() { },
+                  onCancel() {},
                 });
               }}
             >
@@ -402,14 +439,16 @@ const RoleTableList: React.FC = () => {
             </Button>,
           ]}
           request={(params) =>
-            getRoleList({ ...params } as API.System.RoleListParams).then((res) => {
-              const result = {
-                data: res.rows,
-                total: res.total,
-                success: true,
-              };
-              return result;
-            })
+            getRoleList({ ...params } as API.System.RoleListParams).then(
+              (res) => {
+                const result = {
+                  data: res.rows,
+                  total: res.total,
+                  success: true,
+                };
+                return result;
+              },
+            )
           }
           columns={columns}
           rowSelection={{
@@ -424,8 +463,7 @@ const RoleTableList: React.FC = () => {
           extra={
             <div>
               已选择
-              <a style={{ fontWeight: 600 }}>{selectedRows.length}</a>
-              项
+              <a style={{ fontWeight: 600 }}>{selectedRows.length}</a>项
             </div>
           }
         >

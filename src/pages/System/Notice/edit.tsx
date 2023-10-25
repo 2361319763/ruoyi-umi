@@ -1,16 +1,17 @@
-import React, { useEffect } from 'react';
+import { DictValueEnumObj } from '@/components/DictTag';
 import {
   ProForm,
   ProFormDigit,
-  ProFormText,
-  ProFormSelect,
-  ProFormTextArea,
   ProFormRadio,
-  } from '@ant-design/pro-components';
-import { Form, Modal} from 'antd';
-import { DictValueEnumObj } from '@/components/DictTag';
+  ProFormSelect,
+  ProFormText,
+  ProFormTextArea,
+} from '@ant-design/pro-components';
+import { Form, Modal } from 'antd';
+import React, { useEffect } from 'react';
 
-export type NoticeFormData = Record<string, unknown> & Partial<API.System.Notice>;
+export type NoticeFormData = Record<string, unknown> &
+  Partial<API.System.Notice>;
 
 export type NoticeFormProps = {
   onCancel: (flag?: boolean, formVals?: NoticeFormData) => void;
@@ -23,22 +24,22 @@ export type NoticeFormProps = {
 
 const NoticeForm: React.FC<NoticeFormProps> = (props) => {
   const [form] = Form.useForm();
-  
-  const { noticeTypeOptions,statusOptions, } = props;
+
+  const { noticeTypeOptions, statusOptions } = props;
 
   useEffect(() => {
     form.resetFields();
     form.setFieldsValue({
-			noticeId: props.values.noticeId,
-			noticeTitle: props.values.noticeTitle,
-			noticeType: props.values.noticeType,
-			noticeContent: props.values.noticeContent,
-			status: props.values.status,
-			createBy: props.values.createBy,
-			createTime: props.values.createTime,
-			updateBy: props.values.updateBy,
-			updateTime: props.values.updateTime,
-			remark: props.values.remark,
+      noticeId: props.values.noticeId,
+      noticeTitle: props.values.noticeTitle,
+      noticeType: props.values.noticeType,
+      noticeContent: props.values.noticeContent,
+      status: props.values.status,
+      createBy: props.values.createBy,
+      createTime: props.values.createTime,
+      updateBy: props.values.updateBy,
+      updateTime: props.values.updateTime,
+      remark: props.values.remark,
     });
   }, [form, props]);
 
@@ -62,12 +63,13 @@ const NoticeForm: React.FC<NoticeFormProps> = (props) => {
       onOk={handleOk}
       onCancel={handleCancel}
     >
-		  <ProForm 
+      <ProForm
         form={form}
         grid={true}
         submitter={false}
-        layout="horizontal" 
-        onFinish={handleFinish}>
+        layout="horizontal"
+        onFinish={handleFinish}
+      >
         <ProFormDigit
           name="noticeId"
           label="公告编号"
@@ -78,68 +80,68 @@ const NoticeForm: React.FC<NoticeFormProps> = (props) => {
           rules={[
             {
               required: false,
-              message: "请输入公告编号！",                  
+              message: '请输入公告编号！',
             },
           ]}
         />
         <ProFormText
           name="noticeTitle"
-          label='公告标题'
+          label="公告标题"
           placeholder="请输入公告标题"
           rules={[
             {
               required: true,
-              message: "请输入公告标题！",                  
+              message: '请输入公告标题！',
             },
           ]}
         />
         <ProFormSelect
           valueEnum={noticeTypeOptions}
           name="noticeType"
-          label='公告类型'
+          label="公告类型"
           colProps={{ md: 12, xl: 24 }}
           placeholder="请输入公告类型"
           rules={[
             {
               required: true,
-              message: "请输入公告类型！",                  
+              message: '请输入公告类型！',
             },
           ]}
         />
         <ProFormRadio.Group
           valueEnum={statusOptions}
           name="status"
-          label='公告状态'
+          label="公告状态"
           colProps={{ md: 12, xl: 24 }}
           placeholder="请输入公告状态"
           rules={[
             {
               required: false,
-              message: "请输入公告状态！",                  
+              message: '请输入公告状态！',
             },
           ]}
         />
         <ProFormTextArea
           name="noticeContent"
-          label='公告内容'
+          label="公告内容"
           colProps={{ md: 12, xl: 24 }}
           placeholder="请输入公告内容"
           rules={[
             {
               required: false,
-              message: "请输入公告内容！",                  
+              message: '请输入公告内容！',
             },
           ]}
         />
         <ProFormText
           name="remark"
-          label='备注'
+          label="备注"
           colProps={{ md: 12, xl: 24 }}
           placeholder="请输入备注"
           rules={[
             {
               required: false,
-              message: "请输入备注！",                  
+              message: '请输入备注！',
             },
           ]}
         />

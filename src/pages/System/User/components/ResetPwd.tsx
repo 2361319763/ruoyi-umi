@@ -1,6 +1,6 @@
-import React from 'react';
-import { Form, Modal } from 'antd';
 import { ProForm, ProFormText } from '@ant-design/pro-components';
+import { Form, Modal } from 'antd';
+import React from 'react';
 
 export type FormValueType = any & Partial<API.System.User>;
 
@@ -37,7 +37,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
   return (
     <Modal
       width={640}
-      title='密码重置'
+      title="密码重置"
       open={props.open}
       destroyOnClose
       onOk={handleOk}
@@ -70,7 +70,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
           rules={[
             {
               required: true,
-              message: "确认密码",
+              message: '确认密码',
             },
             { validator: checkPassword },
           ]}

@@ -1,8 +1,8 @@
-import { request } from '@umijs/max'; 
+import { request } from '@umijs/max';
 
 /**
  * 定时任务调度日志 API
- * 
+ *
  * @author whiteshader
  * @date 2023-02-07
  */
@@ -14,29 +14,28 @@ export async function getJobLogList(params?: API.Monitor.JobLogListParams) {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
     },
-    params
+    params,
   });
 }
- 
 
 // 删除定时任务调度日志
 export async function removeJobLog(jobLogId: string) {
   return request<API.Result>(`/schedule/job/log/${jobLogId}`, {
-    method: 'DELETE'
+    method: 'DELETE',
   });
 }
 
 // 清空调度日志
 export function cleanJobLog() {
   return request('/schedule/job/log/clean', {
-    method: 'delete'
-  })
+    method: 'delete',
+  });
 }
 
 // 导出定时任务调度日志
-export function exportJobLog(params?: API.Monitor.JobLogListParams) { 
+export function exportJobLog(params?: API.Monitor.JobLogListParams) {
   return request<API.Result>(`/schedule/job/log/export`, {
     method: 'GET',
-    params
+    params,
   });
 }

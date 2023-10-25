@@ -1,15 +1,30 @@
-
-import React, { useState, useRef, useEffect } from 'react';
-import { useAccess } from '@umijs/max';
-import { Button, message, Modal } from 'antd';
-import { ActionType, FooterToolbar, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
-import { PlusOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import { getMenuList, removeMenu, addMenu, updateMenu, exportMenu } from '@/services/system/menu';
-import UpdateForm from './edit';
-import { getDictValueEnum } from '@/services/system/dict';
-import { buildTreeData } from '@/utils/tree';
-import { DataNode } from 'antd/es/tree';
 import DictTag from '@/components/DictTag';
+import { getDictValueEnum } from '@/services/system/dict';
+import {
+  addMenu,
+  exportMenu,
+  getMenuList,
+  removeMenu,
+  updateMenu,
+} from '@/services/system/menu';
+import { buildTreeData } from '@/utils/tree';
+import {
+  DeleteOutlined,
+  ExclamationCircleOutlined,
+  PlusOutlined,
+} from '@ant-design/icons';
+import {
+  ActionType,
+  FooterToolbar,
+  PageContainer,
+  ProColumns,
+  ProTable,
+} from '@ant-design/pro-components';
+import { useAccess } from '@umijs/max';
+import { Button, Modal, message } from 'antd';
+import { DataNode } from 'antd/es/tree';
+import React, { useEffect, useRef, useState } from 'react';
+import UpdateForm from './edit';
 
 /**
  * 添加节点
@@ -88,7 +103,7 @@ const handleRemoveOne = async (selectedRow: API.System.Menu) => {
 /**
  * 导出数据
  *
- * 
+ *
  */
 const handleExport = async () => {
   const hide = message.loading('正在导出');
@@ -104,9 +119,7 @@ const handleExport = async () => {
   }
 };
 
-
 const MenuTableList: React.FC = () => {
-
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
   const actionRef = useRef<ActionType>();
@@ -120,7 +133,7 @@ const MenuTableList: React.FC = () => {
   const access = useAccess();
 
   useEffect(() => {
-    getDictValueEnum('sys_show_hide').then((data) => {  
+    getDictValueEnum('sys_show_hide').then((data) => {
       setVisibleOptions(data);
     });
     getDictValueEnum('sys_normal_disable').then((data) => {
@@ -128,47 +141,47 @@ const MenuTableList: React.FC = () => {
     });
   }, []);
 
-  const columns: ProColumns<API.System.Menu>[] = [  
+  const columns: ProColumns<API.System.Menu>[] = [
     {
-      title: "菜单名称",
+      title: '菜单名称',
       dataIndex: 'menuName',
       valueType: 'text',
     },
     {
-      title: "菜单图标",
+      title: '菜单图标',
       dataIndex: 'icon',
       valueType: 'text',
       hideInSearch: true,
     },
     {
-      title: "显示顺序",
+      title: '显示顺序',
       dataIndex: 'orderNum',
       valueType: 'text',
       hideInSearch: true,
     },
     {
-      title: "组件路径",
+      title: '组件路径',
       dataIndex: 'component',
       valueType: 'text',
       hideInSearch: true,
     },
     {
-      title: "权限标识",
+      title: '权限标识',
       dataIndex: 'perms',
       valueType: 'text',
       hideInSearch: true,
     },
     {
-      title: "菜单状态",
+      title: '菜单状态',
       dataIndex: 'status',
       valueType: 'select',
       valueEnum: statusOptions,
       render: (_, record) => {
-        return (<DictTag enums={statusOptions} value={record.status} />);
+        return <DictTag enums={statusOptions} value={record.status} />;
       },
     },
     {
-      title: "操作",
+      title: '操作',
       dataIndex: 'option',
       width: '220px',
       valueType: 'option',
@@ -218,7 +231,7 @@ const MenuTableList: React.FC = () => {
     <PageContainer>
       <div style={{ width: '100%', float: 'right' }}>
         <ProTable<API.System.Menu>
-          headerTitle='信息'
+          headerTitle="信息"
           actionRef={actionRef}
           rowKey="menuId"
           key="menuList"
@@ -239,8 +252,11 @@ const MenuTableList: React.FC = () => {
             </Button>,
             <Button
               type="primary"
-              key="remove"              
-              hidden={selectedRows?.length === 0 || !access.hasPerms('system:menu:remove')}
+              key="remove"
+              hidden={
+                selectedRows?.length === 0 ||
+                !access.hasPerms('system:menu:remove')
+              }
               onClick={async () => {
                 Modal.confirm({
                   title: '是否确认删除所选数据项?',
@@ -254,7 +270,7 @@ const MenuTableList: React.FC = () => {
                     }
                   },
                   onCancel() {},
-                }); 
+                });
               }}
             >
               <DeleteOutlined />
@@ -273,19 +289,33 @@ const MenuTableList: React.FC = () => {
             </Button>,
           ]}
           request={(params) =>
-            getMenuList({ ...params } as API.System.MenuListParams).then((res) => {
-              const rootMenu = { id: 0, label: '主类目', children: [] as DataNode[], value: 0 };
-              const memuData = buildTreeData(res.data, 'menuId', 'menuName', '', '', '');
-              rootMenu.children = memuData;
-              const treeData: any = [];
-              treeData.push(rootMenu);
-              setMenuTree(treeData);
-              return {
-                data: memuData,
-                total: res.data.length,
-                success: true,
-              };
-            })
+            getMenuList({ ...params } as API.System.MenuListParams).then(
+              (res) => {
+                const rootMenu = {
+                  id: 0,
+                  label: '主类目',
+                  children: [] as DataNode[],
+                  value: 0,
+                };
+                const memuData = buildTreeData(
+                  res.data,
+                  'menuId',
+                  'menuName',
+                  '',
+                  '',
+                  '',
+                );
+                rootMenu.children = memuData;
+                const treeData: any = [];
+                treeData.push(rootMenu);
+                setMenuTree(treeData);
+                return {
+                  data: memuData,
+                  total: res.data.length,
+                  success: true,
+                };
+              },
+            )
           }
           columns={columns}
           rowSelection={{
@@ -300,8 +330,7 @@ const MenuTableList: React.FC = () => {
           extra={
             <div>
               已选择
-              <a style={{ fontWeight: 600 }}>{selectedRows.length}</a>
-              项
+              <a style={{ fontWeight: 600 }}>{selectedRows.length}</a>项
             </div>
           }
         >

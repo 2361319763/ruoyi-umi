@@ -1,8 +1,7 @@
-import React from 'react';
-import { Form, message, Row } from 'antd';
-import { ProForm, ProFormRadio, ProFormText } from '@ant-design/pro-components';
 import { updateUserProfile } from '@/services/system/user';
-
+import { ProForm, ProFormRadio, ProFormText } from '@ant-design/pro-components';
+import { Form, message, Row } from 'antd';
+import React from 'react';
 
 export type BaseInfoProps = {
   values: Partial<API.CurrentUser> | undefined;
@@ -27,15 +26,13 @@ const BaseInfo: React.FC<BaseInfoProps> = (props) => {
         <Row>
           <ProFormText
             name="nickName"
-            label='用户昵称'
+            label="用户昵称"
             width="xl"
             placeholder="请输入用户昵称"
             rules={[
               {
                 required: true,
-                message: (
-                  "请输入用户昵称！"
-                ),
+                message: '请输入用户昵称！',
               },
             ]}
           />
@@ -43,15 +40,13 @@ const BaseInfo: React.FC<BaseInfoProps> = (props) => {
         <Row>
           <ProFormText
             name="phonenumber"
-            label='手机号码'
+            label="手机号码"
             width="xl"
             placeholder="请输入手机号码"
             rules={[
               {
                 required: false,
-                message: (
-                  "请输入手机号码！"
-                ),
+                message: '请输入手机号码！',
               },
             ]}
           />
@@ -59,7 +54,7 @@ const BaseInfo: React.FC<BaseInfoProps> = (props) => {
         <Row>
           <ProFormText
             name="email"
-            label='邮箱'
+            label="邮箱"
             width="xl"
             placeholder="请输入邮箱"
             rules={[
@@ -69,7 +64,7 @@ const BaseInfo: React.FC<BaseInfoProps> = (props) => {
               },
               {
                 required: false,
-                message: "请输入邮箱！",
+                message: '请输入邮箱！',
               },
             ]}
           />
@@ -87,12 +82,12 @@ const BaseInfo: React.FC<BaseInfoProps> = (props) => {
               },
             ]}
             name="sex"
-            label='sex'
+            label="sex"
             width="xl"
             rules={[
               {
                 required: false,
-                message: "请输入性别！",
+                message: '请输入性别！',
               },
             ]}
           />

@@ -1,4 +1,3 @@
-
 export enum PageEnum {
-    LOGIN = '/login'
+  LOGIN = '/login',
 }

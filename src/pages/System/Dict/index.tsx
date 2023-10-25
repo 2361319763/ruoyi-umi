@@ -1,14 +1,29 @@
-
-import React, { useState, useRef, useEffect } from 'react';
-import { useAccess, history } from '@umijs/max';
-import type { FormInstance } from 'antd';
-import { Button, message, Modal } from 'antd';
-import { ActionType, FooterToolbar, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
-import { PlusOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import { getDictTypeList, removeDictType, addDictType, updateDictType, exportDictType } from '@/services/system/dict';
-import UpdateForm from './edit';
-import { getDictValueEnum } from '@/services/system/dict';
 import DictTag from '@/components/DictTag';
+import {
+  addDictType,
+  exportDictType,
+  getDictTypeList,
+  getDictValueEnum,
+  removeDictType,
+  updateDictType,
+} from '@/services/system/dict';
+import {
+  DeleteOutlined,
+  ExclamationCircleOutlined,
+  PlusOutlined,
+} from '@ant-design/icons';
+import {
+  ActionType,
+  FooterToolbar,
+  PageContainer,
+  ProColumns,
+  ProTable,
+} from '@ant-design/pro-components';
+import { history, useAccess } from '@umijs/max';
+import type { FormInstance } from 'antd';
+import { Button, Modal, message } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
+import UpdateForm from './edit';
 
 /**
  * 添加节点
@@ -65,7 +80,9 @@ const handleRemove = async (selectedRows: API.System.DictType[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
-    const resp = await removeDictType(selectedRows.map((row) => row.dictId).join(','));
+    const resp = await removeDictType(
+      selectedRows.map((row) => row.dictId).join(','),
+    );
     hide();
     if (resp.code === 200) {
       message.success('删除成功，即将刷新');
@@ -103,7 +120,7 @@ const handleRemoveOne = async (selectedRow: API.System.DictType) => {
 /**
  * 导出数据
  *
- * 
+ *
  */
 const handleExport = async () => {
   const hide = message.loading('正在导出');
@@ -119,9 +136,8 @@ const handleExport = async () => {
   }
 };
 
-
 const DictTableList: React.FC = () => {
-  const formTableRef = useRef<FormInstance>();  
+  const formTableRef = useRef<FormInstance>();
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
@@ -141,18 +157,18 @@ const DictTableList: React.FC = () => {
 
   const columns: ProColumns<API.System.DictType>[] = [
     {
-      title: "字典编号",
+      title: '字典编号',
       dataIndex: 'dictId',
       valueType: 'text',
       hideInSearch: true,
     },
     {
-      title: "字典名称",
+      title: '字典名称',
       dataIndex: 'dictName',
       valueType: 'text',
     },
     {
-      title: "字典类型",
+      title: '字典类型',
       dataIndex: 'dictType',
       valueType: 'text',
       render: (dom, record) => {
@@ -168,26 +184,26 @@ const DictTableList: React.FC = () => {
       },
     },
     {
-      title: "状态",
+      title: '状态',
       dataIndex: 'status',
       valueType: 'select',
       valueEnum: statusOptions,
       render: (_, record) => {
-        return (<DictTag enums={statusOptions} value={record.status} />);
+        return <DictTag enums={statusOptions} value={record.status} />;
       },
     },
     {
-      title: "备注",
+      title: '备注',
       dataIndex: 'remark',
       valueType: 'textarea',
       hideInSearch: true,
     },
     {
-      title: "创建时间",
+      title: '创建时间',
       dataIndex: 'createTime',
       valueType: 'dateRange',
       render: (_, record) => {
-        return (<span>{record.createTime.toString()} </span>);
+        return <span>{record.createTime.toString()} </span>;
       },
       search: {
         transform: (value) => {
@@ -199,7 +215,7 @@ const DictTableList: React.FC = () => {
       },
     },
     {
-      title: "操作",
+      title: '操作',
       dataIndex: 'option',
       width: '220px',
       valueType: 'option',
@@ -249,7 +265,7 @@ const DictTableList: React.FC = () => {
     <PageContainer>
       <div style={{ width: '100%', float: 'right' }}>
         <ProTable<API.System.DictType>
-          headerTitle='信息'
+          headerTitle="信息"
           actionRef={actionRef}
           formRef={formTableRef}
           rowKey="dictId"
@@ -271,8 +287,11 @@ const DictTableList: React.FC = () => {
             </Button>,
             <Button
               type="primary"
-              key="remove"              
-              hidden={selectedRows?.length === 0 || !access.hasPerms('system:dictType:remove')}
+              key="remove"
+              hidden={
+                selectedRows?.length === 0 ||
+                !access.hasPerms('system:dictType:remove')
+              }
               onClick={async () => {
                 Modal.confirm({
                   title: '是否确认删除所选数据项?',
@@ -286,7 +305,7 @@ const DictTableList: React.FC = () => {
                     }
                   },
                   onCancel() {},
-                }); 
+                });
               }}
             >
               <DeleteOutlined />
@@ -305,7 +324,9 @@ const DictTableList: React.FC = () => {
             </Button>,
           ]}
           request={(params) =>
-            getDictTypeList({ ...params } as API.System.DictTypeListParams).then((res) => {
+            getDictTypeList({
+              ...params,
+            } as API.System.DictTypeListParams).then((res) => {
               const result = {
                 data: res.rows,
                 total: res.total,
@@ -327,8 +348,7 @@ const DictTableList: React.FC = () => {
           extra={
             <div>
               已选择
-              <a style={{ fontWeight: 600 }}>{selectedRows.length}</a>
-              项
+              <a style={{ fontWeight: 600 }}>{selectedRows.length}</a>项
             </div>
           }
         >

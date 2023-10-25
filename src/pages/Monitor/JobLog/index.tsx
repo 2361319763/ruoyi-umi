@@ -1,19 +1,32 @@
-
-import React, { useState, useRef, useEffect } from 'react';
-import { useAccess, useParams, history } from '@umijs/max';
-import type { FormInstance } from 'antd';
-import { Button, message, Modal } from 'antd';
-import { ActionType, FooterToolbar, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
-import { PlusOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import { getJobLogList, removeJobLog, exportJobLog } from '@/services/monitor/jobLog';
-import DetailForm from './detail';
-import { getDictValueEnum } from '@/services/system/dict';
-import { getJob } from '@/services/monitor/job';
 import DictTag from '@/components/DictTag';
+import { getJob } from '@/services/monitor/job';
+import {
+  exportJobLog,
+  getJobLogList,
+  removeJobLog,
+} from '@/services/monitor/jobLog';
+import { getDictValueEnum } from '@/services/system/dict';
+import {
+  DeleteOutlined,
+  ExclamationCircleOutlined,
+  PlusOutlined,
+} from '@ant-design/icons';
+import {
+  ActionType,
+  FooterToolbar,
+  PageContainer,
+  ProColumns,
+  ProTable,
+} from '@ant-design/pro-components';
+import { history, useAccess, useParams } from '@umijs/max';
+import type { FormInstance } from 'antd';
+import { Button, Modal, message } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
+import DetailForm from './detail';
 
 /**
  * 定时任务调度日志 List Page
- * 
+ *
  * @author whiteshader
  * @date 2023-02-07
  */
@@ -27,7 +40,9 @@ const handleRemove = async (selectedRows: API.Monitor.JobLog[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
-    const resp = await removeJobLog(selectedRows.map((row) => row.jobLogId).join(','));
+    const resp = await removeJobLog(
+      selectedRows.map((row) => row.jobLogId).join(','),
+    );
     hide();
     if (resp.code === 200) {
       message.success('删除成功，即将刷新');
@@ -80,7 +95,6 @@ const handleExport = async () => {
   }
 };
 
-
 const JobLogTableList: React.FC = () => {
   const formTableRef = useRef<FormInstance>();
 
@@ -104,10 +118,10 @@ const JobLogTableList: React.FC = () => {
   const jobId = params.id || 0;
   useEffect(() => {
     if (jobId !== undefined && jobId !== 0) {
-      getJob(Number(jobId)).then(response => {
+      getJob(Number(jobId)).then((response) => {
         setQueryParams({
           jobName: response.data.jobName,
-          jobGroup: response.data.jobGroup
+          jobGroup: response.data.jobGroup,
         });
       });
     }
@@ -121,47 +135,47 @@ const JobLogTableList: React.FC = () => {
 
   const columns: ProColumns<API.Monitor.JobLog>[] = [
     {
-      title: "任务日志编号",
+      title: '任务日志编号',
       dataIndex: 'jobLogId',
       valueType: 'text',
       hideInSearch: true,
     },
     {
-      title: "任务名称",
+      title: '任务名称',
       dataIndex: 'jobName',
       valueType: 'text',
     },
     {
-      title: "任务组名",
+      title: '任务组名',
       dataIndex: 'jobGroup',
       valueType: 'text',
     },
     {
-      title: "调用目标字符串",
+      title: '调用目标字符串',
       dataIndex: 'invokeTarget',
       valueType: 'textarea',
     },
     {
-      title: "日志信息",
+      title: '日志信息',
       dataIndex: 'jobMessage',
       valueType: 'textarea',
     },
     {
-      title: "执行状态",
+      title: '执行状态',
       dataIndex: 'status',
       valueType: 'select',
       valueEnum: statusOptions,
       render: (_, record) => {
-        return (<DictTag enums={statusOptions} value={record.status} />);
+        return <DictTag enums={statusOptions} value={record.status} />;
       },
     },
     {
-      title: "异常信息",
+      title: '异常信息',
       dataIndex: 'createTime',
       valueType: 'text',
     },
     {
-      title: "操作",
+      title: '操作',
       dataIndex: 'option',
       width: '120px',
       valueType: 'option',
@@ -211,7 +225,7 @@ const JobLogTableList: React.FC = () => {
     <PageContainer>
       <div style={{ width: '100%', float: 'right' }}>
         <ProTable<API.Monitor.JobLog>
-          headerTitle='信息'
+          headerTitle="信息"
           actionRef={actionRef}
           formRef={formTableRef}
           rowKey="jobLogId"
@@ -234,7 +248,10 @@ const JobLogTableList: React.FC = () => {
             <Button
               type="primary"
               key="remove"
-              hidden={selectedRows?.length === 0 || !access.hasPerms('monitor:job-log:remove')}
+              hidden={
+                selectedRows?.length === 0 ||
+                !access.hasPerms('monitor:job-log:remove')
+              }
               onClick={async () => {
                 Modal.confirm({
                   title: '是否确认删除所选数据项?',
@@ -247,7 +264,7 @@ const JobLogTableList: React.FC = () => {
                       actionRef.current?.reloadAndRest?.();
                     }
                   },
-                  onCancel() { },
+                  onCancel() {},
                 });
               }}
             >
@@ -268,14 +285,16 @@ const JobLogTableList: React.FC = () => {
           ]}
           params={queryParams}
           request={(params) =>
-            getJobLogList({ ...params } as API.Monitor.JobLogListParams).then((res) => {
-              const result = {
-                data: res.rows,
-                total: res.total,
-                success: true,
-              };
-              return result;
-            })
+            getJobLogList({ ...params } as API.Monitor.JobLogListParams).then(
+              (res) => {
+                const result = {
+                  data: res.rows,
+                  total: res.total,
+                  success: true,
+                };
+                return result;
+              },
+            )
           }
           columns={columns}
           rowSelection={{
@@ -290,8 +309,7 @@ const JobLogTableList: React.FC = () => {
           extra={
             <div>
               已选择
-              <a style={{ fontWeight: 600 }}>{selectedRows.length}</a>
-              项
+              <a style={{ fontWeight: 600 }}>{selectedRows.length}</a>项
             </div>
           }
         >

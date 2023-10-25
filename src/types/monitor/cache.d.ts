@@ -1,5 +1,4 @@
 declare namespace API.Monitor {
-
   export type CommandInfo = {
     name: string;
     value: string;
@@ -142,5 +141,4 @@ declare namespace API.Monitor {
     code: number;
     msg: string;
   };
-
 }

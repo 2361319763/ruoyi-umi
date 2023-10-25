@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import { DictValueEnumObj } from '@/components/DictTag';
+import IconSelector from '@/components/IconSelector';
+import { createIcon } from '@/utils/IconUtil';
 import {
   ProForm,
   ProFormDigit,
-  ProFormText,
   ProFormRadio,
-  ProFormTreeSelect,
   ProFormSelect,
+  ProFormText,
+  ProFormTreeSelect,
 } from '@ant-design/pro-components';
-import { Form, Modal} from 'antd';
+import { Form, Modal } from 'antd';
 import { DataNode } from 'antd/es/tree';
-import { createIcon } from '@/utils/IconUtil';
-import { DictValueEnumObj } from '@/components/DictTag';
-import IconSelector from '@/components/IconSelector';
+import React, { useEffect, useState } from 'react';
 
 export type MenuFormData = Record<string, unknown> & Partial<API.System.Menu>;
 
@@ -26,7 +26,6 @@ export type MenuFormProps = {
 };
 
 const MenuForm: React.FC<MenuFormProps> = (props) => {
-
   const [form] = Form.useForm();
 
   const [menuTypeId, setMenuTypeId] = useState<any>('M');
@@ -38,6 +37,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
   useEffect(() => {
     form.resetFields();
     setMenuIconName(props.values.icon);
+    setMenuTypeId(props.values.menuType);
     form.setFieldsValue({
       menuId: props.values.menuId,
       menuName: props.values.menuName,
@@ -74,7 +74,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
   return (
     <Modal
       width={640}
-      title='编辑菜单权限'
+      title="编辑菜单权限"
       open={props.open}
       forceRender
       destroyOnClose
@@ -86,24 +86,25 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
         grid={true}
         submitter={false}
         layout="horizontal"
-        onFinish={handleFinish}>
+        onFinish={handleFinish}
+      >
         <ProFormDigit
           name="menuId"
-          label='菜单编号'
+          label="菜单编号"
           placeholder="请输入菜单编号"
           disabled
           hidden={true}
           rules={[
             {
               required: false,
-              message: "请输入菜单编号！",
+              message: '请输入菜单编号！',
             },
           ]}
         />
         <ProFormTreeSelect
           name="parentId"
-          label='上级菜单'
-          params={{menuTree}}
+          label="上级菜单"
+          params={{ menuTree }}
           request={async () => {
             return menuTree;
           }}
@@ -111,11 +112,11 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
           rules={[
             {
               required: true,
-              message: "请输入父菜单编号！",
+              message: '请输入父菜单编号！',
             },
           ]}
-          fieldProps = {{
-            defaultValue: 0
+          fieldProps={{
+            defaultValue: 0,
           }}
         />
         <ProFormRadio.Group
@@ -125,12 +126,12 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
             C: '菜单',
             F: '按钮',
           }}
-          label='菜单类型'
+          label="菜单类型"
           placeholder="请输入菜单类型"
           rules={[
             {
               required: false,
-              message: "请输入菜单类型！",
+              message: '请输入菜单类型！',
             },
           ]}
           fieldProps={{
@@ -142,7 +143,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
         />
         <ProFormSelect
           name="icon"
-          label='菜单图标'
+          label="菜单图标"
           valueEnum={{}}
           hidden={menuTypeId === 'F'}
           addonBefore={createIcon(menuIconName)}
@@ -155,36 +156,36 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
           rules={[
             {
               required: false,
-              message: "请输入菜单图标！",
+              message: '请输入菜单图标！',
             },
           ]}
         />
         <ProFormText
           name="menuName"
-          label='菜单名称'
+          label="菜单名称"
           colProps={{ md: 12, xl: 12 }}
           placeholder="请输入菜单名称"
           rules={[
             {
               required: true,
-              message: "请输入菜单名称！",
+              message: '请输入菜单名称！',
             },
           ]}
         />
         <ProFormDigit
           name="orderNum"
-          label='显示顺序'
+          label="显示顺序"
           width="lg"
           colProps={{ md: 12, xl: 12 }}
           placeholder="请输入显示顺序"
           rules={[
             {
               required: false,
-              message: "请输入显示顺序！",
+              message: '请输入显示顺序！',
             },
           ]}
-          fieldProps = {{
-            defaultValue: 1
+          fieldProps={{
+            defaultValue: 1,
           }}
         />
         <ProFormRadio.Group
@@ -194,23 +195,23 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
             1: '否',
           }}
           initialValue="1"
-          label='是否为外链'
+          label="是否为外链"
           colProps={{ md: 12, xl: 12 }}
           placeholder="请输入是否为外链"
           hidden={menuTypeId === 'F'}
           rules={[
             {
               required: false,
-              message: "请输入是否为外链！",
+              message: '请输入是否为外链！',
             },
           ]}
-          fieldProps = {{
-            defaultValue: '1'
+          fieldProps={{
+            defaultValue: '1',
           }}
         />
         <ProFormText
           name="path"
-          label='路由地址'
+          label="路由地址"
           width="lg"
           colProps={{ md: 12, xl: 12 }}
           placeholder="请输入路由地址"
@@ -218,46 +219,46 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
           rules={[
             {
               required: menuTypeId !== 'F',
-              message: "请输入路由地址！",
+              message: '请输入路由地址！',
             },
           ]}
         />
         <ProFormText
           name="component"
-          label='组件路径'
+          label="组件路径"
           colProps={{ md: 12, xl: 12 }}
           placeholder="请输入组件路径"
           hidden={menuTypeId !== 'C'}
           rules={[
             {
               required: false,
-              message: "请输入组件路径！",
+              message: '请输入组件路径！',
             },
           ]}
         />
         <ProFormText
           name="query"
-          label='路由参数'
+          label="路由参数"
           colProps={{ md: 12, xl: 12 }}
           placeholder="请输入路由参数"
           hidden={menuTypeId !== 'C'}
           rules={[
             {
               required: false,
-              message: "请输入路由参数！",
+              message: '请输入路由参数！',
             },
           ]}
         />
         <ProFormText
           name="perms"
-          label='权限标识'
+          label="权限标识"
           colProps={{ md: 12, xl: 12 }}
           placeholder="请输入权限标识"
           hidden={menuTypeId === 'M'}
           rules={[
             {
               required: false,
-              message: "请输入权限标识！",
+              message: '请输入权限标识！',
             },
           ]}
         />
@@ -267,52 +268,52 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
             0: '缓存',
             1: '不缓存',
           }}
-          label='是否缓存'
+          label="是否缓存"
           colProps={{ md: 12, xl: 12 }}
           placeholder="请输入是否缓存"
           hidden={menuTypeId !== 'C'}
           rules={[
             {
               required: false,
-              message: "请输入是否缓存！",
+              message: '请输入是否缓存！',
             },
           ]}
-          fieldProps = {{
-            defaultValue: 0
+          fieldProps={{
+            defaultValue: 0,
           }}
         />
         <ProFormRadio.Group
           name="visible"
           valueEnum={visibleOptions}
-          label='显示状态'
+          label="显示状态"
           colProps={{ md: 12, xl: 12 }}
           placeholder="请输入显示状态"
           hidden={menuTypeId === 'F'}
           rules={[
             {
               required: false,
-              message: "请输入显示状态！",
+              message: '请输入显示状态！',
             },
           ]}
-          fieldProps = {{
-            defaultValue: '0'
+          fieldProps={{
+            defaultValue: '0',
           }}
         />
         <ProFormRadio.Group
           valueEnum={statusOptions}
           name="status"
-          label='菜单状态'
+          label="菜单状态"
           colProps={{ md: 12, xl: 12 }}
           placeholder="请输入菜单状态"
           hidden={menuTypeId === 'F'}
           rules={[
             {
               required: true,
-              message: "请输入菜单状态！",
+              message: '请输入菜单状态！',
             },
           ]}
-          fieldProps = {{
-            defaultValue: '0'
+          fieldProps={{
+            defaultValue: '0',
           }}
         />
       </ProForm>

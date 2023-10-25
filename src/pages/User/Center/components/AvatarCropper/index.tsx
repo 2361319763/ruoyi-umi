@@ -1,9 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Modal, Row, Col, Button, Space, Upload, message } from 'antd';
 import { uploadAvatar } from '@/services/system/user';
-import { Cropper } from 'react-cropper';
-import './cropper.css';
-import styles from './index.less';
 import {
   MinusOutlined,
   PlusOutlined,
@@ -11,6 +6,11 @@ import {
   UndoOutlined,
   UploadOutlined,
 } from '@ant-design/icons';
+import { Button, Col, Modal, Row, Space, Upload, message } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
+import { Cropper } from 'react-cropper';
+import './cropper.css';
+import styles from './index.less';
 
 export type AvatarCropperProps = {
   onFinished: (isSuccess: boolean) => void;
@@ -35,7 +35,7 @@ const AvatarCropperForm: React.FC<AvatarCropperProps> = (props) => {
       formData.append('avatarfile', blob);
       uploadAvatar(formData).then((res) => {
         if (res.code === 200) {
-          message.success(res.msg);          
+          message.success(res.msg);
           props.onFinished(true);
         } else {
           message.warning(res.msg);
@@ -81,7 +81,7 @@ const AvatarCropperForm: React.FC<AvatarCropperProps> = (props) => {
   return (
     <Modal
       width={800}
-      title='修改头像'
+      title="修改头像"
       open={props.open}
       destroyOnClose
       onOk={handleOk}

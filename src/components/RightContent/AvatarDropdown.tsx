@@ -1,16 +1,20 @@
-import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import { PageEnum } from '@/enums/pagesEnums';
+import { setRemoteMenu } from '@/services/session';
+import { logout } from '@/services/system/login';
+import { clearSessionToken } from '@/utils/auth';
+import {
+  LogoutOutlined,
+  SettingOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
+import { setAlpha } from '@ant-design/pro-components';
 import { useEmotionCss } from '@ant-design/use-emotion-css';
 import { history, useModel } from '@umijs/max';
 import { Avatar, Spin } from 'antd';
-import { setAlpha } from '@ant-design/pro-components';
 import queryString from 'query-string';
 import React, { useCallback } from 'react';
 import { flushSync } from 'react-dom';
 import HeaderDropdown from '../HeaderDropdown';
-import { setRemoteMenu } from '@/services/session';
-import { PageEnum } from '@/enums/pagesEnums';
-import { clearSessionToken } from '@/utils/auth';
-import { logout } from '@/services/system/login';
 
 export type GlobalHeaderRightProps = {
   menu?: boolean;
@@ -33,7 +37,9 @@ const Name = () => {
     };
   });
 
-  return <span className={`${nameClassName} anticon`}>{currentUser?.nickName}</span>;
+  return (
+    <span className={`${nameClassName} anticon`}>{currentUser?.nickName}</span>
+  );
 };
 
 const AvatarLogo = () => {
@@ -51,7 +57,14 @@ const AvatarLogo = () => {
       },
     };
   });
-  return <Avatar size="small" className={avatarClassName} src={currentUser?.avatar} alt="avatar" />;
+  return (
+    <Avatar
+      size="small"
+      className={avatarClassName}
+      src={currentUser?.avatar}
+      alt="avatar"
+    />
+  );
 };
 
 const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {

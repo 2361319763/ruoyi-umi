@@ -1,6 +1,4 @@
-
 declare namespace API.Monitor {
-
   export interface Logininfor {
     infoId: number;
     userName: string;
@@ -27,17 +25,16 @@ declare namespace API.Monitor {
     current?: string;
   }
 
-  export interface LogininforInfoResult { 
+  export interface LogininforInfoResult {
     code: number;
     msg: string;
     data: Logininfor;
-  } 
+  }
 
-   export interface LogininforPageResult { 
+  export interface LogininforPageResult {
     code: number;
     msg: string;
     total: number;
     rows: Array<Logininfor>;
   }
-
 }

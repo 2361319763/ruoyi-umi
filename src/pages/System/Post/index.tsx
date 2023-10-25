@@ -1,14 +1,29 @@
-
-import React, { useState, useRef, useEffect } from 'react';
+import DictTag from '@/components/DictTag';
+import { getDictValueEnum } from '@/services/system/dict';
+import {
+  addPost,
+  exportPost,
+  getPostList,
+  removePost,
+  updatePost,
+} from '@/services/system/post';
+import {
+  DeleteOutlined,
+  ExclamationCircleOutlined,
+  PlusOutlined,
+} from '@ant-design/icons';
+import {
+  ActionType,
+  FooterToolbar,
+  PageContainer,
+  ProColumns,
+  ProTable,
+} from '@ant-design/pro-components';
 import { useAccess } from '@umijs/max';
 import type { FormInstance } from 'antd';
-import { Button, message, Modal } from 'antd';
-import { ActionType, FooterToolbar, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
-import { PlusOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import { getPostList, removePost, addPost, updatePost, exportPost } from '@/services/system/post';
+import { Button, Modal, message } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
 import UpdateForm from './edit';
-import { getDictValueEnum } from '@/services/system/dict';
-import DictTag from '@/components/DictTag';
 
 /**
  * 添加节点
@@ -65,7 +80,9 @@ const handleRemove = async (selectedRows: API.System.Post[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
-    const resp = await removePost(selectedRows.map((row) => row.postId).join(','));
+    const resp = await removePost(
+      selectedRows.map((row) => row.postId).join(','),
+    );
     hide();
     if (resp.code === 200) {
       message.success('删除成功，即将刷新');
@@ -103,7 +120,7 @@ const handleRemoveOne = async (selectedRow: API.System.Post) => {
 /**
  * 导出数据
  *
- * 
+ *
  */
 const handleExport = async () => {
   const hide = message.loading('正在导出');
@@ -119,9 +136,8 @@ const handleExport = async () => {
   }
 };
 
-
 const PostTableList: React.FC = () => {
-  const formTableRef = useRef<FormInstance>();  
+  const formTableRef = useRef<FormInstance>();
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
@@ -139,39 +155,39 @@ const PostTableList: React.FC = () => {
     });
   }, []);
 
-  const columns: ProColumns<API.System.Post>[] = [  
+  const columns: ProColumns<API.System.Post>[] = [
     {
-      title: "岗位编号",
+      title: '岗位编号',
       dataIndex: 'postId',
       valueType: 'text',
     },
     {
-      title: "岗位编码",
+      title: '岗位编码',
       dataIndex: 'postCode',
       valueType: 'text',
     },
     {
-      title: "岗位名称",
+      title: '岗位名称',
       dataIndex: 'postName',
       valueType: 'text',
     },
     {
-      title: "显示顺序",
+      title: '显示顺序',
       dataIndex: 'postSort',
       valueType: 'text',
       hideInSearch: true,
     },
     {
-      title: "状态",
+      title: '状态',
       dataIndex: 'status',
       valueType: 'select',
       valueEnum: statusOptions,
       render: (_, record) => {
-        return (<DictTag enums={statusOptions} value={record.status} />);
+        return <DictTag enums={statusOptions} value={record.status} />;
       },
     },
     {
-      title: "操作",
+      title: '操作',
       dataIndex: 'option',
       width: '220px',
       valueType: 'option',
@@ -221,7 +237,7 @@ const PostTableList: React.FC = () => {
     <PageContainer>
       <div style={{ width: '100%', float: 'right' }}>
         <ProTable<API.System.Post>
-          headerTitle='信息'
+          headerTitle="信息"
           actionRef={actionRef}
           formRef={formTableRef}
           rowKey="postId"
@@ -243,8 +259,11 @@ const PostTableList: React.FC = () => {
             </Button>,
             <Button
               type="primary"
-              key="remove"              
-              hidden={selectedRows?.length === 0 || !access.hasPerms('system:post:remove')}
+              key="remove"
+              hidden={
+                selectedRows?.length === 0 ||
+                !access.hasPerms('system:post:remove')
+              }
               onClick={async () => {
                 Modal.confirm({
                   title: '是否确认删除所选数据项?',
@@ -258,7 +277,7 @@ const PostTableList: React.FC = () => {
                     }
                   },
                   onCancel() {},
-                }); 
+                });
               }}
             >
               <DeleteOutlined />
@@ -277,14 +296,16 @@ const PostTableList: React.FC = () => {
             </Button>,
           ]}
           request={(params) =>
-            getPostList({ ...params } as API.System.PostListParams).then((res) => {
-              const result = {
-                data: res.rows,
-                total: res.total,
-                success: true,
-              };
-              return result;
-            })
+            getPostList({ ...params } as API.System.PostListParams).then(
+              (res) => {
+                const result = {
+                  data: res.rows,
+                  total: res.total,
+                  success: true,
+                };
+                return result;
+              },
+            )
           }
           columns={columns}
           rowSelection={{
@@ -299,8 +320,7 @@ const PostTableList: React.FC = () => {
           extra={
             <div>
               已选择
-              <a style={{ fontWeight: 600 }}>{selectedRows.length}</a>
-              项
+              <a style={{ fontWeight: 600 }}>{selectedRows.length}</a>项
             </div>
           }
         >

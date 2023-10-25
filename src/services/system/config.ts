@@ -1,4 +1,4 @@
-import { request } from '@umijs/max'; 
+import { request } from '@umijs/max';
 
 // 查询参数配置列表
 export async function getConfigList(params?: API.System.ConfigListParams) {
@@ -7,14 +7,14 @@ export async function getConfigList(params?: API.System.ConfigListParams) {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
     },
-    params
+    params,
   });
 }
 
 // 查询参数配置详细
 export function getConfig(configId: number) {
   return request<API.System.ConfigInfoResult>(`/system/config/${configId}`, {
-    method: 'GET'
+    method: 'GET',
   });
 }
 
@@ -25,7 +25,7 @@ export async function addConfig(params: API.System.Config) {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
     },
-    data: params
+    data: params,
   });
 }
 
@@ -36,29 +36,28 @@ export async function updateConfig(params: API.System.Config) {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
     },
-    data: params
+    data: params,
   });
 }
 
 // 删除参数配置
 export async function removeConfig(ids: string) {
   return request<API.Result>(`/system/config/${ids}`, {
-    method: 'DELETE'
+    method: 'DELETE',
   });
 }
 
 // 导出参数配置
-export function exportConfig(params?: API.System.ConfigListParams) { 
+export function exportConfig(params?: API.System.ConfigListParams) {
   return request<API.Result>(`/system/config/export`, {
     method: 'GET',
-    params
+    params,
   });
 }
-
 
 // 刷新参数缓存
 export function refreshConfigCache() {
   return request<API.Result>('/system/config/refreshCache', {
-    method: 'delete'
-  })
+    method: 'delete',
+  });
 }

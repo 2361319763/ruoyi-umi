@@ -1,21 +1,26 @@
 import { request } from '@umijs/max';
 
 // 查询系统访问记录列表
-export async function getLogininforList(params?: API.Monitor.LogininforListParams) {
+export async function getLogininforList(
+  params?: API.Monitor.LogininforListParams,
+) {
   return request<API.Monitor.LogininforPageResult>('/monitor/logininfor/list', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
     },
-    params
+    params,
   });
 }
 
 // 查询系统访问记录详细
 export function getLogininfor(infoId: number) {
-  return request<API.Monitor.LogininforInfoResult>(`/system/logininfor/${infoId}`, {
-    method: 'GET'
-  });
+  return request<API.Monitor.LogininforInfoResult>(
+    `/system/logininfor/${infoId}`,
+    {
+      method: 'GET',
+    },
+  );
 }
 
 // 新增系统访问记录
@@ -25,7 +30,7 @@ export async function addLogininfor(params: API.Monitor.Logininfor) {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
     },
-    data: params
+    data: params,
   });
 }
 
@@ -36,14 +41,14 @@ export async function updateLogininfor(params: API.Monitor.Logininfor) {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
     },
-    data: params
+    data: params,
   });
 }
 
 // 删除系统访问记录
 export async function removeLogininfor(ids: string) {
   return request<API.Result>(`/system/logininfor/${ids}`, {
-    method: 'DELETE'
+    method: 'DELETE',
   });
 }
 
@@ -51,20 +56,20 @@ export async function removeLogininfor(ids: string) {
 export function exportLogininfor(params?: API.Monitor.LogininforListParams) {
   return request<API.Result>(`/system/logininfor/export`, {
     method: 'GET',
-    params
+    params,
   });
 }
 
 // 解锁用户登录状态
 export function unlockLogininfor(userName: string) {
   return request<API.Result>('/system/logininfor/unlock/' + userName, {
-    method: 'get'
-  })
+    method: 'get',
+  });
 }
 
 // 清空登录日志
 export function cleanLogininfor() {
   return request<API.Result>('/system/logininfor/clean', {
-    method: 'delete'
-  })
+    method: 'delete',
+  });
 }

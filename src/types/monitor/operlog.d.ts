@@ -1,6 +1,4 @@
-
 declare namespace API.Monitor {
-
   export interface Operlog {
     operId: number;
     title: string;
@@ -41,17 +39,16 @@ declare namespace API.Monitor {
     current?: string;
   }
 
-  export interface OperlogInfoResult { 
+  export interface OperlogInfoResult {
     code: number;
     msg: string;
     data: Operlog;
-  } 
+  }
 
-   export interface OperlogPageResult { 
+  export interface OperlogPageResult {
     code: number;
     msg: string;
     total: number;
     rows: Array<Operlog>;
   }
-
 }

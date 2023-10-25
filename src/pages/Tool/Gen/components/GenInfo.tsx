@@ -1,10 +1,15 @@
-import { Button, Col, Divider, Form, Row, TreeSelect } from 'antd';
-import React, { Fragment, useEffect, useState } from 'react';
+import {
+  ProForm,
+  ProFormRadio,
+  ProFormSelect,
+  ProFormText,
+} from '@ant-design/pro-components';
 import { history } from '@umijs/max';
+import { Button, Col, Divider, Form, Row, TreeSelect } from 'antd';
+import { DataNode } from 'antd/es/tree';
+import React, { Fragment, useEffect, useState } from 'react';
 import type { TableInfo } from '../data';
 import styles from '../style.less';
-import { DataNode } from 'antd/es/tree';
-import { ProForm, ProFormRadio, ProFormSelect, ProFormText } from '@ant-design/pro-components';
 
 export type GenInfoProps = {
   values?: any;
@@ -253,7 +258,11 @@ const GenInfo: React.FC<GenInfoProps> = (props) => {
                           subTableFkName: '',
                         });
                         if (tableInfo) {
-                          for (let index = 0; index < tableInfo?.length; index += 1) {
+                          for (
+                            let index = 0;
+                            index < tableInfo?.length;
+                            index += 1
+                          ) {
                             const tbl = tableInfo[index];
                             if (tbl.tableName === val) {
                               const opts: any[] = [];

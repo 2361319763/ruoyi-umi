@@ -1,19 +1,26 @@
+import Footer from '@/components/Footer';
+import RightContent from '@/components/RightContent';
+import {
+  getMatchMenuItem,
+  getRemoteMenu,
+  getRoutersInfo,
+  getUserInfo,
+  patchRouteWithRemoteMenus,
+  setRemoteMenu,
+} from '@/services/session';
+import { getAccessToken } from '@/utils/auth';
+import requestConfig from '@/utils/request';
+import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import { SettingDrawer } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from '@umijs/max';
 import { history } from '@umijs/max';
-import type { Settings as LayoutSettings } from '@ant-design/pro-components';
-import Footer from '@/components/Footer';
-import RightContent from '@/components/RightContent';
 import defaultSettings from '../config/defaultSettings';
-import requestConfig from '@/utils/request';
-import { getRemoteMenu, getRoutersInfo, getUserInfo, patchRouteWithRemoteMenus, setRemoteMenu, getMatchMenuItem } from '@/services/session';
 import { PageEnum } from './enums/pagesEnums';
-import { getAccessToken } from "@/utils/auth";
 
 const baseApi = '/dev-api';
 // 全局初始化数据配置，用于 Layout 用户信息和权限初始化
 // 更多信息见文档：https://umijs.org/docs/api/runtime-config#getinitialstate
-export async function getInitialState(): Promise<{ 
+export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
   currentUser?: API.CurrentUser;
   loading?: boolean;
@@ -57,7 +64,10 @@ export async function getInitialState(): Promise<{
   };
 }
 
-export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
+export const layout: RunTimeLayoutConfig = ({
+  initialState,
+  setInitialState,
+}) => {
   return {
     rightContentRender: () => <RightContent />,
     menu: {
@@ -75,7 +85,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     footerRender: () => <Footer />,
     onPageChange: () => {
       const { location } = history;
-      
+
       // 如果没有登录，重定向到 login
       if (!initialState?.currentUser && location.pathname !== PageEnum.LOGIN) {
         history.push(PageEnum.LOGIN);
@@ -107,11 +117,11 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
 
 export async function onRouteChange({ location }) {
   const menus = getRemoteMenu();
-  const lastItem = getMatchMenuItem(location.pathname,menus)[0];
+  const lastItem = getMatchMenuItem(location.pathname, menus)[0];
   console.log(lastItem);
-  if(menus === null && location.pathname !== PageEnum.LOGIN) {
+  if (menus === null && location.pathname !== PageEnum.LOGIN) {
     history.go(0);
-  } else if (lastItem.component == "Layout") {
+  } else if (lastItem?.component === 'Layout') {
     history.back();
   }
 }
@@ -122,14 +132,14 @@ export async function patchClientRoutes({ routes }) {
 
 export function render(oldRender: () => void) {
   const token = getAccessToken();
-  if(!token || token?.length === 0) {
+  if (!token || token?.length === 0) {
     oldRender();
     return;
   }
-  getRoutersInfo().then(res => {
+  getRoutersInfo().then((res) => {
     setRemoteMenu(res);
     oldRender();
   });
-};
+}
 
-export const request = {...requestConfig};
+export const request = { ...requestConfig };

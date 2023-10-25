@@ -3,7 +3,10 @@
  * @param obj
  * @param keys
  */
-export function pick(obj: Record<string, unknown>, keys: string[]): Record<string, unknown> {
+export function pick(
+  obj: Record<string, unknown>,
+  keys: string[],
+): Record<string, unknown> {
   const r = {};
   keys.forEach((key) => {
     r[key] = obj[key];

@@ -1,14 +1,32 @@
-
-import React, { useState, useRef, useEffect } from 'react';
+import DictTag from '@/components/DictTag';
+import {
+  addConfig,
+  exportConfig,
+  getConfigList,
+  refreshConfigCache,
+  removeConfig,
+  updateConfig,
+} from '@/services/system/config';
+import { getDictValueEnum } from '@/services/system/dict';
+import {
+  DeleteOutlined,
+  DownloadOutlined,
+  ExclamationCircleOutlined,
+  PlusOutlined,
+  ReloadOutlined,
+} from '@ant-design/icons';
+import {
+  ActionType,
+  FooterToolbar,
+  PageContainer,
+  ProColumns,
+  ProTable,
+} from '@ant-design/pro-components';
 import { useAccess } from '@umijs/max';
 import type { FormInstance } from 'antd';
-import { Button, message, Modal } from 'antd';
-import { ActionType, FooterToolbar, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
-import { PlusOutlined, DeleteOutlined, ExclamationCircleOutlined, ReloadOutlined, DownloadOutlined } from '@ant-design/icons';
-import { getConfigList, removeConfig, addConfig, updateConfig, exportConfig, refreshConfigCache } from '@/services/system/config';
+import { Button, Modal, message } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
 import UpdateForm from './edit';
-import { getDictValueEnum } from '@/services/system/dict';
-import DictTag from '@/components/DictTag';
 
 /**
  * 添加节点
@@ -65,7 +83,9 @@ const handleRemove = async (selectedRows: API.System.Config[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
-    const resp = await removeConfig(selectedRows.map((row) => row.configId).join(','));
+    const resp = await removeConfig(
+      selectedRows.map((row) => row.configId).join(','),
+    );
     hide();
     if (resp.code === 200) {
       message.success('删除成功，即将刷新');
@@ -103,7 +123,7 @@ const handleRemoveOne = async (selectedRow: API.System.Config) => {
 /**
  * 导出数据
  *
- * 
+ *
  */
 const handleExport = async () => {
   const hide = message.loading('正在导出');
@@ -154,43 +174,43 @@ const ConfigTableList: React.FC = () => {
 
   const columns: ProColumns<API.System.Config>[] = [
     {
-      title: "参数主键",
+      title: '参数主键',
       dataIndex: 'configId',
       valueType: 'text',
       hideInSearch: true,
     },
     {
-      title: "参数名称",
+      title: '参数名称',
       dataIndex: 'configName',
       valueType: 'text',
     },
     {
-      title: "参数键名",
+      title: '参数键名',
       dataIndex: 'configKey',
       valueType: 'text',
     },
     {
-      title: "参数键值",
+      title: '参数键值',
       dataIndex: 'configValue',
       valueType: 'textarea',
     },
     {
-      title: "系统内置",
+      title: '系统内置',
       dataIndex: 'configType',
       valueType: 'select',
       valueEnum: configTypeOptions,
       render: (_, record) => {
-        return (<DictTag enums={configTypeOptions} value={record.configType} />);
+        return <DictTag enums={configTypeOptions} value={record.configType} />;
       },
     },
     {
-      title: "备注",
+      title: '备注',
       dataIndex: 'remark',
       valueType: 'textarea',
       hideInSearch: true,
     },
     {
-      title: "操作",
+      title: '操作',
       dataIndex: 'option',
       width: '120px',
       valueType: 'option',
@@ -240,7 +260,7 @@ const ConfigTableList: React.FC = () => {
     <PageContainer>
       <div style={{ width: '100%', float: 'right' }}>
         <ProTable<API.System.Config>
-          headerTitle='信息'
+          headerTitle="信息"
           actionRef={actionRef}
           formRef={formTableRef}
           rowKey="configId"
@@ -264,7 +284,10 @@ const ConfigTableList: React.FC = () => {
               type="primary"
               key="remove"
               danger
-              hidden={selectedRows?.length === 0 || !access.hasPerms('system:config:remove')}
+              hidden={
+                selectedRows?.length === 0 ||
+                !access.hasPerms('system:config:remove')
+              }
               onClick={async () => {
                 Modal.confirm({
                   title: '是否确认删除所选数据项?',
@@ -277,7 +300,7 @@ const ConfigTableList: React.FC = () => {
                       actionRef.current?.reloadAndRest?.();
                     }
                   },
-                  onCancel() { },
+                  onCancel() {},
                 });
               }}
             >
@@ -309,14 +332,16 @@ const ConfigTableList: React.FC = () => {
             </Button>,
           ]}
           request={(params) =>
-            getConfigList({ ...params } as API.System.ConfigListParams).then((res) => {
-              const result = {
-                data: res.rows,
-                total: res.total,
-                success: true,
-              };
-              return result;
-            })
+            getConfigList({ ...params } as API.System.ConfigListParams).then(
+              (res) => {
+                const result = {
+                  data: res.rows,
+                  total: res.total,
+                  success: true,
+                };
+                return result;
+              },
+            )
           }
           columns={columns}
           rowSelection={{
@@ -331,8 +356,7 @@ const ConfigTableList: React.FC = () => {
           extra={
             <div>
               已选择
-              <a style={{ fontWeight: 600 }}>{selectedRows.length}</a>
-              项
+              <a style={{ fontWeight: 600 }}>{selectedRows.length}</a>项
             </div>
           }
         >

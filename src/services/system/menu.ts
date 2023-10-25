@@ -1,7 +1,10 @@
-import { request } from '@umijs/max'; 
+import { request } from '@umijs/max';
 
 // 查询菜单权限列表
-export async function getMenuList(params?: API.System.MenuListParams, options?: { [key: string]: any }) {
+export async function getMenuList(
+  params?: API.System.MenuListParams,
+  options?: { [key: string]: any },
+) {
   return request<API.System.MenuPageResult>('/system/menu/list', {
     method: 'GET',
     headers: {
@@ -16,48 +19,60 @@ export async function getMenuList(params?: API.System.MenuListParams, options?: 
 export function getMenu(menuId: number, options?: { [key: string]: any }) {
   return request<API.System.MenuInfoResult>(`/system/menu/${menuId}`, {
     method: 'GET',
-    ...(options || {})
+    ...(options || {}),
   });
 }
 
 // 新增菜单权限
-export async function addMenu(params: API.System.Menu, options?: { [key: string]: any }) {
+export async function addMenu(
+  params: API.System.Menu,
+  options?: { [key: string]: any },
+) {
   return request<API.Result>('/system/menu', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
     },
     data: params,
-    ...(options || {})
+    ...(options || {}),
   });
 }
 
 // 修改菜单权限
-export async function updateMenu(params: API.System.Menu, options?: { [key: string]: any }) {
+export async function updateMenu(
+  params: API.System.Menu,
+  options?: { [key: string]: any },
+) {
   return request<API.Result>('/system/menu', {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
     },
     data: params,
-    ...(options || {})
+    ...(options || {}),
   });
 }
 
 // 删除菜单权限
-export async function removeMenu(ids: string, options?: { [key: string]: any }) {
+export async function removeMenu(
+  ids: string,
+  options?: { [key: string]: any },
+) {
   return request<API.Result>(`/system/menu/${ids}`, {
     method: 'DELETE',
-    ...(options || {})
+    ...(options || {}),
   });
 }
 
 // 导出菜单权限
-export function exportMenu(params?: API.System.MenuListParams, options?: { [key: string]: any }) { 
+export function exportMenu(
+  params?: API.System.MenuListParams,
+  options?: { [key: string]: any },
+) {
   return request<API.Result>(`/system/menu/export`, {
     method: 'GET',
     params,
-    ...(options || {})
+    ...(options || {}),
   });
 }
 

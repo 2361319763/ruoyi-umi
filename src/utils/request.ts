@@ -1,9 +1,14 @@
-import { message, notification } from 'antd';
-import type { RequestConfig } from '@umijs/max';
-import { clearSessionToken, getAccessToken, getRefreshToken, getTokenExpireTime } from '@/utils/auth';
+import {
+  clearSessionToken,
+  getAccessToken,
+  getRefreshToken,
+  getTokenExpireTime,
+} from '@/utils/auth';
 import errorCode from '@/utils/errorCode';
+import type { RequestConfig } from '@umijs/max';
+import { message, notification } from 'antd';
 
-const baseApi = '/dev-api'
+const baseApi = '/dev-api';
 const checkRegion = 5 * 60 * 1000;
 
 // 错误处理方案： 错误类型
@@ -89,7 +94,7 @@ const requestConfig: RequestConfig = {
       const headers = options.headers ? options.headers : [];
 
       // console.log('request ====>:', url);
-      
+
       const authHeader = headers['Authorization'];
       const isToken = headers['isToken'];
       if (!authHeader && isToken !== false) {
@@ -111,34 +116,41 @@ const requestConfig: RequestConfig = {
           clearSessionToken();
         }
       }
-      return { 
+      return {
         url: baseApi + url,
-        options
+        options,
       };
     },
   ],
   // 响应拦截器
   responseInterceptors: [
-    (response:any) =>
-    {
+    (response: any) => {
       // 未设置状态码则默认成功状态
-      const code:number|string = response.data.code || 200;
-      const msg:string = errorCode[code] || response.data.msg || errorCode['default'];
-      if (response.request.responseType ===  'blob' || response.request.responseType ===  'arraybuffer') {
-        return response.data
+      const code: number | string = response.data.code || 200;
+      const msg: string =
+        errorCode[code] || response.data.msg || errorCode['default'];
+      if (
+        response.request.responseType === 'blob' ||
+        response.request.responseType === 'arraybuffer'
+      ) {
+        return response.data;
       }
       if (code === 401) {
-        return '无效的会话，或者会话已过期，请重新登录。'
+        return '无效的会话，或者会话已过期，请重新登录。';
       } else if (code === 500) {
         message.error(msg);
       } else if (code === 601) {
         message.warning(msg);
       } else if (code !== 200) {
-        notification.open({ description: msg, message: '系统错误', type: 'error' });
+        notification.open({
+          description: msg,
+          message: '系统错误',
+          type: 'error',
+        });
       }
-      return response
+      return response;
     },
   ],
-}
+};
 
 export default requestConfig;

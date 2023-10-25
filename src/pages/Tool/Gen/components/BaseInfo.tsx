@@ -1,8 +1,12 @@
+import {
+  ProForm,
+  ProFormText,
+  ProFormTextArea,
+} from '@ant-design/pro-components';
+import { history } from '@umijs/max';
 import { Button, Col, Form, message, Row } from 'antd';
 import React, { Fragment, useEffect } from 'react';
-import { history } from '@umijs/max';
 import styles from '../style.less';
-import { ProForm, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
 
 export type BaseInfoProps = {
   values?: any;
@@ -55,7 +59,6 @@ const BaseInfo: React.FC<BaseInfoProps> = (props) => {
             <Row>
               <Col span={12} order={1}>
                 <ProFormText
-
                   name="tableName"
                   label="表名称"
                   rules={[
@@ -67,16 +70,12 @@ const BaseInfo: React.FC<BaseInfoProps> = (props) => {
                 />
               </Col>
               <Col span={12} order={2}>
-                <ProFormText
-                  name="tableComment"
-                  label="表描述"
-                />
+                <ProFormText name="tableComment" label="表描述" />
               </Col>
             </Row>
             <Row>
               <Col span={12} order={1}>
                 <ProFormText
-
                   name="className"
                   label="实体类名称"
                   rules={[

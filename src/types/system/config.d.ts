@@ -1,6 +1,4 @@
-
 declare namespace API.System {
-
   export interface Config {
     configId: number;
     configName: string;
@@ -29,17 +27,16 @@ declare namespace API.System {
     current?: string;
   }
 
-  export interface ConfigInfoResult { 
+  export interface ConfigInfoResult {
     code: number;
     msg: string;
     data: Config;
-  } 
+  }
 
-   export interface ConfigPageResult { 
+  export interface ConfigPageResult {
     code: number;
     msg: string;
     total: number;
     rows: Array<Config>;
   }
-
 }

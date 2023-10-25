@@ -74,7 +74,8 @@ export function buildTreeData(
   return tree;
 }
 
-export const getPageQuery = () => queryString.parse(window.location.href.split('?')[1]);
+export const getPageQuery = () =>
+  queryString.parse(window.location.href.split('?')[1]);
 
 export function formatTreeData(arrayList: any): DataNode[] {
   const treeSelectData: DataNode[] = arrayList.map((item: any) => {

@@ -1,18 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import { PageContainer, ProForm, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
-import { Col, Row, Card, Table, Button, Form } from 'antd';
+import {
+  clearCacheAll,
+  clearCacheKey,
+  clearCacheName,
+  getCacheValue,
+  listCacheKey,
+  listCacheName,
+} from '@/services/monitor/cachelist';
+import {
+  DeleteOutlined,
+  FileOutlined,
+  HddOutlined,
+  KeyOutlined,
+  RedoOutlined,
+} from '@ant-design/icons';
+import {
+  PageContainer,
+  ProForm,
+  ProFormText,
+  ProFormTextArea,
+} from '@ant-design/pro-components';
+import { Button, Card, Col, Form, Row, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { HddOutlined, RedoOutlined, DeleteOutlined, KeyOutlined, FileOutlined } from '@ant-design/icons';
-import { listCacheName, listCacheKey, getCacheValue, clearCacheAll, clearCacheKey, clearCacheName } from '@/services/monitor/cachelist';
+import React, { useEffect, useState } from 'react';
 
 const spanStyle = {
   marginLeft: 5,
 };
 const size = 'middle';
 
-
 const CacheList: React.FC = () => {
-  let [cacheContentList, setCacheContentList] = useState<API.Monitor.CacheContent[]>();
+  let [cacheContentList, setCacheContentList] =
+    useState<API.Monitor.CacheContent[]>();
   let [cacheName, setCacheName] = useState<string>();
   let [cacheKey, setCacheKey] = useState<string>();
   let [cacheKeyList, setCacheKeyList] = useState<API.Monitor.CacheKey[]>();
@@ -35,15 +53,14 @@ const CacheList: React.FC = () => {
       align: 'center',
       render: (_, record) => {
         return (
-          <Button 
-            type="link" 
-            icon={<DeleteOutlined />} 
-            onClick={
-              () => {
-                clearName(record.cacheName)
-              }
-            }
-          />);
+          <Button
+            type="link"
+            icon={<DeleteOutlined />}
+            onClick={() => {
+              clearName(record.cacheName);
+            }}
+          />
+        );
       },
     },
   ];
@@ -60,11 +77,11 @@ const CacheList: React.FC = () => {
       align: 'center',
       render: (_, record) => {
         return (
-          <Button 
-            type="link" 
-            icon={<DeleteOutlined />} 
+          <Button
+            type="link"
+            icon={<DeleteOutlined />}
             onClick={() => {
-              clearCache(record.cacheKey)
+              clearCache(record.cacheKey);
             }}
           />
         );
@@ -77,41 +94,43 @@ const CacheList: React.FC = () => {
       setCacheContentList(res?.data || []);
     });
   };
-  const getCacheKey = (key:string = '') => {
+  const getCacheKey = (key: string = '') => {
     setCacheName(key);
     form.resetFields();
-    listCacheKey(key).then(res=> {
-      const data = res.data && res.data.map(J=>{
-        return {
-          cacheKey: J
-        }
-      })
+    listCacheKey(key).then((res) => {
+      const data =
+        res.data &&
+        res.data.map((J) => {
+          return {
+            cacheKey: J,
+          };
+        });
       setCacheKeyList(data);
-    })
-  }
-  const getCacheInfo = (cacheKey:string = '') => {
+    });
+  };
+  const getCacheInfo = (cacheKey: string = '') => {
     setCacheKey(cacheKey);
-    getCacheValue(cacheName || '',cacheKey).then(res=>{
+    getCacheValue(cacheName || '', cacheKey).then((res) => {
       form.setFieldsValue(res?.data);
-    })
-  }
+    });
+  };
   const clearAllCache = () => {
-    clearCacheAll()
-  }
-  const clearCache = (key:string) => {
-    clearCacheKey(key).then(res=>{
+    clearCacheAll();
+  };
+  const clearCache = (key: string) => {
+    clearCacheKey(key).then((res) => {
       getCacheKey(cacheName);
-    })
-  }
-  const clearName = (name:string) => {
-    clearCacheName(name).then(res=>{
+    });
+  };
+  const clearName = (name: string) => {
+    clearCacheName(name).then((res) => {
       getListCache();
-      if (cacheName==name) {
+      if (cacheName == name) {
         form.resetFields();
-        setCacheKeyList([])
+        setCacheKeyList([]);
       }
-    })
-  }
+    });
+  };
   useEffect(() => {
     form.resetFields();
     getListCache();
@@ -130,11 +149,7 @@ const CacheList: React.FC = () => {
             }
             extra={
               <Button
-                icon={
-                  <RedoOutlined
-                    style={{ color: '#1890ff' }}
-                  />
-                }
+                icon={<RedoOutlined style={{ color: '#1890ff' }} />}
                 onClick={() => {
                   getListCache();
                 }}
@@ -150,7 +165,7 @@ const CacheList: React.FC = () => {
               onRow={(record) => {
                 return {
                   onClick: () => {
-                    getCacheKey(record.cacheName)
+                    getCacheKey(record.cacheName);
                   }, // 点击行
                 };
               }}
@@ -206,13 +221,9 @@ const CacheList: React.FC = () => {
             }
             extra={
               <Button
-                icon={
-                  <RedoOutlined
-                    style={{ color: '#1890ff' }}
-                  />
-                }
+                icon={<RedoOutlined style={{ color: '#1890ff' }} />}
                 onClick={() => {
-                  clearAllCache()
+                  clearAllCache();
                 }}
                 type="link"
               >
@@ -227,19 +238,19 @@ const CacheList: React.FC = () => {
               submitter={false}
               autoComplete="off"
             >
-              <ProFormText 
+              <ProFormText
                 name="cacheName"
                 placeholder=""
                 disabled
                 label="缓存名称"
               />
-              <ProFormText 
+              <ProFormText
                 name="cacheKey"
                 placeholder=""
                 disabled
                 label="缓存键名"
               />
-              <ProFormTextArea 
+              <ProFormTextArea
                 name="cacheValue"
                 placeholder=""
                 disabled

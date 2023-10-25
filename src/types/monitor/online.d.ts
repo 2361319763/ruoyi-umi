@@ -1,5 +1,4 @@
 declare namespace API.Monitor {
-
   export type OnlineUserType = {
     tokenId: string;
     userName: string;
@@ -36,13 +35,12 @@ declare namespace API.Monitor {
     pageNum?: string;
     filter?: string;
     sorter?: string;
-  };  
+  };
 
-  export interface OnlineUserPageResult { 
+  export interface OnlineUserPageResult {
     code: number;
     msg: string;
     total: number;
     rows: Array<OnlineUser>;
   }
-
 }

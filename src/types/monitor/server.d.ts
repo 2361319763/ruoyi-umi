@@ -1,5 +1,4 @@
 declare namespace API.Monitor {
-
   export type CpuInfoType = {
     cpuNum: string;
     total: string;
@@ -72,5 +71,4 @@ declare namespace API.Monitor {
     mem: string;
     jvm: string;
   };
-
 }

@@ -1,14 +1,29 @@
-
-import React, { useState, useRef, useEffect } from 'react';
+import DictTag from '@/components/DictTag';
+import { getDictValueEnum } from '@/services/system/dict';
+import {
+  addNotice,
+  exportNotice,
+  getNoticeList,
+  removeNotice,
+  updateNotice,
+} from '@/services/system/notice';
+import {
+  DeleteOutlined,
+  ExclamationCircleOutlined,
+  PlusOutlined,
+} from '@ant-design/icons';
+import {
+  ActionType,
+  FooterToolbar,
+  PageContainer,
+  ProColumns,
+  ProTable,
+} from '@ant-design/pro-components';
 import { useAccess } from '@umijs/max';
 import type { FormInstance } from 'antd';
-import { Button, message, Modal } from 'antd';
-import { ActionType, FooterToolbar, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
-import { PlusOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import { getNoticeList, removeNotice, addNotice, updateNotice, exportNotice } from '@/services/system/notice';
+import { Button, Modal, message } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
 import UpdateForm from './edit';
-import { getDictValueEnum } from '@/services/system/dict';
-import DictTag from '@/components/DictTag';
 
 /**
  * 添加节点
@@ -65,7 +80,9 @@ const handleRemove = async (selectedRows: API.System.Notice[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
-    const resp = await removeNotice(selectedRows.map((row) => row.noticeId).join(','));
+    const resp = await removeNotice(
+      selectedRows.map((row) => row.noticeId).join(','),
+    );
     hide();
     if (resp.code === 200) {
       message.success('删除成功，即将刷新');
@@ -103,7 +120,7 @@ const handleRemoveOne = async (selectedRow: API.System.Notice) => {
 /**
  * 导出数据
  *
- * 
+ *
  */
 const handleExport = async () => {
   const hide = message.loading('正在导出');
@@ -119,9 +136,8 @@ const handleExport = async () => {
   }
 };
 
-
 const NoticeTableList: React.FC = () => {
-  const formTableRef = useRef<FormInstance>();  
+  const formTableRef = useRef<FormInstance>();
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
@@ -134,60 +150,60 @@ const NoticeTableList: React.FC = () => {
 
   const access = useAccess();
 
-  useEffect(() => {    
+  useEffect(() => {
     getDictValueEnum('sys_notice_type').then((data) => {
       setNoticeTypeOptions(data);
-    });    
+    });
     getDictValueEnum('sys_notice_status').then((data) => {
       setStatusOptions(data);
     });
   }, []);
 
-  const columns: ProColumns<API.System.Notice>[] = [  
+  const columns: ProColumns<API.System.Notice>[] = [
     {
-      title: "公告编号",
+      title: '公告编号',
       dataIndex: 'noticeId',
       valueType: 'text',
       hideInSearch: true,
     },
     {
-      title: "公告标题",
+      title: '公告标题',
       dataIndex: 'noticeTitle',
       valueType: 'text',
     },
     {
-      title: "公告类型",
+      title: '公告类型',
       dataIndex: 'noticeType',
       valueType: 'select',
       valueEnum: noticeTypeOptions,
     },
     {
-      title: "公告内容",
+      title: '公告内容',
       dataIndex: 'noticeContent',
       valueType: 'text',
       hideInTable: true,
     },
     {
-      title: "公告状态",
+      title: '公告状态',
       dataIndex: 'status',
       valueType: 'select',
       valueEnum: statusOptions,
       render: (_, record) => {
-        return (<DictTag enums={statusOptions} value={record.status} />);
+        return <DictTag enums={statusOptions} value={record.status} />;
       },
     },
     {
-      title: "备注",
+      title: '备注',
       dataIndex: 'remark',
       valueType: 'text',
       hideInSearch: true,
     },
     {
-      title: "创建时间",
+      title: '创建时间',
       dataIndex: 'createTime',
       valueType: 'dateRange',
       render: (_, record) => {
-        return (<span>{record.createTime.toString()} </span>);
+        return <span>{record.createTime.toString()} </span>;
       },
       search: {
         transform: (value) => {
@@ -199,7 +215,7 @@ const NoticeTableList: React.FC = () => {
       },
     },
     {
-      title: "操作",
+      title: '操作',
       dataIndex: 'option',
       width: '120px',
       valueType: 'option',
@@ -249,7 +265,7 @@ const NoticeTableList: React.FC = () => {
     <PageContainer>
       <div style={{ width: '100%', float: 'right' }}>
         <ProTable<API.System.Notice>
-          headerTitle='信息'
+          headerTitle="信息"
           actionRef={actionRef}
           formRef={formTableRef}
           rowKey="noticeId"
@@ -271,8 +287,11 @@ const NoticeTableList: React.FC = () => {
             </Button>,
             <Button
               type="primary"
-              key="remove"              
-              hidden={selectedRows?.length === 0 || !access.hasPerms('system:notice:remove')}
+              key="remove"
+              hidden={
+                selectedRows?.length === 0 ||
+                !access.hasPerms('system:notice:remove')
+              }
               onClick={async () => {
                 Modal.confirm({
                   title: '是否确认删除所选数据项?',
@@ -286,7 +305,7 @@ const NoticeTableList: React.FC = () => {
                     }
                   },
                   onCancel() {},
-                }); 
+                });
               }}
             >
               <DeleteOutlined />
@@ -305,14 +324,16 @@ const NoticeTableList: React.FC = () => {
             </Button>,
           ]}
           request={(params) =>
-            getNoticeList({ ...params } as API.System.NoticeListParams).then((res) => {
-              const result = {
-                data: res.rows,
-                total: res.total,
-                success: true,
-              };
-              return result;
-            })
+            getNoticeList({ ...params } as API.System.NoticeListParams).then(
+              (res) => {
+                const result = {
+                  data: res.rows,
+                  total: res.total,
+                  success: true,
+                };
+                return result;
+              },
+            )
           }
           columns={columns}
           rowSelection={{
@@ -327,8 +348,7 @@ const NoticeTableList: React.FC = () => {
           extra={
             <div>
               已选择
-              <a style={{ fontWeight: 600 }}>{selectedRows.length}</a>
-              项
+              <a style={{ fontWeight: 600 }}>{selectedRows.length}</a>项
             </div>
           }
         >

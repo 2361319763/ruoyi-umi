@@ -1,5 +1,4 @@
 declare namespace API.Monitor {
-
   export type CacheContent = {
     cacheKey: string;
     cacheName: string;
@@ -28,5 +27,4 @@ declare namespace API.Monitor {
     code: number;
     msg: string;
   };
-
 }

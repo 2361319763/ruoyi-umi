@@ -1,6 +1,4 @@
-
 declare namespace API.System {
-
   export interface Notice {
     noticeId: number;
     noticeTitle: string;
@@ -29,17 +27,16 @@ declare namespace API.System {
     current?: string;
   }
 
-  export interface NoticeInfoResult { 
+  export interface NoticeInfoResult {
     code: number;
     msg: string;
     data: Notice;
-  } 
+  }
 
-   export interface NoticePageResult { 
+  export interface NoticePageResult {
     code: number;
     msg: string;
     total: number;
     rows: Array<Notice>;
   }
-
 }

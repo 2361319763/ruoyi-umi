@@ -1,19 +1,26 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Modal } from 'antd';
-import { ActionType, ParamsType, ProColumns, ProTable, RequestData } from '@ant-design/pro-components';
+import DictTag from '@/components/DictTag';
 import { getDictValueEnum } from '@/services/system/dict';
-import DictTag from '@/components/DictTag'; 
+import {
+  ActionType,
+  ParamsType,
+  ProColumns,
+  ProTable,
+  RequestData,
+} from '@ant-design/pro-components';
+import { Modal } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
 
 export type DataScopeFormProps = {
   onCancel: () => void;
   onSubmit: (values: React.Key[]) => void;
   open: boolean;
   params: ParamsType;
-  request?: (params: Record<string, any>) => Promise<Partial<RequestData<API.System.User>>>;
+  request?: (
+    params: Record<string, any>,
+  ) => Promise<Partial<RequestData<API.System.User>>>;
 };
 
 const UserSelectorModal: React.FC<DataScopeFormProps> = (props) => {
-  
   const actionRef = useRef<ActionType>();
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [statusOptions, setStatusOptions] = useState<any>([]);
@@ -23,7 +30,7 @@ const UserSelectorModal: React.FC<DataScopeFormProps> = (props) => {
       setStatusOptions(data);
     });
   }, [props]);
-  
+
   const handleOk = () => {
     props.onSubmit(selectedRowKeys);
   };
@@ -33,46 +40,46 @@ const UserSelectorModal: React.FC<DataScopeFormProps> = (props) => {
 
   const columns: ProColumns<API.System.User>[] = [
     {
-      title: "用户编号",
+      title: '用户编号',
       dataIndex: 'userId',
       valueType: 'text',
       hideInSearch: true,
     },
     {
-      title: "用户账号",
+      title: '用户账号',
       dataIndex: 'userName',
       valueType: 'text',
     },
     {
-      title: "用户昵称",
+      title: '用户昵称',
       dataIndex: 'nickName',
       valueType: 'text',
       hideInSearch: true,
     },
     {
-      title: "手机号码",
+      title: '手机号码',
       dataIndex: 'phonenumber',
       valueType: 'text',
     },
     {
-      title: "帐号状态",
+      title: '帐号状态',
       dataIndex: 'status',
       valueType: 'select',
       hideInSearch: true,
       valueEnum: statusOptions,
       render: (_, record) => {
-        return (<DictTag enums={statusOptions} value={record.status} />);
+        return <DictTag enums={statusOptions} value={record.status} />;
       },
     },
     {
-      title: "创建时间",
+      title: '创建时间',
       dataIndex: 'createTime',
       valueType: 'dateRange',
       hideInSearch: true,
       render: (_, record) => {
-        return (<span>{record.createTime.toString()} </span>);
+        return <span>{record.createTime.toString()} </span>;
       },
-    }
+    },
   ];
 
   return (

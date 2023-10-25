@@ -1,6 +1,4 @@
-
 declare namespace API.System {
-
   interface User {
     userId: number;
     deptId: number;
@@ -49,7 +47,7 @@ declare namespace API.System {
     sorter?: string;
   }
 
-  export interface UserInfoResult { 
+  export interface UserInfoResult {
     current: number;
     pageSize: number;
     total: number;
@@ -59,13 +57,12 @@ declare namespace API.System {
     roleId: number;
     roleIds: [];
     roles: [];
-  } 
+  }
 
-   export interface UserPageResult { 
+  export interface UserPageResult {
     code: number;
     msg: string;
     total: number;
     rows: Array<User>;
   }
-
 }

@@ -1,6 +1,4 @@
-
 declare namespace API.System {
-
   interface Dept {
     deptId: number;
     parentId: number;
@@ -37,17 +35,16 @@ declare namespace API.System {
     current?: string;
   }
 
-  export interface DeptInfoResult { 
+  export interface DeptInfoResult {
     code: number;
     msg: string;
     data: Dept;
-  } 
+  }
 
-   export interface DeptPageResult { 
+  export interface DeptPageResult {
     code: number;
     msg: string;
     total: number;
     data: Array<Dept>;
   }
-
 }

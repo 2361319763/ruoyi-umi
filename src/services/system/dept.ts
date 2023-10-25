@@ -1,4 +1,4 @@
-import { request } from '@umijs/max'; 
+import { request } from '@umijs/max';
 
 // 查询部门列表
 export async function getDeptList(params?: API.System.DeptListParams) {
@@ -7,7 +7,7 @@ export async function getDeptList(params?: API.System.DeptListParams) {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
     },
-    params
+    params,
   });
 }
 
@@ -21,7 +21,7 @@ export function getDeptListExcludeChild(deptId: number) {
 // 查询部门详细
 export function getDept(deptId: number) {
   return request<API.System.DeptInfoResult>(`/system/dept/${deptId}`, {
-    method: 'GET'
+    method: 'GET',
   });
 }
 
@@ -32,7 +32,7 @@ export async function addDept(params: API.System.Dept) {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
     },
-    data: params
+    data: params,
   });
 }
 
@@ -43,21 +43,21 @@ export async function updateDept(params: API.System.Dept) {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
     },
-    data: params
+    data: params,
   });
 }
 
 // 删除部门
 export async function removeDept(ids: string) {
   return request<API.Result>(`/system/dept/${ids}`, {
-    method: 'DELETE'
+    method: 'DELETE',
   });
 }
 
 // 导出部门
-export function exportDept(params?: API.System.DeptListParams) { 
+export function exportDept(params?: API.System.DeptListParams) {
   return request<API.Result>(`/system/dept/export`, {
     method: 'GET',
-    params
+    params,
   });
 }

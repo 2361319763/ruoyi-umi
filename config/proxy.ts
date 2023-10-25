@@ -24,6 +24,6 @@ export default {
     '/profile/avatar': {
       target: 'http://localhost:8080/dev-api',
       changeOrigin: true,
-    }
-  }
+    },
+  },
 };

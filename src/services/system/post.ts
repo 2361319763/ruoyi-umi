@@ -1,4 +1,4 @@
-import { request } from '@umijs/max'; 
+import { request } from '@umijs/max';
 
 // 查询岗位信息列表
 export async function getPostList(params?: API.System.PostListParams) {
@@ -7,14 +7,14 @@ export async function getPostList(params?: API.System.PostListParams) {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
     },
-    params
+    params,
   });
 }
 
 // 查询岗位信息详细
 export function getPost(postId: number) {
   return request<API.System.PostInfoResult>(`/system/post/${postId}`, {
-    method: 'GET'
+    method: 'GET',
   });
 }
 
@@ -25,7 +25,7 @@ export async function addPost(params: API.System.Post) {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
     },
-    data: params
+    data: params,
   });
 }
 
@@ -36,21 +36,21 @@ export async function updatePost(params: API.System.Post) {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
     },
-    data: params
+    data: params,
   });
 }
 
 // 删除岗位信息
 export async function removePost(ids: string) {
   return request<API.Result>(`/system/post/${ids}`, {
-    method: 'DELETE'
+    method: 'DELETE',
   });
 }
 
 // 导出岗位信息
-export function exportPost(params?: API.System.PostListParams) { 
+export function exportPost(params?: API.System.PostListParams) {
   return request<API.Result>(`/system/post/export`, {
     method: 'GET',
-    params
+    params,
   });
 }

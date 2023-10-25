@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
-import { Modal, Descriptions, Button } from 'antd';
-import { getValueEnumLabel } from '@/utils/options';
 import { DictValueEnumObj } from '@/components/DictTag';
+import { getValueEnumLabel } from '@/utils/options';
+import { Button, Descriptions, Modal } from 'antd';
+import React, { useEffect } from 'react';
 
-export type OperlogFormValueType = Record<string, unknown> & Partial<API.Monitor.Job>;
+export type OperlogFormValueType = Record<string, unknown> &
+  Partial<API.Monitor.Job>;
 
 export type OperlogFormProps = {
   onCancel: (flag?: boolean, formVals?: OperlogFormValueType) => void;
@@ -31,7 +32,7 @@ const OperlogForm: React.FC<OperlogFormProps> = (props) => {
   return (
     <Modal
       width={800}
-      title='操作日志详细信息'
+      title="操作日志详细信息"
       open={props.open}
       destroyOnClose
       onCancel={handleCancel}
@@ -42,64 +43,34 @@ const OperlogForm: React.FC<OperlogFormProps> = (props) => {
       ]}
     >
       <Descriptions column={24}>
-        <Descriptions.Item
-          span={12}
-          label="任务编号"
-        >
+        <Descriptions.Item span={12} label="任务编号">
           {values.jobId}
         </Descriptions.Item>
-        <Descriptions.Item
-          span={12}
-          label="任务名称"
-        >
+        <Descriptions.Item span={12} label="任务名称">
           {values.jobName}
         </Descriptions.Item>
-        <Descriptions.Item
-          span={12}
-          label="任务组名"
-        >
+        <Descriptions.Item span={12} label="任务组名">
           {values.jobGroup}
         </Descriptions.Item>
-        <Descriptions.Item
-          span={12}
-          label="是否并发执行"
-        >
+        <Descriptions.Item span={12} label="是否并发执行">
           {values.concurrent === '1' ? '禁止' : '允许'}
         </Descriptions.Item>
-        <Descriptions.Item
-          span={12}
-          label="计划执行错误策略"
-        >
+        <Descriptions.Item span={12} label="计划执行错误策略">
           {misfirePolicy[values.misfirePolicy ? values.misfirePolicy : '0']}
         </Descriptions.Item>
-        <Descriptions.Item
-          span={12}
-          label="创建时间"
-        >
+        <Descriptions.Item span={12} label="创建时间">
           {values.createTime?.toString()}
         </Descriptions.Item>
-        <Descriptions.Item
-          span={12}
-          label="状态"
-        >
+        <Descriptions.Item span={12} label="状态">
           {getValueEnumLabel(statusOptions, values.status, '未知')}
         </Descriptions.Item>
-        <Descriptions.Item
-          span={12}
-          label="下次执行时间"
-        >
+        <Descriptions.Item span={12} label="下次执行时间">
           {values.nextValidTime}
         </Descriptions.Item>
-        <Descriptions.Item
-          span={24}
-          label="cron执行表达式"
-        >
+        <Descriptions.Item span={24} label="cron执行表达式">
           {values.cronExpression}
         </Descriptions.Item>
-        <Descriptions.Item
-          span={24}
-          label="调用目标字符串"
-        >
+        <Descriptions.Item span={24} label="调用目标字符串">
           {values.invokeTarget}
         </Descriptions.Item>
       </Descriptions>

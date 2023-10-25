@@ -1,13 +1,29 @@
-
-import React, { useState, useRef, useEffect } from 'react';
+import DictTag from '@/components/DictTag';
+import {
+  cleanLogininfor,
+  exportLogininfor,
+  getLogininforList,
+  removeLogininfor,
+  unlockLogininfor,
+} from '@/services/monitor/logininfor';
+import { getDictValueEnum } from '@/services/system/dict';
+import {
+  DeleteOutlined,
+  ExclamationCircleOutlined,
+  PlusOutlined,
+  UnlockOutlined,
+} from '@ant-design/icons';
+import {
+  ActionType,
+  FooterToolbar,
+  PageContainer,
+  ProColumns,
+  ProTable,
+} from '@ant-design/pro-components';
 import { useAccess } from '@umijs/max';
 import type { FormInstance } from 'antd';
-import { Button, message, Modal } from 'antd';
-import { ActionType, FooterToolbar, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
-import { PlusOutlined, DeleteOutlined, ExclamationCircleOutlined, UnlockOutlined } from '@ant-design/icons';
-import { getLogininforList, removeLogininfor, exportLogininfor, unlockLogininfor, cleanLogininfor } from '@/services/monitor/logininfor';
-import DictTag from '@/components/DictTag';
-import { getDictValueEnum } from '@/services/system/dict';
+import { Button, Modal, message } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
 
 /**
  * 删除节点
@@ -18,7 +34,9 @@ const handleRemove = async (selectedRows: API.Monitor.Logininfor[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
-    const resp = await removeLogininfor(selectedRows.map((row) => row.infoId).join(','));
+    const resp = await removeLogininfor(
+      selectedRows.map((row) => row.infoId).join(','),
+    );
     hide();
     if (resp.code === 200) {
       message.success('删除成功，即将刷新');
@@ -88,12 +106,13 @@ const handleExport = async () => {
   }
 };
 
-
 const LogininforTableList: React.FC = () => {
   const formTableRef = useRef<FormInstance>();
 
   const actionRef = useRef<ActionType>();
-  const [selectedRows, setSelectedRows] = useState<API.Monitor.Logininfor[]>([]);
+  const [selectedRows, setSelectedRows] = useState<API.Monitor.Logininfor[]>(
+    [],
+  );
   const [statusOptions, setStatusOptions] = useState<any>([]);
 
   const access = useAccess();
@@ -106,56 +125,56 @@ const LogininforTableList: React.FC = () => {
 
   const columns: ProColumns<API.Monitor.Logininfor>[] = [
     {
-      title: "访问编号",
+      title: '访问编号',
       dataIndex: 'infoId',
       valueType: 'text',
       hideInSearch: true,
     },
     {
-      title: "用户账号",
+      title: '用户账号',
       dataIndex: 'userName',
       valueType: 'text',
     },
     {
-      title: "登录IP地址",
+      title: '登录IP地址',
       dataIndex: 'ipaddr',
       valueType: 'text',
     },
     {
-      title: "登录地点",
+      title: '登录地点',
       dataIndex: 'loginLocation',
       valueType: 'text',
       hideInSearch: true,
     },
     {
-      title: "浏览器类型",
+      title: '浏览器类型',
       dataIndex: 'browser',
       valueType: 'text',
       hideInSearch: true,
     },
     {
-      title: "操作系统",
+      title: '操作系统',
       dataIndex: 'os',
       valueType: 'text',
       hideInSearch: true,
     },
     {
-      title: "登录状态",
+      title: '登录状态',
       dataIndex: 'status',
       valueType: 'select',
       valueEnum: statusOptions,
       render: (_, record) => {
-        return (<DictTag enums={statusOptions} value={record.status} />);
+        return <DictTag enums={statusOptions} value={record.status} />;
       },
     },
     {
-      title: "提示消息",
+      title: '提示消息',
       dataIndex: 'msg',
       valueType: 'text',
       hideInSearch: true,
     },
     {
-      title: "访问时间",
+      title: '访问时间',
       dataIndex: 'loginTime',
       valueType: 'dateTime',
     },
@@ -165,7 +184,7 @@ const LogininforTableList: React.FC = () => {
     <PageContainer>
       <div style={{ width: '100%', float: 'right' }}>
         <ProTable<API.Monitor.Logininfor>
-          headerTitle='信息'
+          headerTitle="信息"
           actionRef={actionRef}
           formRef={formTableRef}
           rowKey="infoId"
@@ -177,7 +196,10 @@ const LogininforTableList: React.FC = () => {
             <Button
               key="remove"
               danger
-              hidden={selectedRows?.length === 0 || !access.hasPerms('monitor:logininfor:remove')}
+              hidden={
+                selectedRows?.length === 0 ||
+                !access.hasPerms('monitor:logininfor:remove')
+              }
               onClick={async () => {
                 Modal.confirm({
                   title: '是否确认删除所选数据项?',
@@ -190,7 +212,7 @@ const LogininforTableList: React.FC = () => {
                       actionRef.current?.reloadAndRest?.();
                     }
                   },
-                  onCancel() { },
+                  onCancel() {},
                 });
               }}
             >
@@ -201,7 +223,10 @@ const LogininforTableList: React.FC = () => {
               type="primary"
               key="clean"
               danger
-              hidden={selectedRows?.length === 0 || !access.hasPerms('monitor:logininfor:remove')}
+              hidden={
+                selectedRows?.length === 0 ||
+                !access.hasPerms('monitor:logininfor:remove')
+              }
               onClick={async () => {
                 Modal.confirm({
                   title: '是否确认清空所有数据项?',
@@ -214,7 +239,7 @@ const LogininforTableList: React.FC = () => {
                       actionRef.current?.reloadAndRest?.();
                     }
                   },
-                  onCancel() { },
+                  onCancel() {},
                 });
               }}
             >
@@ -224,20 +249,25 @@ const LogininforTableList: React.FC = () => {
             <Button
               type="primary"
               key="unlock"
-              hidden={selectedRows?.length === 0 || !access.hasPerms('monitor:logininfor:unlock')}
+              hidden={
+                selectedRows?.length === 0 ||
+                !access.hasPerms('monitor:logininfor:unlock')
+              }
               onClick={async () => {
                 Modal.confirm({
                   title: '是否确认解锁该用户的数据项?',
                   icon: <ExclamationCircleOutlined />,
                   content: '请谨慎操作',
                   async onOk() {
-                    const success = await handleUnlock(selectedRows[0].userName);
+                    const success = await handleUnlock(
+                      selectedRows[0].userName,
+                    );
                     if (success) {
                       setSelectedRows([]);
                       actionRef.current?.reloadAndRest?.();
                     }
                   },
-                  onCancel() { },
+                  onCancel() {},
                 });
               }}
             >
@@ -257,7 +287,9 @@ const LogininforTableList: React.FC = () => {
             </Button>,
           ]}
           request={(params) =>
-            getLogininforList({ ...params } as API.Monitor.LogininforListParams).then((res) => {
+            getLogininforList({
+              ...params,
+            } as API.Monitor.LogininforListParams).then((res) => {
               const result = {
                 data: res.rows,
                 total: res.total,
@@ -279,8 +311,7 @@ const LogininforTableList: React.FC = () => {
           extra={
             <div>
               已选择
-              <a style={{ fontWeight: 600 }}>{selectedRows.length}</a>
-              项
+              <a style={{ fontWeight: 600 }}>{selectedRows.length}</a>项
             </div>
           }
         >

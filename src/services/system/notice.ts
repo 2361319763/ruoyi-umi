@@ -1,4 +1,4 @@
-import { request } from '@umijs/max'; 
+import { request } from '@umijs/max';
 
 // 查询通知公告列表
 export async function getNoticeList(params?: API.System.NoticeListParams) {
@@ -7,14 +7,14 @@ export async function getNoticeList(params?: API.System.NoticeListParams) {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
     },
-    params
+    params,
   });
 }
 
 // 查询通知公告详细
 export function getNotice(noticeId: number) {
   return request<API.System.NoticeInfoResult>(`/system/notice/${noticeId}`, {
-    method: 'GET'
+    method: 'GET',
   });
 }
 
@@ -25,7 +25,7 @@ export async function addNotice(params: API.System.Notice) {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
     },
-    data: params
+    data: params,
   });
 }
 
@@ -36,21 +36,21 @@ export async function updateNotice(params: API.System.Notice) {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
     },
-    data: params
+    data: params,
   });
 }
 
 // 删除通知公告
 export async function removeNotice(ids: string) {
   return request<API.Result>(`/system/notice/${ids}`, {
-    method: 'DELETE'
+    method: 'DELETE',
   });
 }
 
 // 导出通知公告
-export function exportNotice(params?: API.System.NoticeListParams) { 
+export function exportNotice(params?: API.System.NoticeListParams) {
   return request<API.Result>(`/system/notice/export`, {
     method: 'GET',
-    params
+    params,
   });
 }

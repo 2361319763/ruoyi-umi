@@ -7,14 +7,14 @@ export async function getOperlogList(params?: API.Monitor.OperlogListParams) {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
     },
-    params
+    params,
   });
 }
 
 // 查询操作日志记录详细
 export function getOperlog(operId: number) {
   return request<API.Monitor.OperlogInfoResult>(`/system/operlog/${operId}`, {
-    method: 'GET'
+    method: 'GET',
   });
 }
 
@@ -25,7 +25,7 @@ export async function addOperlog(params: API.Monitor.Operlog) {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
     },
-    data: params
+    data: params,
   });
 }
 
@@ -36,14 +36,14 @@ export async function updateOperlog(params: API.Monitor.Operlog) {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
     },
-    data: params
+    data: params,
   });
 }
 
 // 删除操作日志记录
 export async function removeOperlog(ids: string) {
   return request<API.Result>(`/system/operlog/${ids}`, {
-    method: 'DELETE'
+    method: 'DELETE',
   });
 }
 
@@ -51,6 +51,6 @@ export async function removeOperlog(ids: string) {
 export function exportOperlog(params?: API.Monitor.OperlogListParams) {
   return request<API.Result>(`/system/operlog/export`, {
     method: 'GET',
-    params
+    params,
   });
 }

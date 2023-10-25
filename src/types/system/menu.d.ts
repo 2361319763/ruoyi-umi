@@ -1,6 +1,4 @@
-
 declare namespace API.System {
-
   interface Menu {
     menuId: number;
     menuName: string;
@@ -49,18 +47,17 @@ declare namespace API.System {
     sorter?: string;
   }
 
-  export interface MenuInfoResult { 
+  export interface MenuInfoResult {
     current: number;
     pageSize: number;
     total: number;
     data: Menu;
-  } 
+  }
 
-   export interface MenuPageResult { 
+  export interface MenuPageResult {
     current: number;
     pageSize: number;
     total: number;
     data: Array<Menu>;
   }
-
 }

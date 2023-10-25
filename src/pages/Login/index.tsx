@@ -1,23 +1,21 @@
 import Footer from '@/components/Footer';
+import { getRoutersInfo, setRemoteMenu } from '@/services/session';
 import { getCaptchaImg, login } from '@/services/system/login';
-import {
-  LockOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
+import { clearSessionToken, setSessionToken } from '@/utils/auth';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import {
   LoginForm,
+  MenuDataItem,
   ProFormCheckbox,
   ProFormText,
-  MenuDataItem
 } from '@ant-design/pro-components';
 import { useEmotionCss } from '@ant-design/use-emotion-css';
-import { history, useModel, Helmet } from '@umijs/max';
-import { Alert, Col, message, Row, Image } from 'antd';
-import Settings from '../../../config/defaultSettings';
+import { Helmet, history, useModel } from '@umijs/max';
+import { Alert, Col, Image, Row, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { flushSync } from 'react-dom';
-import { clearSessionToken, setSessionToken } from '@/utils/auth';
-import { getRoutersInfo, setRemoteMenu } from '@/services/session';
+import Settings from '../../../config/defaultSettings';
+import './index.scss';
 
 const LoginMessage: React.FC<{
   content: string;
@@ -35,7 +33,9 @@ const LoginMessage: React.FC<{
 };
 
 const Login: React.FC = () => {
-  const [userLoginState, setUserLoginState] = useState<API.LoginResult>({ code: 200 });
+  const [userLoginState, setUserLoginState] = useState<API.LoginResult>({
+    code: 200,
+  });
   const { initialState, setInitialState } = useModel('@@initialState');
   const [captchaCode, setCaptchaCode] = useState<string>('');
   const [uuid, setUuid] = useState<string>('');
@@ -77,16 +77,18 @@ const Login: React.FC = () => {
       const response = await login({ ...values, uuid });
       if (response.code === 200) {
         const current = new Date();
-        const expireTime = current.setTime(current.getTime() + 1000 * 12 * 60 * 60);
+        const expireTime = current.setTime(
+          current.getTime() + 1000 * 12 * 60 * 60,
+        );
         setSessionToken(response?.token, response?.token, expireTime);
         message.success('登录成功！');
         await fetchUserInfo();
         console.log('login ok');
-        flushSync(()=>{
-          getRoutersInfo().then((res:MenuDataItem[]) => {
+        flushSync(() => {
+          getRoutersInfo().then((res: MenuDataItem[]) => {
             setRemoteMenu(res);
           });
-        })
+        });
         const urlParams = new URL(window.location.href).searchParams;
         history.push(urlParams.get('redirect') || '/');
         return;
@@ -111,10 +113,7 @@ const Login: React.FC = () => {
   return (
     <div className={containerClassName}>
       <Helmet>
-        <title>
-          登录页
-          - {Settings.title}
-        </title>
+        <title>登录页 - {Settings.title}</title>
       </Helmet>
       <div
         style={{
@@ -123,13 +122,9 @@ const Login: React.FC = () => {
         }}
       >
         <LoginForm
-          contentStyle={{
-            minWidth: 280,
-            maxWidth: '75vw',
-          }}
           logo={<img alt="logo" src="https://doc.ruoyi.vip/images/logo.png" />}
           title="Ant Design"
-          subTitle='Ant Design 是西湖区最具影响力的 Web 设计规范'
+          subTitle="Ant Design 是西湖区最具影响力的 Web 设计规范"
           initialValues={{
             autoLogin: true,
           }}
@@ -137,7 +132,7 @@ const Login: React.FC = () => {
             await handleSubmit(values as API.LoginParams);
           }}
         >
-          {code !== 200 && <LoginMessage content='账户或密码错误' />}
+          {code !== 200 && <LoginMessage content="账户或密码错误" />}
           <ProFormText
             name="username"
             initialValue="admin"
@@ -145,11 +140,11 @@ const Login: React.FC = () => {
               size: 'large',
               prefix: <UserOutlined />,
             }}
-            placeholder='用户名: admin'
+            placeholder="用户名: admin"
             rules={[
               {
                 required: true,
-                message: ('请输入用户名!'),
+                message: '请输入用户名!',
               },
             ]}
           />
@@ -160,11 +155,11 @@ const Login: React.FC = () => {
               size: 'large',
               prefix: <LockOutlined />,
             }}
-            placeholder='密码: admin123'
+            placeholder="密码: admin123"
             rules={[
               {
                 required: true,
-                message: ('请输入密码！'),
+                message: '请输入密码！',
               },
             ]}
           />
@@ -175,11 +170,11 @@ const Login: React.FC = () => {
                   float: 'right',
                 }}
                 name="code"
-                placeholder='请输入验证'
+                placeholder="请输入验证"
                 rules={[
                   {
                     required: true,
-                    message: "请输入验证啊",
+                    message: '请输入验证啊',
                   },
                 ]}
               />

@@ -1,4 +1,4 @@
-import { request } from '@umijs/max'; 
+import { request } from '@umijs/max';
 
 // 查询定时任务调度列表
 export async function getJobList(params?: API.Monitor.JobListParams) {
@@ -7,14 +7,14 @@ export async function getJobList(params?: API.Monitor.JobListParams) {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
     },
-    params
+    params,
   });
 }
 
 // 查询定时任务调度详细
 export function getJob(jobId: number) {
   return request<API.Monitor.JobInfoResult>(`/monitor/job/${jobId}`, {
-    method: 'GET'
+    method: 'GET',
   });
 }
 
@@ -25,7 +25,7 @@ export async function addJob(params: API.Monitor.Job) {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
     },
-    data: params
+    data: params,
   });
 }
 
@@ -36,22 +36,22 @@ export async function updateJob(params: API.Monitor.Job) {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
     },
-    data: params
+    data: params,
   });
 }
 
 // 删除定时任务调度
 export async function removeJob(ids: string) {
   return request<API.Result>(`/monitor/job/${ids}`, {
-    method: 'DELETE'
+    method: 'DELETE',
   });
 }
 
 // 导出定时任务调度
-export function exportJob(params?: API.Monitor.JobListParams) { 
+export function exportJob(params?: API.Monitor.JobListParams) {
   return request<API.Result>(`/monitor/job/export`, {
     method: 'GET',
-    params
+    params,
   });
 }
 

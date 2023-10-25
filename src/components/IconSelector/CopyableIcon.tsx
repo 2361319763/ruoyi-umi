@@ -1,7 +1,7 @@
-import * as React from 'react';
+import * as AntdIcons from '@ant-design/icons';
 import { Tooltip } from 'antd';
 import classNames from 'classnames';
-import * as AntdIcons from '@ant-design/icons';
+import * as React from 'react';
 import type { ThemeType } from './index';
 import styles from './style.less';
 
@@ -28,12 +28,14 @@ const CopyableIcon: React.FC<CopyableIconProps> = ({
     [theme]: !!theme,
   });
   return (
-    <li className={className}
+    <li
+      className={className}
       onClick={() => {
         if (onSelect) {
           onSelect(theme, name);
         }
-      }}>
+      }}
+    >
       <Tooltip title={name}>
         {React.createElement(allIcons[name], { className: styles.anticon })}
       </Tooltip>

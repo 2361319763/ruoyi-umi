@@ -1,5 +1,4 @@
 declare namespace API.Monitor {
-
   export interface Job {
     jobId: number;
     jobName: string;
@@ -35,17 +34,16 @@ declare namespace API.Monitor {
     current?: string;
   }
 
-  export interface JobInfoResult { 
+  export interface JobInfoResult {
     code: number;
     msg: string;
     data: Job;
-  } 
+  }
 
-   export interface JobPageResult { 
+  export interface JobPageResult {
     code: number;
     msg: string;
     total: number;
     rows: Array<Job>;
   }
-
 }

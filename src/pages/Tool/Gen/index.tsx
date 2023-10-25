@@ -1,27 +1,27 @@
 import { DownloadOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, message, Drawer, Modal, Card, Layout } from 'antd';
-import type { FormInstance } from 'antd';
-import React, { useState, useRef } from 'react';
+import {
+  ActionType,
+  FooterToolbar,
+  PageContainer,
+  ProColumns,
+  ProDescriptions,
+  ProDescriptionsItemProps,
+  ProTable,
+} from '@ant-design/pro-components';
 import { history, useAccess } from '@umijs/max';
+import type { FormInstance } from 'antd';
+import { Button, Card, Drawer, Modal, message } from 'antd';
+import React, { useRef, useState } from 'react';
 import PreviewForm from './components/PreviewCode';
 import type { GenCodeTableListParams, GenCodeType } from './data.d';
 import {
   batchGenCode,
   genCode,
-  previewCode,
   getGenCodeList,
+  previewCode,
   removeData,
   syncDbInfo,
 } from './service';
-import {
-  ActionType,
-  FooterToolbar,
-  ProColumns,
-  ProDescriptions,
-  ProDescriptionsItemProps,
-  ProTable,
-  PageContainer
-} from '@ant-design/pro-components';
 
 /**
  * 删除节点
@@ -249,7 +249,9 @@ const GenCodeView: React.FC = () => {
                 if (selectedRows[0].genType === '1') {
                   genCode(tableNames.join(',')).then((res) => {
                     if (res.code === 200) {
-                      message.success(`成功生成到自定义路径：${selectedRows[0].genPath}`);
+                      message.success(
+                        `成功生成到自定义路径：${selectedRows[0].genPath}`,
+                      );
                     } else {
                       message.error(res.msg);
                     }
@@ -273,13 +275,15 @@ const GenCodeView: React.FC = () => {
             </Button>,
           ]}
           request={(params) =>
-            getGenCodeList({ ...params } as GenCodeTableListParams).then((res) => {
-              return {
-                data: res.rows,
-                total: res.rows.length,
-                success: true,
-              };
-            })
+            getGenCodeList({ ...params } as GenCodeTableListParams).then(
+              (res) => {
+                return {
+                  data: res.rows,
+                  total: res.rows.length,
+                  success: true,
+                };
+              },
+            )
           }
           columns={columns}
           rowSelection={{
@@ -292,8 +296,7 @@ const GenCodeView: React.FC = () => {
           <FooterToolbar
             extra={
               <div>
-                已选择{' '}
-                <a style={{ fontWeight: 600 }}>{selectedRows.length}</a>{' '}
+                已选择 <a style={{ fontWeight: 600 }}>{selectedRows.length}</a>{' '}
                 项
               </div>
             }

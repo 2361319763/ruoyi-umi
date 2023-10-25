@@ -1,6 +1,4 @@
-
 declare namespace API.System {
-
   interface Role {
     roleId: number;
     roleName: string;
@@ -37,13 +35,13 @@ declare namespace API.System {
     current?: string;
   }
 
-  export interface RoleInfoResult { 
+  export interface RoleInfoResult {
     code: number;
     msg: string;
     data: Role;
-  } 
+  }
 
-   export interface RolePageResult { 
+  export interface RolePageResult {
     code: number;
     msg: string;
     total: number;
@@ -51,15 +49,14 @@ declare namespace API.System {
   }
 
   export type RoleMenuNode = {
-    id: number|string;
+    id: number | string;
     label: string;
     children?: Array<RoleMenuNode>;
-  }
-  export interface RoleMenuResult { 
+  };
+  export interface RoleMenuResult {
     code: number;
     msg: string;
     checkedKeys: number[];
     menus: Array<RoleMenuNode>;
   }
-
 }

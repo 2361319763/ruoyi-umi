@@ -1,19 +1,19 @@
-import React, { useEffect } from 'react';
+import { DictOptionType, DictValueEnumObj } from '@/components/DictTag';
 import {
   ProForm,
+  ProFormCaptcha,
   ProFormDigit,
-  ProFormText,
-  ProFormTextArea,
   ProFormRadio,
   ProFormSelect,
-  ProFormCaptcha,
+  ProFormText,
+  ProFormTextArea,
 } from '@ant-design/pro-components';
 import { Form, Modal } from 'antd';
-import { DictOptionType, DictValueEnumObj } from '@/components/DictTag';
+import React, { useEffect } from 'react';
 
 /**
  * 定时任务调度 Edit Form
- * 
+ *
  * @author whiteshader
  * @date 2023-02-07
  */
@@ -66,7 +66,7 @@ const JobForm: React.FC<JobFormProps> = (props) => {
   return (
     <Modal
       width={640}
-      title='编辑定时任务调度'
+      title="编辑定时任务调度"
       open={props.open}
       forceRender
       destroyOnClose
@@ -78,10 +78,11 @@ const JobForm: React.FC<JobFormProps> = (props) => {
         grid={true}
         submitter={false}
         layout="horizontal"
-        onFinish={handleFinish}>
+        onFinish={handleFinish}
+      >
         <ProFormDigit
           name="jobId"
-          label='任务编号'
+          label="任务编号"
           colProps={{ md: 24 }}
           placeholder="请输入任务编号"
           disabled
@@ -89,51 +90,51 @@ const JobForm: React.FC<JobFormProps> = (props) => {
           rules={[
             {
               required: false,
-              message: "请输入任务编号！",
+              message: '请输入任务编号！',
             },
           ]}
         />
         <ProFormText
           name="jobName"
-          label='任务名称'
+          label="任务名称"
           colProps={{ md: 24 }}
           placeholder="请输入任务名称"
           rules={[
             {
               required: false,
-              message: "请输入任务名称！",
+              message: '请输入任务名称！',
             },
           ]}
         />
         <ProFormSelect
           name="jobGroup"
           options={jobGroupOptions}
-          label='任务组名'
+          label="任务组名"
           colProps={{ md: 24 }}
           placeholder="请输入任务组名"
           rules={[
             {
               required: false,
-              message: "请输入任务组名！",
+              message: '请输入任务组名！',
             },
           ]}
         />
         <ProFormTextArea
           name="invokeTarget"
-          label='调用目标字符串'
+          label="调用目标字符串"
           colProps={{ md: 24 }}
           placeholder="请输入调用目标字符串"
           rules={[
             {
               required: true,
-              message: "请输入调用目标字符串！",
+              message: '请输入调用目标字符串！',
             },
           ]}
         />
         <ProFormCaptcha
           name="cronExpression"
-          label='cron执行表达式'
-          captchaTextRender={() => "生成表达式"}
+          label="cron执行表达式"
+          captchaTextRender={() => '生成表达式'}
           onGetCaptcha={() => {
             // form.setFieldValue('cronExpression', '0/20 * * * * ?');
             return new Promise((resolve, reject) => {
@@ -143,28 +144,28 @@ const JobForm: React.FC<JobFormProps> = (props) => {
         />
         <ProFormRadio.Group
           name="misfirePolicy"
-          label='计划执行错误策略'
+          label="计划执行错误策略"
           colProps={{ md: 24 }}
           placeholder="请输入计划执行错误策略"
           valueEnum={{
             0: '立即执行',
             1: '执行一次',
-            3: '放弃执行'
+            3: '放弃执行',
           }}
           rules={[
             {
               required: false,
-              message: "请输入计划执行错误策略！",
+              message: '请输入计划执行错误策略！',
             },
           ]}
           fieldProps={{
-            optionType: "button",
-            buttonStyle: "solid"
+            optionType: 'button',
+            buttonStyle: 'solid',
           }}
         />
         <ProFormRadio.Group
           name="concurrent"
-          label='是否并发执行'
+          label="是否并发执行"
           colProps={{ md: 24 }}
           placeholder="请输入是否并发执行"
           valueEnum={{
@@ -174,24 +175,24 @@ const JobForm: React.FC<JobFormProps> = (props) => {
           rules={[
             {
               required: false,
-              message: "请输入是否并发执行！",
+              message: '请输入是否并发执行！',
             },
           ]}
           fieldProps={{
-            optionType: "button",
-            buttonStyle: "solid"
+            optionType: 'button',
+            buttonStyle: 'solid',
           }}
         />
         <ProFormRadio.Group
           valueEnum={statusOptions}
           name="status"
-          label='状态'
+          label="状态"
           colProps={{ md: 24 }}
           placeholder="请输入状态"
           rules={[
             {
               required: false,
-              message: "请输入状态！",
+              message: '请输入状态！',
             },
           ]}
         />

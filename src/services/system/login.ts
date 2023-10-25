@@ -1,6 +1,9 @@
 import { request } from '@umijs/max';
 
-export async function getCaptchaImg(params?: Record<string, any>, options?: Record<string, any>) {
+export async function getCaptchaImg(
+  params?: Record<string, any>,
+  options?: Record<string, any>,
+) {
   return request('/captchaImage', {
     method: 'GET',
     params: {
@@ -14,7 +17,10 @@ export async function getCaptchaImg(params?: Record<string, any>, options?: Reco
 }
 
 /** 登录接口 POST /login/account */
-export async function login(body: API.LoginParams, options?: Record<string, any>) {
+export async function login(
+  body: API.LoginParams,
+  options?: Record<string, any>,
+) {
   return request<API.LoginResult>('/login', {
     method: 'POST',
     headers: {
@@ -32,4 +38,3 @@ export async function logout() {
     method: 'delete',
   });
 }
-

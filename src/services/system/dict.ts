@@ -1,6 +1,6 @@
-import { request } from '@umijs/max';
 import { DictValueEnumObj } from '@/components/DictTag';
 import { HttpResult } from '@/enums/httpEnum';
+import { request } from '@umijs/max';
 
 // 查询字典类型列表
 export async function getDictTypeList(params?: API.System.DictTypeListParams) {
@@ -23,11 +23,17 @@ export function getDictType(dictId: string) {
 }
 
 // 查询字典数据详细
-export async function getDictValueEnum(dictType: string, isDigital?: boolean): Promise<DictValueEnumObj> {
-  const resp = await request<API.System.DictTypeResult>(`/system/dict/data/type/${dictType}`, {
-    method: 'GET',
-  });
-  if(resp.code === HttpResult.SUCCESS) {
+export async function getDictValueEnum(
+  dictType: string,
+  isDigital?: boolean,
+): Promise<DictValueEnumObj> {
+  const resp = await request<API.System.DictTypeResult>(
+    `/system/dict/data/type/${dictType}`,
+    {
+      method: 'GET',
+    },
+  );
+  if (resp.code === HttpResult.SUCCESS) {
     const opts: DictValueEnumObj = {};
     resp.data.forEach((item: any) => {
       opts[item.dictValue] = {
@@ -36,7 +42,8 @@ export async function getDictValueEnum(dictType: string, isDigital?: boolean): P
         value: isDigital ? Number(item.dictValue) : item.dictValue,
         key: item.dictCode,
         listClass: item.listClass,
-        status: item.listClass };
+        status: item.listClass,
+      };
     });
     return opts;
   } else {
@@ -44,10 +51,16 @@ export async function getDictValueEnum(dictType: string, isDigital?: boolean): P
   }
 }
 
-export async function getDictSelectOption(dictType: string, isDigital?: boolean) {
-  const resp = await request<API.System.DictTypeResult>(`/system/dict/data/type/${dictType}`, {
-    method: 'GET',
-  });
+export async function getDictSelectOption(
+  dictType: string,
+  isDigital?: boolean,
+) {
+  const resp = await request<API.System.DictTypeResult>(
+    `/system/dict/data/type/${dictType}`,
+    {
+      method: 'GET',
+    },
+  );
   if (resp.code === 200) {
     const options: DictValueEnumObj[] = resp.data.map((item) => {
       return {
@@ -56,13 +69,13 @@ export async function getDictSelectOption(dictType: string, isDigital?: boolean)
         value: isDigital ? Number(item.dictValue) : item.dictValue,
         key: item.dictCode,
         listClass: item.listClass,
-        status: item.listClass
+        status: item.listClass,
       };
     });
     return options;
   }
   return [];
-};
+}
 
 // 新增字典类型
 export async function addDictType(params: API.System.DictType) {
@@ -71,7 +84,7 @@ export async function addDictType(params: API.System.DictType) {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
     },
-    data: params
+    data: params,
   });
 }
 
@@ -82,14 +95,14 @@ export async function updateDictType(params: API.System.DictType) {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
     },
-    data: params
+    data: params,
   });
 }
 
 // 删除字典类型
 export async function removeDictType(ids: string) {
   return request<API.Result>(`/system/dict/type/${ids}`, {
-    method: 'DELETE'
+    method: 'DELETE',
   });
 }
 
@@ -97,7 +110,7 @@ export async function removeDictType(ids: string) {
 export function exportDictType(params?: API.System.DictTypeListParams) {
   return request<API.Result>('/system/dict/type/export', {
     method: 'GET',
-    params
+    params,
   });
 }
 

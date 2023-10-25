@@ -1,6 +1,4 @@
-
 declare namespace API.System {
-
   interface Post {
     postId: number;
     postCode: string;
@@ -29,17 +27,16 @@ declare namespace API.System {
     current?: string;
   }
 
-  export interface PostInfoResult { 
+  export interface PostInfoResult {
     code: number;
     msg: string;
     data: Post;
-  } 
+  }
 
-   export interface PostPageResult { 
+  export interface PostPageResult {
     code: number;
     msg: string;
     total: number;
     rows: Array<Post>;
   }
-
 }

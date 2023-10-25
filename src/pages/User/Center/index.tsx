@@ -1,51 +1,42 @@
+import { getUserInfo } from '@/services/session';
 import {
   ClusterOutlined,
   MailOutlined,
+  ManOutlined,
+  MobileOutlined,
   TeamOutlined,
   UserOutlined,
-  MobileOutlined,
-  ManOutlined,
 } from '@ant-design/icons';
+import { PageLoading } from '@ant-design/pro-components';
+import { useRequest } from '@umijs/max';
 import { Card, Col, Divider, List, Row } from 'antd';
 import React, { useState } from 'react';
 import styles from './Center.less';
+import AvatarCropper from './components/AvatarCropper';
 import BaseInfo from './components/BaseInfo';
 import ResetPassword from './components/ResetPassword';
-import AvatarCropper from './components/AvatarCropper';
-import { useRequest } from '@umijs/max';
-import { getUserInfo } from '@/services/session';
-import { PageLoading } from '@ant-design/pro-components';
 
 const operationTabList = [
   {
     key: 'base',
-    tab: (
-      <span>
-        基本资料
-      </span>
-    ),
+    tab: <span>基本资料</span>,
   },
   {
     key: 'password',
-    tab: (
-      <span>
-        重置密码
-      </span>
-    ),
+    tab: <span>重置密码</span>,
   },
 ];
 
 export type tabKeyType = 'base' | 'password';
 
 const Center: React.FC = () => {
-  
   const [tabKey, setTabKey] = useState<tabKeyType>('base');
-  
+
   const [cropperModalOpen, setCropperModalOpen] = useState<boolean>(false);
-  
+
   //  获取用户信息
   const { data: userInfo, loading } = useRequest(async () => {
-    return { data: await getUserInfo()};
+    return { data: await getUserInfo() };
   });
   if (loading) {
     return <div>loading...</div>;
@@ -141,15 +132,16 @@ const Center: React.FC = () => {
     <div>
       <Row gutter={[16, 24]}>
         <Col lg={8} md={24}>
-          <Card
-            title="个人信息"
-            bordered={false}
-            loading={loading}
-          >
+          <Card title="个人信息" bordered={false} loading={loading}>
             {!loading && (
-              <div style={{ textAlign: "center"}}>
-                <div className={styles.avatarHolder} onClick={()=>{setCropperModalOpen(true)}}>
-                  <img alt="" src={'/dev-api'+currentUser.avatar} />
+              <div style={{ textAlign: 'center' }}>
+                <div
+                  className={styles.avatarHolder}
+                  onClick={() => {
+                    setCropperModalOpen(true);
+                  }}
+                >
+                  <img alt="" src={'/dev-api' + currentUser.avatar} />
                 </div>
                 {renderUserInfo(currentUser)}
                 <Divider dashed />
@@ -188,7 +180,7 @@ const Center: React.FC = () => {
       </Row>
       <AvatarCropper
         onFinished={() => {
-          setCropperModalOpen(false);     
+          setCropperModalOpen(false);
         }}
         open={cropperModalOpen}
         data={currentUser.avatar}

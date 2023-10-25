@@ -1,19 +1,36 @@
-
-import React, { useState, useRef, useEffect } from 'react';
-import { useAccess, history } from '@umijs/max';
-import { Dropdown, FormInstance, Space } from 'antd';
-import { Button, message, Modal } from 'antd';
-import { ActionType, FooterToolbar, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
-import { PlusOutlined, DeleteOutlined, ExclamationCircleOutlined, DownOutlined, EditOutlined } from '@ant-design/icons';
-import { getJobList, removeJob, addJob, updateJob, exportJob, runJob } from '@/services/monitor/job';
-import { getDictSelectOption, getDictValueEnum } from '@/services/system/dict';
-import UpdateForm from './edit';
-import DetailForm from './detail';
 import DictTag from '@/components/DictTag';
+import {
+  addJob,
+  exportJob,
+  getJobList,
+  removeJob,
+  runJob,
+  updateJob,
+} from '@/services/monitor/job';
+import { getDictSelectOption, getDictValueEnum } from '@/services/system/dict';
+import {
+  DeleteOutlined,
+  DownOutlined,
+  EditOutlined,
+  ExclamationCircleOutlined,
+  PlusOutlined,
+} from '@ant-design/icons';
+import {
+  ActionType,
+  FooterToolbar,
+  PageContainer,
+  ProColumns,
+  ProTable,
+} from '@ant-design/pro-components';
+import { history, useAccess } from '@umijs/max';
+import { Button, Dropdown, FormInstance, Modal, Space, message } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
+import DetailForm from './detail';
+import UpdateForm from './edit';
 
 /**
  * 定时任务调度 List Page
- * 
+ *
  * @author whiteshader
  * @date 2023-02-07
  */
@@ -73,7 +90,9 @@ const handleRemove = async (selectedRows: API.Monitor.Job[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
-    const resp = await removeJob(selectedRows.map((row) => row.jobId).join(','));
+    const resp = await removeJob(
+      selectedRows.map((row) => row.jobId).join(','),
+    );
     hide();
     if (resp.code === 200) {
       message.success('删除成功，即将刷新');
@@ -126,7 +145,6 @@ const handleExport = async () => {
   }
 };
 
-
 const JobTableList: React.FC = () => {
   const formTableRef = useRef<FormInstance>();
 
@@ -153,13 +171,13 @@ const JobTableList: React.FC = () => {
 
   const columns: ProColumns<API.Monitor.Job>[] = [
     {
-      title: "任务编号",
+      title: '任务编号',
       dataIndex: 'jobId',
       valueType: 'text',
       hideInSearch: true,
     },
     {
-      title: "任务名称",
+      title: '任务名称',
       dataIndex: 'jobName',
       valueType: 'text',
       render: (dom, record) => {
@@ -176,35 +194,35 @@ const JobTableList: React.FC = () => {
       },
     },
     {
-      title: "任务组名",
+      title: '任务组名',
       dataIndex: 'jobGroup',
       valueType: 'text',
       valueEnum: jobGroupOptions,
       render: (_, record) => {
-        return (<DictTag options={jobGroupOptions} value={record.jobGroup} />);
+        return <DictTag options={jobGroupOptions} value={record.jobGroup} />;
       },
     },
     {
-      title: "调用目标字符串",
+      title: '调用目标字符串',
       dataIndex: 'invokeTarget',
       valueType: 'textarea',
     },
     {
-      title: "cron执行表达式",
+      title: 'cron执行表达式',
       dataIndex: 'cronExpression',
       valueType: 'text',
     },
     {
-      title: "状态",
+      title: '状态',
       dataIndex: 'status',
       valueType: 'select',
       valueEnum: statusOptions,
       render: (_, record) => {
-        return (<DictTag enums={statusOptions} value={record.status} />);
+        return <DictTag enums={statusOptions} value={record.status} />;
       },
     },
     {
-      title: "操作",
+      title: '操作',
       dataIndex: 'option',
       width: '220px',
       valueType: 'option',
@@ -213,7 +231,7 @@ const JobTableList: React.FC = () => {
           type="link"
           size="small"
           key="edit"
-          icon = <EditOutlined />
+          icon=<EditOutlined />
           hidden={!access.hasPerms('monitor:job:edit')}
           onClick={() => {
             setModalVisible(true);
@@ -227,7 +245,7 @@ const JobTableList: React.FC = () => {
           size="small"
           danger
           key="batchRemove"
-          icon = <DeleteOutlined />
+          icon=<DeleteOutlined />
           hidden={!access.hasPerms('monitor:job:remove')}
           onClick={async () => {
             Modal.confirm({
@@ -279,15 +297,13 @@ const JobTableList: React.FC = () => {
                     }
                   },
                 });
-              }
-              else if (key === 'detail') {
+              } else if (key === 'detail') {
                 setDetailModalVisible(true);
                 setCurrentRow(record);
-              }
-              else if( key === 'log') {
+              } else if (key === 'log') {
                 history.push(`/monitor/job-log/index/${record.jobId}`);
               }
-            }
+            },
           }}
         >
           <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
@@ -305,7 +321,7 @@ const JobTableList: React.FC = () => {
     <PageContainer>
       <div style={{ width: '100%', float: 'right' }}>
         <ProTable<API.Monitor.Job>
-          headerTitle='信息'
+          headerTitle="信息"
           actionRef={actionRef}
           formRef={formTableRef}
           rowKey="jobId"
@@ -328,7 +344,10 @@ const JobTableList: React.FC = () => {
             <Button
               type="primary"
               key="remove"
-              hidden={selectedRows?.length === 0 || !access.hasPerms('monitor:job:remove')}
+              hidden={
+                selectedRows?.length === 0 ||
+                !access.hasPerms('monitor:job:remove')
+              }
               onClick={async () => {
                 Modal.confirm({
                   title: '是否确认删除所选数据项?',
@@ -341,7 +360,7 @@ const JobTableList: React.FC = () => {
                       actionRef.current?.reloadAndRest?.();
                     }
                   },
-                  onCancel() { },
+                  onCancel() {},
                 });
               }}
             >
@@ -361,14 +380,16 @@ const JobTableList: React.FC = () => {
             </Button>,
           ]}
           request={(params) =>
-            getJobList({ ...params } as API.Monitor.JobListParams).then((res) => {
-              const result = {
-                data: res.rows,
-                total: res.total,
-                success: true,
-              };
-              return result;
-            })
+            getJobList({ ...params } as API.Monitor.JobListParams).then(
+              (res) => {
+                const result = {
+                  data: res.rows,
+                  total: res.total,
+                  success: true,
+                };
+                return result;
+              },
+            )
           }
           columns={columns}
           rowSelection={{
@@ -383,8 +404,7 @@ const JobTableList: React.FC = () => {
           extra={
             <div>
               已选择
-              <a style={{ fontWeight: 600 }}>{selectedRows.length}</a>
-              项
+              <a style={{ fontWeight: 600 }}>{selectedRows.length}</a>项
             </div>
           }
         >
@@ -433,7 +453,7 @@ const JobTableList: React.FC = () => {
         }}
         open={modalVisible}
         values={currentRow || {}}
-        jobGroupOptions={jobGroupOptions||{}}
+        jobGroupOptions={jobGroupOptions || {}}
         statusOptions={statusOptions}
       />
       <DetailForm

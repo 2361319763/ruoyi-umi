@@ -3,14 +3,17 @@ import { request } from '@umijs/max';
 import { DataNode } from 'antd/es/tree';
 
 // 查询用户信息列表
-export async function getUserList(params?: API.System.UserListParams, options?: { [key: string]: any }) {
+export async function getUserList(
+  params?: API.System.UserListParams,
+  options?: { [key: string]: any },
+) {
   return request<API.System.UserPageResult>('/system/user/list', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
     },
     params,
-    ...(options || {})
+    ...(options || {}),
   });
 }
 
@@ -18,48 +21,60 @@ export async function getUserList(params?: API.System.UserListParams, options?: 
 export function getUser(userId: number, options?: { [key: string]: any }) {
   return request<API.System.UserInfoResult>(`/system/user/${userId}`, {
     method: 'GET',
-    ...(options || {})
+    ...(options || {}),
   });
 }
 
 // 新增用户信息
-export async function addUser(params: API.System.User, options?: { [key: string]: any }) {
+export async function addUser(
+  params: API.System.User,
+  options?: { [key: string]: any },
+) {
   return request<API.Result>('/system/user', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
     },
     data: params,
-    ...(options || {})
+    ...(options || {}),
   });
 }
 
 // 修改用户信息
-export async function updateUser(params: API.System.User, options?: { [key: string]: any }) {
+export async function updateUser(
+  params: API.System.User,
+  options?: { [key: string]: any },
+) {
   return request<API.Result>('/system/user', {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
     },
     data: params,
-    ...(options || {})
+    ...(options || {}),
   });
 }
 
 // 删除用户信息
-export async function removeUser(ids: string, options?: { [key: string]: any }) {
+export async function removeUser(
+  ids: string,
+  options?: { [key: string]: any },
+) {
   return request<API.Result>(`/system/user/${ids}`, {
     method: 'DELETE',
-    ...(options || {})
+    ...(options || {}),
   });
 }
 
 // 导出用户信息
-export function exportUser(params?: API.System.UserListParams, options?: { [key: string]: any }) {
+export function exportUser(
+  params?: API.System.UserListParams,
+  options?: { [key: string]: any },
+) {
   return request<API.Result>(`/system/user/export`, {
     method: 'GET',
     params,
-    ...(options || {})
+    ...(options || {}),
   });
 }
 
@@ -67,74 +82,73 @@ export function exportUser(params?: API.System.UserListParams, options?: { [key:
 export function changeUserStatus(userId: number, status: string) {
   const data = {
     userId,
-    status
-  }
+    status,
+  };
   return request<API.Result>('/system/user/changeStatus', {
     method: 'put',
-    data: data
-  })
+    data: data,
+  });
 }
 
 // 查询用户个人信息
 export function getUserProfile() {
   return request('/system/user/profile', {
-    method: 'get'
-  })
+    method: 'get',
+  });
 }
 
 export function updateUserProfile(data: API.CurrentUser) {
   return request<API.Result>('/system/user/profile', {
     method: 'put',
-    data: data
-  })
+    data: data,
+  });
 }
 
 // 用户密码重置
 export function resetUserPwd(userId: number, password: string) {
   const data = {
     userId,
-    password
-  }
+    password,
+  };
   return request<API.Result>('/system/user/resetPwd', {
     method: 'put',
-    data: data
-  })
+    data: data,
+  });
 }
 
 // 用户t个人密码重置
 export function updateUserPwd(oldPassword: string, newPassword: string) {
   const data = {
     oldPassword,
-    newPassword
-  }
+    newPassword,
+  };
   return request<API.Result>('/system/user/profile/updatePwd', {
     method: 'put',
-    params: data
-  })
+    params: data,
+  });
 }
 
 // 用户头像上传
 export function uploadAvatar(data: any) {
   return request('/system/user/profile/avatar', {
     method: 'post',
-    data: data
-  })
+    data: data,
+  });
 }
-
 
 // 查询授权角色
 export function getAuthRole(userId: number) {
   return request('/system/user/authRole/' + userId, {
-    method: 'get'
-  })
+    method: 'get',
+  });
 }
 
 // 保存授权角色
 export function updateAuthRole(data: Record<string, any>) {
   return request('/system/user/authRole', {
     method: 'put',
-    params: data
-  })
+    params: data,
+  });
 }
 
 // 获取数据列表

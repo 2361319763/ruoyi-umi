@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react';
+import { DictValueEnumObj } from '@/components/DictTag';
 import {
   ProForm,
-  ProFormText,
-  ProFormSelect,
   ProFormRadio,
+  ProFormSelect,
+  ProFormText,
   ProFormTextArea,
   ProFormTreeSelect,
 } from '@ant-design/pro-components';
 import { Form, Modal } from 'antd';
 import { DataNode } from 'antd/es/tree';
-import { DictValueEnumObj } from '@/components/DictTag';
+import React, { useEffect } from 'react';
 
 export type UserFormData = Record<string, unknown> & Partial<API.System.User>;
 
@@ -30,7 +30,7 @@ export type UserFormProps = {
 const UserForm: React.FC<UserFormProps> = (props) => {
   const [form] = Form.useForm();
   const userId = Form.useWatch('userId', form);
-  const { sexOptions, statusOptions, } = props;
+  const { sexOptions, statusOptions } = props;
   const { roles, posts, depts } = props;
 
   useEffect(() => {
@@ -67,7 +67,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
   return (
     <Modal
       width={640}
-      title='编辑用户信息'
+      title="编辑用户信息"
       open={props.open}
       destroyOnClose
       onOk={handleOk}
@@ -78,24 +78,23 @@ const UserForm: React.FC<UserFormProps> = (props) => {
         form={form}
         layout="horizontal"
         submitter={false}
-        onFinish={handleFinish}>
+        onFinish={handleFinish}
+      >
         <ProFormText
           name="nickName"
-          label='用户昵称'
+          label="用户昵称"
           placeholder="请输入用户昵称"
           colProps={{ xs: 24, md: 12, xl: 12 }}
           rules={[
             {
               required: true,
-              message: (
-                '请输入用户昵称！'
-              ),
+              message: '请输入用户昵称！',
             },
           ]}
         />
         <ProFormTreeSelect
           name="deptId"
-          label='部门'
+          label="部门"
           request={async () => {
             return depts;
           }}
@@ -104,9 +103,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
           rules={[
             {
               required: true,
-              message: (
-                '请输入用户部门！'
-              ),
+              message: '请输入用户部门！',
             },
           ]}
         />
@@ -118,9 +115,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
           rules={[
             {
               required: false,
-              message: (
-                '请输入手机号码！'
-              ),
+              message: '请输入手机号码！',
             },
           ]}
         />
@@ -132,9 +127,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
           rules={[
             {
               required: false,
-              message: (
-                '请输入用户邮箱！'
-              ),
+              message: '请输入用户邮箱！',
             },
           ]}
         />
@@ -159,7 +152,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
           rules={[
             {
               required: false,
-              message: '请输入密码！'
+              message: '请输入密码！',
             },
           ]}
         />
@@ -173,9 +166,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
           rules={[
             {
               required: false,
-              message: (
-                '请输入用户性别！'
-              ),
+              message: '请输入用户性别！',
             },
           ]}
         />
@@ -189,9 +180,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
           rules={[
             {
               required: false,
-              message: (
-                '请输入帐号状态！'
-              ),
+              message: '请输入帐号状态！',
             },
           ]}
         />

@@ -3,7 +3,6 @@ import { MenuDataItem } from '@ant-design/pro-components';
 import { request } from '@umijs/max';
 import React, { lazy } from 'react';
 
-
 let remoteMenu: any = null;
 
 export function getRemoteMenu() {
@@ -14,10 +13,12 @@ export function setRemoteMenu(data: any) {
   remoteMenu = data;
 }
 
-
 function patchRouteItems(route: any, menu: any, parentPath: string) {
   for (const menuItem of menu) {
-    if (menuItem.component === 'Layout' || menuItem.component === 'ParentView') {
+    if (
+      menuItem.component === 'Layout' ||
+      menuItem.component === 'ParentView'
+    ) {
       if (menuItem.routes) {
         let hasItem = false;
         let newItem = null;
@@ -28,19 +29,23 @@ function patchRouteItems(route: any, menu: any, parentPath: string) {
           }
         }
         if (!hasItem) {
-          newItem = {         
+          newItem = {
             path: menuItem.path,
             routes: [],
-            children: []
-          }
-          route.routes.push(newItem)
+            children: [],
+          };
+          route.routes.push(newItem);
         }
-        patchRouteItems(newItem, menuItem.routes, parentPath + menuItem.path + '/');
+        patchRouteItems(
+          newItem,
+          menuItem.routes,
+          parentPath + menuItem.path + '/',
+        );
       }
     } else {
       const names: string[] = menuItem.component.split('/');
       let path = '';
-      names.forEach(name => {
+      names.forEach((name) => {
         if (path.length > 0) {
           path += '/';
         }
@@ -49,9 +54,9 @@ function patchRouteItems(route: any, menu: any, parentPath: string) {
         } else {
           path += name;
         }
-      })
+      });
       if (!path.endsWith('.tsx')) {
-        path += '.tsx'
+        path += '.tsx';
       }
       if (route.routes === undefined) {
         route.routes = [];
@@ -62,7 +67,7 @@ function patchRouteItems(route: any, menu: any, parentPath: string) {
       const newRoute = {
         element: React.createElement(lazy(() => import('@/pages/' + path))),
         path: parentPath + menuItem.path,
-      }
+      };
       route.children.push(newRoute);
       route.routes.push(newRoute);
     }
@@ -70,7 +75,9 @@ function patchRouteItems(route: any, menu: any, parentPath: string) {
 }
 
 export function patchRouteWithRemoteMenus(routes: any) {
-  if (remoteMenu === null) { return; }
+  if (remoteMenu === null) {
+    return;
+  }
   let proLayout = null;
   for (const routeItem of routes) {
     if (routeItem.id === 'ant-design-pro-layout') {
@@ -92,8 +99,8 @@ export async function getUserInfo(options?: Record<string, any>) {
 // 刷新方法
 export async function refreshToken() {
   return request('/refresh', {
-    method: 'post'
-  })
+    method: 'post',
+  });
 }
 
 export async function getRouters(): Promise<any> {
@@ -105,14 +112,12 @@ export function convertCompatRouters(childrens: API.RoutersMenuItem[]): any[] {
     return {
       path: item.path,
       icon: createIcon(item.meta.icon),
-      //  icon: item.meta.icon,
       name: item.meta.title,
       routes: item.children ? convertCompatRouters(item.children) : undefined,
       hideChildrenInMenu: item.hidden,
       hideInMenu: item.hidden,
       component: item.component,
       authority: item.perms,
-      // hideInBreadcrumb: item.redirect == 'noRedirect',
     };
   });
 }
@@ -144,11 +149,18 @@ export function getMatchMenuItem(
         if (path.match(exp)) {
           if (item.routes) {
             const subpath = path.substr(item.path.length + 1);
-            const subItem: MenuDataItem[] = getMatchMenuItem(subpath, item.routes);
+            const subItem: MenuDataItem[] = getMatchMenuItem(
+              subpath,
+              item.routes,
+            );
             items = items.concat(subItem);
           } else {
             const paths = path.split('/');
-            if (paths.length >= 2 && paths[0] === item.path && paths[1] === 'index') {
+            if (
+              paths.length >= 2 &&
+              paths[0] === item.path &&
+              paths[1] === 'index'
+            ) {
               items.push(item);
             }
           }

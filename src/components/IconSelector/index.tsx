@@ -1,13 +1,13 @@
-import * as React from 'react';
 import Icon, * as AntdIcons from '@ant-design/icons';
-import { Radio, Input, Empty } from 'antd';
+import { Empty, Input, Radio } from 'antd';
 import type { RadioChangeEvent } from 'antd/es/radio/interface';
 import debounce from 'lodash/debounce';
+import * as React from 'react';
 import Category from './Category';
 import IconPicSearcher from './IconPicSearcher';
-import { FilledIcon, OutlinedIcon, TwoToneIcon } from './themeIcons';
 import type { CategoriesKeys } from './fields';
 import { categories } from './fields';
+import { FilledIcon, OutlinedIcon, TwoToneIcon } from './themeIcons';
 
 export enum ThemeType {
   Filled = 'Filled',
@@ -38,16 +38,21 @@ const IconSelector: React.FC<IconSelectorProps> = (props) => {
 
   const handleSearchIcon = React.useCallback(
     debounce((searchKey: string) => {
-      setDisplayState(prevState => ({ ...prevState, searchKey }));
+      setDisplayState((prevState) => ({ ...prevState, searchKey }));
     }),
     [],
   );
 
   const handleChangeTheme = React.useCallback((e: RadioChangeEvent) => {
-    setDisplayState(prevState => ({ ...prevState, theme: e.target.value as ThemeType }));
+    setDisplayState((prevState) => ({
+      ...prevState,
+      theme: e.target.value as ThemeType,
+    }));
   }, []);
 
-  const renderCategories = React.useMemo<React.ReactNode | React.ReactNode[]>(() => {
+  const renderCategories = React.useMemo<
+    React.ReactNode | React.ReactNode[]
+  >(() => {
     const { searchKey = '', theme } = displayState;
 
     const categoriesResult = Object.keys(categories)
@@ -59,15 +64,21 @@ const IconSelector: React.FC<IconSelectorProps> = (props) => {
             .replace(new RegExp(`^<([a-zA-Z]*)\\s/>$`, 'gi'), (_, name) => name)
             .replace(/(Filled|Outlined|TwoTone)$/, '')
             .toLowerCase();
-          iconList = iconList.filter((iconName:string) => iconName.toLowerCase().includes(matchKey));
+          iconList = iconList.filter((iconName: string) =>
+            iconName.toLowerCase().includes(matchKey),
+          );
         }
 
         // CopyrightCircle is same as Copyright, don't show it
-        iconList = iconList.filter((icon:string) => icon !== 'CopyrightCircle');
+        iconList = iconList.filter(
+          (icon: string) => icon !== 'CopyrightCircle',
+        );
 
         return {
           category: key,
-          icons: iconList.map((iconName:string) => iconName + theme).filter((iconName:string) => allIcons[iconName]),
+          icons: iconList
+            .map((iconName: string) => iconName + theme)
+            .filter((iconName: string) => allIcons[iconName]),
         };
       })
       .filter(({ icons }) => !!icons.length)
@@ -85,7 +96,11 @@ const IconSelector: React.FC<IconSelectorProps> = (props) => {
           }}
         />
       ));
-    return categoriesResult.length === 0 ? <Empty style={{ margin: '2em 0' }} /> : categoriesResult;
+    return categoriesResult.length === 0 ? (
+      <Empty style={{ margin: '2em 0' }} />
+    ) : (
+      categoriesResult
+    );
   }, [displayState.searchKey, displayState.theme]);
   return (
     <>
@@ -98,16 +113,16 @@ const IconSelector: React.FC<IconSelectorProps> = (props) => {
           buttonStyle="solid"
           options={[
             {
-              label:  <Icon component={OutlinedIcon} />,
-              value: ThemeType.Outlined
+              label: <Icon component={OutlinedIcon} />,
+              value: ThemeType.Outlined,
             },
             {
               label: <Icon component={FilledIcon} />,
-              value: ThemeType.Filled
+              value: ThemeType.Filled,
             },
             {
               label: <Icon component={TwoToneIcon} />,
-              value: ThemeType.TwoTone
+              value: ThemeType.TwoTone,
             },
           ]}
         >
@@ -125,7 +140,7 @@ const IconSelector: React.FC<IconSelectorProps> = (props) => {
           // placeholder={messages['app.docs.components.icon.search.placeholder']}
           style={{ margin: '0 10px', flex: 1 }}
           allowClear
-          onChange={e => handleSearchIcon(e.currentTarget.value)}
+          onChange={(e) => handleSearchIcon(e.currentTarget.value)}
           size="large"
           autoFocus
           suffix={<IconPicSearcher />}
@@ -136,4 +151,4 @@ const IconSelector: React.FC<IconSelectorProps> = (props) => {
   );
 };
 
-export default IconSelector
+export default IconSelector;

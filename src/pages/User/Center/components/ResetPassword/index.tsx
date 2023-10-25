@@ -1,7 +1,7 @@
-import React from 'react';
-import { Form, message } from 'antd';
 import { updateUserPwd } from '@/services/system/user';
 import { ProForm, ProFormText } from '@ant-design/pro-components';
+import { Form, message } from 'antd';
+import React from 'react';
 
 const ResetPassword: React.FC = () => {
   const [form] = Form.useForm();
@@ -25,46 +25,44 @@ const ResetPassword: React.FC = () => {
 
   return (
     <>
-      <ProForm form={form} onFinish={handleFinish}>       
-          <ProFormText.Password
-            name="oldPassword"
-            label='旧密码'
-            width="xl"
-            placeholder="请输入旧密码"
-            rules={[
-              {
-                required: true,
-                message: "请输入旧密码！",
-              },
-            ]}
-          />
-          <ProFormText.Password
-            name="newPassword"
-            label='新密码'
-            width="xl"
-            placeholder="请输入新密码"
-            rules={[
-              {
-                required: true,
-                message: "请输入新密码！",
-              },
-            ]}
-          />
-          <ProFormText.Password
-            name="confirmPassword"
-            label='确认密码'
-            width="xl"
-            placeholder="请输入确认密码"
-            rules={[
-              {
-                required: true,
-                message: (
-                  "请输入确认密码！"
-                ),
-              },
-              { validator: checkPassword },
-            ]}
-          />
+      <ProForm form={form} onFinish={handleFinish}>
+        <ProFormText.Password
+          name="oldPassword"
+          label="旧密码"
+          width="xl"
+          placeholder="请输入旧密码"
+          rules={[
+            {
+              required: true,
+              message: '请输入旧密码！',
+            },
+          ]}
+        />
+        <ProFormText.Password
+          name="newPassword"
+          label="新密码"
+          width="xl"
+          placeholder="请输入新密码"
+          rules={[
+            {
+              required: true,
+              message: '请输入新密码！',
+            },
+          ]}
+        />
+        <ProFormText.Password
+          name="confirmPassword"
+          label="确认密码"
+          width="xl"
+          placeholder="请输入确认密码"
+          rules={[
+            {
+              required: true,
+              message: '请输入确认密码！',
+            },
+            { validator: checkPassword },
+          ]}
+        />
       </ProForm>
     </>
   );

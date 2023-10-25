@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import { DictValueEnumObj } from '@/components/DictTag';
 import {
   ProForm,
   ProFormDigit,
-  ProFormText,
   ProFormRadio,
+  ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components';
 import { Form, Modal, Tree } from 'antd';
 import { DataNode } from 'antd/es/tree';
-import { DictValueEnumObj } from '@/components/DictTag';
+import React, { useEffect, useState } from 'react';
 
 export type RoleFormData = Record<string, unknown> & Partial<API.System.Role>;
 
@@ -61,7 +61,7 @@ const RoleForm: React.FC<RoleFormProps> = (props) => {
   return (
     <Modal
       width={640}
-      title='编辑角色信息'
+      title="编辑角色信息"
       forceRender
       open={props.open}
       destroyOnClose
@@ -73,94 +73,92 @@ const RoleForm: React.FC<RoleFormProps> = (props) => {
         grid={true}
         layout="horizontal"
         submitter={false}
-        onFinish={handleFinish}>
+        onFinish={handleFinish}
+      >
         <ProFormDigit
           name="roleId"
-          label='角色编号'
+          label="角色编号"
           placeholder="请输入角色编号"
           disabled
           hidden={true}
           rules={[
             {
               required: false,
-              message: "请输入角色编号！",
+              message: '请输入角色编号！',
             },
           ]}
         />
         <ProFormText
           name="roleName"
-          label='角色名称'
+          label="角色名称"
           placeholder="请输入角色名称"
           rules={[
             {
               required: true,
-              message: "请输入角色名称！",
+              message: '请输入角色名称！',
             },
           ]}
         />
         <ProFormText
           name="roleKey"
-          label='权限字符串'
+          label="权限字符串"
           placeholder="请输入角色权限字符串"
           rules={[
             {
               required: true,
-              message: "请输入角色权限字符串！",
+              message: '请输入角色权限字符串！',
             },
           ]}
         />
         <ProFormDigit
           name="roleSort"
-          label='显示顺序'
+          label="显示顺序"
           placeholder="请输入显示顺序"
           rules={[
             {
               required: true,
-              message: "请输入显示顺序！",
+              message: '请输入显示顺序！',
             },
           ]}
-          fieldProps = {{
-            defaultValue: 1
+          fieldProps={{
+            defaultValue: 1,
           }}
         />
         <ProFormRadio.Group
           valueEnum={statusOptions}
           name="status"
-          label='角色状态'
+          label="角色状态"
           placeholder="请输入角色状态"
           rules={[
             {
               required: true,
-              message: "请输入角色状态！",
+              message: '请输入角色状态！',
             },
           ]}
-          fieldProps = {{
-            defaultValue: "0"
+          fieldProps={{
+            defaultValue: '0',
           }}
         />
-        <ProForm.Item
-          name="menuIds"
-          label='菜单权限'
-        >
+        <ProForm.Item name="menuIds" label="菜单权限">
           <Tree
             checkable={true}
             multiple={true}
             defaultExpandAll={false}
             treeData={menuTree}
             defaultCheckedKeys={menuCheckedKeys}
-            onCheck={(checkedKeys: any) => {  
+            onCheck={(checkedKeys: any) => {
               return setMenuIds(checkedKeys);
             }}
           />
         </ProForm.Item>
         <ProFormTextArea
           name="remark"
-          label='备注'
+          label="备注"
           placeholder="请输入备注"
           rules={[
             {
               required: false,
-              message: "请输入备注！",
+              message: '请输入备注！',
             },
           ]}
         />

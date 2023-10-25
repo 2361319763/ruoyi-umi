@@ -1,7 +1,9 @@
-import { request } from '@umijs/max'; 
+import { request } from '@umijs/max';
 
 // 查询在线用户列表
-export async function getOnlineUserList(params?: API.Monitor.OnlineUserListParams) { 
+export async function getOnlineUserList(
+  params?: API.Monitor.OnlineUserListParams,
+) {
   return request<API.Monitor.OnlineUserPageResult>('/monitor/online/list', {
     method: 'GET',
     params,

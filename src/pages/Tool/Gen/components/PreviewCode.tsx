@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { Modal, Tabs } from 'antd';
 import type { TabsProps } from 'antd';
-import Highlight from 'react-highlight';
+import { Modal, Tabs } from 'antd';
 import 'highlight.js/styles/base16/material.css';
+import React, { useEffect } from 'react';
+import Highlight from 'react-highlight';
 
 interface PreviewTableProps {
   open: boolean;
@@ -15,10 +15,10 @@ const PreviewTableCode: React.FC<PreviewTableProps> = (props) => {
   const keys = Object.keys(props.data);
   keys.forEach((key) => {
     panes.push({
-        key: key + '1',
-        label: key.substring(key.lastIndexOf('/') + 1, key.indexOf('.vm')),
-        children: <Highlight className="java">{props.data[key]}</Highlight>,
-      } as TabsProps);
+      key: key + '1',
+      label: key.substring(key.lastIndexOf('/') + 1, key.indexOf('.vm')),
+      children: <Highlight className="java">{props.data[key]}</Highlight>,
+    } as TabsProps);
   });
 
   useEffect(() => {}, []);
@@ -26,7 +26,7 @@ const PreviewTableCode: React.FC<PreviewTableProps> = (props) => {
   return (
     <Modal
       width={900}
-      title='预览'
+      title="预览"
       open={props.open}
       destroyOnClose
       footer={false}

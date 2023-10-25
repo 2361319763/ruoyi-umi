@@ -1,16 +1,17 @@
-import React, { useEffect } from 'react';
+import { DictValueEnumObj } from '@/components/DictTag';
 import {
   ProForm,
   ProFormDigit,
-  ProFormText,
-  ProFormSelect,
   ProFormRadio,
+  ProFormSelect,
+  ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components';
-import { Form, Modal} from 'antd';
-import { DictValueEnumObj } from '@/components/DictTag';
+import { Form, Modal } from 'antd';
+import React, { useEffect } from 'react';
 
-export type DataFormData = Record<string, unknown> & Partial<API.System.DictData>;
+export type DataFormData = Record<string, unknown> &
+  Partial<API.System.DictData>;
 
 export type DataFormProps = {
   onCancel: (flag?: boolean, formVals?: DataFormData) => void;
@@ -58,7 +59,7 @@ const DictDataForm: React.FC<DataFormProps> = (props) => {
   return (
     <Modal
       width={640}
-      title='编辑字典数据'
+      title="编辑字典数据"
       open={props.open}
       forceRender
       destroyOnClose
@@ -70,10 +71,11 @@ const DictDataForm: React.FC<DataFormProps> = (props) => {
         grid={true}
         submitter={false}
         layout="horizontal"
-        onFinish={handleFinish}>
+        onFinish={handleFinish}
+      >
         <ProFormDigit
           name="dictCode"
-          label='字典编码'
+          label="字典编码"
           colProps={{ md: 24, xl: 24 }}
           placeholder="请输入字典编码"
           disabled
@@ -81,97 +83,97 @@ const DictDataForm: React.FC<DataFormProps> = (props) => {
           rules={[
             {
               required: false,
-              message: "请输入字典编码！",
+              message: '请输入字典编码！',
             },
           ]}
         />
         <ProFormText
           name="dictType"
-          label='字典类型'
+          label="字典类型"
           colProps={{ md: 12, xl: 24 }}
           placeholder="请输入字典类型"
           disabled
           rules={[
             {
               required: false,
-              message: "请输入字典类型！",
+              message: '请输入字典类型！',
             },
           ]}
         />
         <ProFormText
           name="dictLabel"
-          label='字典标签'
+          label="字典标签"
           colProps={{ md: 12, xl: 24 }}
           placeholder="请输入字典标签"
           rules={[
             {
               required: false,
-              message: "请输入字典标签！",
+              message: '请输入字典标签！',
             },
           ]}
         />
         <ProFormText
           name="dictValue"
-          label='字典键值'
+          label="字典键值"
           colProps={{ md: 12, xl: 24 }}
           placeholder="请输入字典键值"
           rules={[
             {
               required: false,
-              message: "请输入字典键值！",
+              message: '请输入字典键值！',
             },
           ]}
         />
         <ProFormText
           name="cssClass"
-          label='样式属性'
+          label="样式属性"
           colProps={{ md: 12, xl: 24 }}
           placeholder="请输入样式属性"
           rules={[
             {
               required: false,
-              message: "请输入样式属性！",
+              message: '请输入样式属性！',
             },
           ]}
         />
         <ProFormSelect
           name="listClass"
-          label='回显样式'
+          label="回显样式"
           colProps={{ md: 12, xl: 24 }}
           placeholder="请输入回显样式"
           valueEnum={{
-            'default': '默认',
-            'primary': '主要',
-            'success': '成功',
-            'info': '信息',
-            'warning': '警告',
-            'danger': '危险',
+            default: '默认',
+            primary: '主要',
+            success: '成功',
+            info: '信息',
+            warning: '警告',
+            danger: '危险',
           }}
           rules={[
             {
               required: false,
-              message: "请输入回显样式！",
+              message: '请输入回显样式！',
             },
           ]}
         />
         <ProFormDigit
           name="dictSort"
-          label='字典排序'
+          label="字典排序"
           colProps={{ md: 12, xl: 12 }}
           placeholder="请输入字典排序"
           rules={[
             {
               required: false,
-              message: "请输入字典排序！",
+              message: '请输入字典排序！',
             },
           ]}
         />
         <ProFormRadio.Group
           name="isDefault"
-          label='是否默认'
+          label="是否默认"
           valueEnum={{
-            'Y': '是',
-            'N': '否',
+            Y: '是',
+            N: '否',
           }}
           initialValue={'N'}
           colProps={{ md: 12, xl: 24 }}
@@ -179,33 +181,33 @@ const DictDataForm: React.FC<DataFormProps> = (props) => {
           rules={[
             {
               required: false,
-              message: "请输入是否默认！",
+              message: '请输入是否默认！',
             },
           ]}
         />
         <ProFormRadio.Group
           valueEnum={statusOptions}
           name="status"
-          label='状态'
+          label="状态"
           initialValue={'0'}
           colProps={{ md: 12, xl: 24 }}
           placeholder="请输入状态"
           rules={[
             {
               required: false,
-              message: "请输入状态！",
+              message: '请输入状态！',
             },
           ]}
         />
         <ProFormTextArea
           name="remark"
-          label='备注'
+          label="备注"
           colProps={{ md: 24, xl: 24 }}
           placeholder="请输入备注"
           rules={[
             {
               required: false,
-              message: "请输入备注！",
+              message: '请输入备注！',
             },
           ]}
         />

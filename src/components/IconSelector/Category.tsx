@@ -1,7 +1,7 @@
 import * as React from 'react';
 import CopyableIcon from './CopyableIcon';
-import type { ThemeType } from './index';
 import type { CategoriesKeys } from './fields';
+import type { ThemeType } from './index';
 import styles from './style.less';
 
 interface CategoryProps {
@@ -12,8 +12,7 @@ interface CategoryProps {
   onSelect: (type: string, name: string) => any;
 }
 
-const Category: React.FC<CategoryProps> = props => {
-
+const Category: React.FC<CategoryProps> = (props) => {
   const { icons, title, newIcons, theme } = props;
   const [justCopied, setJustCopied] = React.useState<string | null>(null);
   const copyId = React.useRef<NodeJS.Timeout | null>(null);
@@ -40,7 +39,7 @@ const Category: React.FC<CategoryProps> = props => {
     <div>
       <h4>信息</h4>
       <ul className={styles.anticonsList}>
-        {icons.map(name => (
+        {icons.map((name) => (
           <CopyableIcon
             key={name}
             name={name}

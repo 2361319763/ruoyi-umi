@@ -1,15 +1,31 @@
-
-import React, { useState, useRef, useEffect } from 'react';
-import { useAccess } from '@umijs/max';
-import type { FormInstance } from 'antd';
-import { Button, message, Modal } from 'antd';
-import { ActionType, FooterToolbar, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
-import { PlusOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import { getDeptList, removeDept, addDept, updateDept, exportDept, getDeptListExcludeChild } from '@/services/system/dept';
-import UpdateForm from './edit';
+import DictTag from '@/components/DictTag';
+import {
+  addDept,
+  exportDept,
+  getDeptList,
+  getDeptListExcludeChild,
+  removeDept,
+  updateDept,
+} from '@/services/system/dept';
 import { getDictValueEnum } from '@/services/system/dict';
 import { buildTreeData } from '@/utils/tree';
-import DictTag from '@/components/DictTag';
+import {
+  DeleteOutlined,
+  ExclamationCircleOutlined,
+  PlusOutlined,
+} from '@ant-design/icons';
+import {
+  ActionType,
+  FooterToolbar,
+  PageContainer,
+  ProColumns,
+  ProTable,
+} from '@ant-design/pro-components';
+import { useAccess } from '@umijs/max';
+import type { FormInstance } from 'antd';
+import { Button, Modal, message } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
+import UpdateForm from './edit';
 
 /**
  * 添加节点
@@ -66,7 +82,9 @@ const handleRemove = async (selectedRows: API.System.Dept[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
-    const resp = await removeDept(selectedRows.map((row) => row.deptId).join(','));
+    const resp = await removeDept(
+      selectedRows.map((row) => row.deptId).join(','),
+    );
     hide();
     if (resp.code === 200) {
       message.success('删除成功，即将刷新');
@@ -104,7 +122,7 @@ const handleRemoveOne = async (selectedRow: API.System.Dept) => {
 /**
  * 导出数据
  *
- * 
+ *
  */
 const handleExport = async () => {
   const hide = message.loading('正在导出');
@@ -120,9 +138,8 @@ const handleExport = async () => {
   }
 };
 
-
 const DeptTableList: React.FC = () => {
-  const formTableRef = useRef<FormInstance>();  
+  const formTableRef = useRef<FormInstance>();
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
@@ -136,33 +153,33 @@ const DeptTableList: React.FC = () => {
   const access = useAccess();
 
   useEffect(() => {
-    getDictValueEnum('sys_normal_disable').then((data) => {      
+    getDictValueEnum('sys_normal_disable').then((data) => {
       setStatusOptions(data);
     });
   }, []);
 
   const columns: ProColumns<API.System.Dept>[] = [
     {
-      title: "部门名称",
+      title: '部门名称',
       dataIndex: 'deptName',
       valueType: 'text',
     },
     {
-      title: "显示顺序",
+      title: '显示顺序',
       dataIndex: 'orderNum',
       valueType: 'text',
     },
     {
-      title: "部门状态",
+      title: '部门状态',
       dataIndex: 'status',
       valueType: 'select',
       valueEnum: statusOptions,
       render: (_, record) => {
-        return (<DictTag enums={statusOptions} value={record.status} />);
+        return <DictTag enums={statusOptions} value={record.status} />;
       },
     },
     {
-      title: "操作",
+      title: '操作',
       dataIndex: 'option',
       width: '220px',
       valueType: 'option',
@@ -175,9 +192,24 @@ const DeptTableList: React.FC = () => {
           onClick={() => {
             getDeptListExcludeChild(record.deptId).then((res) => {
               if (res.code === 200) {
-                let depts = buildTreeData(res.data, 'deptId', 'deptName', '', '', '');
-                if(depts.length === 0) {
-                  depts = [{ id: 0, title: '无上级', children: undefined, key: 0, value: 0 }];
+                let depts = buildTreeData(
+                  res.data,
+                  'deptId',
+                  'deptName',
+                  '',
+                  '',
+                  '',
+                );
+                if (depts.length === 0) {
+                  depts = [
+                    {
+                      id: 0,
+                      title: '无上级',
+                      children: undefined,
+                      key: 0,
+                      value: 0,
+                    },
+                  ];
                 }
                 setDeptTree(depts);
                 setModalVisible(true);
@@ -223,7 +255,7 @@ const DeptTableList: React.FC = () => {
     <PageContainer>
       <div style={{ width: '100%', float: 'right' }}>
         <ProTable<API.System.Dept>
-          headerTitle='信息'
+          headerTitle="信息"
           actionRef={actionRef}
           formRef={formTableRef}
           rowKey="deptId"
@@ -239,7 +271,9 @@ const DeptTableList: React.FC = () => {
               onClick={async () => {
                 getDeptList().then((res) => {
                   if (res.code === 200) {
-                    setDeptTree(buildTreeData(res.data, 'deptId', 'deptName', '', '', ''));
+                    setDeptTree(
+                      buildTreeData(res.data, 'deptId', 'deptName', '', '', ''),
+                    );
                     setCurrentRow(undefined);
                     setModalVisible(true);
                   } else {
@@ -252,8 +286,11 @@ const DeptTableList: React.FC = () => {
             </Button>,
             <Button
               type="primary"
-              key="remove"              
-              hidden={selectedRows?.length === 0 || !access.hasPerms('system:dept:remove')}
+              key="remove"
+              hidden={
+                selectedRows?.length === 0 ||
+                !access.hasPerms('system:dept:remove')
+              }
               onClick={async () => {
                 Modal.confirm({
                   title: '是否确认删除所选数据项?',
@@ -267,7 +304,7 @@ const DeptTableList: React.FC = () => {
                     }
                   },
                   onCancel() {},
-                }); 
+                });
               }}
             >
               <DeleteOutlined />
@@ -286,14 +323,16 @@ const DeptTableList: React.FC = () => {
             </Button>,
           ]}
           request={(params) =>
-            getDeptList({ ...params } as API.System.DeptListParams).then((res) => {
-              const result = {
-                data: buildTreeData(res.data, 'deptId', '', '', '', ''),
-                total: res.data.length,
-                success: true,
-              };
-              return result;
-            })
+            getDeptList({ ...params } as API.System.DeptListParams).then(
+              (res) => {
+                const result = {
+                  data: buildTreeData(res.data, 'deptId', '', '', '', ''),
+                  total: res.data.length,
+                  success: true,
+                };
+                return result;
+              },
+            )
           }
           columns={columns}
           rowSelection={{
@@ -308,8 +347,7 @@ const DeptTableList: React.FC = () => {
           extra={
             <div>
               已选择
-              <a style={{ fontWeight: 600 }}>{selectedRows.length}</a>
-              项
+              <a style={{ fontWeight: 600 }}>{selectedRows.length}</a>项
             </div>
           }
         >
