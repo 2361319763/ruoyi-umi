@@ -19,7 +19,6 @@ import {
 import {
   ActionType,
   FooterToolbar,
-  PageContainer,
   ProColumns,
   ProTable,
 } from '@ant-design/pro-components';
@@ -310,7 +309,7 @@ const DictDataTableList: React.FC = () => {
   ];
 
   return (
-    <PageContainer>
+    <div>
       <div style={{ width: '100%', float: 'right' }}>
         <ProTable<API.System.DictData>
           headerTitle="信息"
@@ -452,7 +451,7 @@ const DictDataTableList: React.FC = () => {
         values={currentRow || {}}
         statusOptions={statusOptions}
       />
-    </PageContainer>
+    </div>
   );
 };
 

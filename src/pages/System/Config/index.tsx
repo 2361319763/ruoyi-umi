@@ -18,7 +18,6 @@ import {
 import {
   ActionType,
   FooterToolbar,
-  PageContainer,
   ProColumns,
   ProTable,
 } from '@ant-design/pro-components';
@@ -257,7 +256,7 @@ const ConfigTableList: React.FC = () => {
   ];
 
   return (
-    <PageContainer>
+    <div>
       <div style={{ width: '100%', float: 'right' }}>
         <ProTable<API.System.Config>
           headerTitle="信息"
@@ -407,7 +406,7 @@ const ConfigTableList: React.FC = () => {
         values={currentRow || {}}
         configTypeOptions={configTypeOptions}
       />
-    </PageContainer>
+    </div>
   );
 };
 

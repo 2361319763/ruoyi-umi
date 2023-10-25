@@ -1,12 +1,11 @@
-import { PageContainer } from '@ant-design/pro-components';
 import { Card } from 'antd';
 import React from 'react';
 
 const Settings: React.FC = () => {
   return (
-    <PageContainer>
+    <div>
       <Card title="Developing" />
-    </PageContainer>
+    </div>
   );
 };
 

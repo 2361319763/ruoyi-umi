@@ -15,7 +15,6 @@ import {
 import {
   ActionType,
   FooterToolbar,
-  PageContainer,
   ProColumns,
   ProTable,
 } from '@ant-design/pro-components';
@@ -262,7 +261,7 @@ const NoticeTableList: React.FC = () => {
   ];
 
   return (
-    <PageContainer>
+    <div>
       <div style={{ width: '100%', float: 'right' }}>
         <ProTable<API.System.Notice>
           headerTitle="信息"
@@ -400,7 +399,7 @@ const NoticeTableList: React.FC = () => {
         noticeTypeOptions={noticeTypeOptions}
         statusOptions={statusOptions}
       />
-    </PageContainer>
+    </div>
   );
 };
 

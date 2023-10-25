@@ -17,13 +17,13 @@ const MainContent: React.FC<PropsInterface> = (props) => {
 
   useEffect(()=>{
     setNoCache(matchingMenuItem?.meta?.noCache);
-    if (tabList.findIndex(J=>J.key===location.pathname) === -1 && location.pathname!='/' && location.pathname!='/home' && matchingMenuItem?.component!='Layout') {
+    if (matchingMenuItem && tabList.findIndex(J=>J.key===location.pathname) === -1 && location.pathname!='/' && location.pathname!='/home' && matchingMenuItem?.component!='Layout') {
       setTabList([...tabList,{
         key: location.pathname,
         tab: matchingMenuItem?.name
       }])
     }
-    // console.log('MainContent history', matchingMenuItem, location);
+    console.log('MainContent history', matchingMenuItem, location,history);
   },[location])
 
   const handleTabRemove = (key: string) => {

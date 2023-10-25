@@ -6,7 +6,6 @@ import {
   DesktopOutlined,
   HddOutlined,
 } from '@ant-design/icons';
-import { PageContainer } from '@ant-design/pro-components';
 import type { DescriptionsProps } from 'antd';
 import { Card, Col, Descriptions, Row, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
@@ -233,7 +232,7 @@ const Server: React.FC = () => {
   };
 
   return (
-    <PageContainer>
+    <div>
       <Row gutter={[16, 16]}>
         <Col span={12}>
           <Card
@@ -303,7 +302,7 @@ const Server: React.FC = () => {
           </Card>
         </Col>
       </Row>
-    </PageContainer>
+    </div>
   );
 };
 export default Server;

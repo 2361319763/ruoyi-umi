@@ -2,7 +2,6 @@ import { forceLogout, getOnlineUserList } from '@/services/monitor/online';
 import { DeleteOutlined } from '@ant-design/icons';
 import {
   ActionType,
-  PageContainer,
   ProColumns,
   ProTable,
 } from '@ant-design/pro-components';
@@ -125,7 +124,7 @@ const OnlineUserTableList: React.FC = () => {
   ];
 
   return (
-    <PageContainer>
+    <div>
       <ProTable<API.Monitor.OnlineUserType>
         headerTitle="信息"
         actionRef={actionRef}
@@ -149,7 +148,7 @@ const OnlineUserTableList: React.FC = () => {
         }
         columns={columns}
       />
-    </PageContainer>
+    </div>
   );
 };
 

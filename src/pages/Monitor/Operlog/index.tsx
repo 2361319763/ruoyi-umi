@@ -15,7 +15,6 @@ import {
 import {
   ActionType,
   FooterToolbar,
-  PageContainer,
   ProColumns,
   ProTable,
 } from '@ant-design/pro-components';
@@ -236,7 +235,7 @@ const OperlogTableList: React.FC = () => {
   ];
 
   return (
-    <PageContainer>
+    <div>
       <div style={{ width: '100%', float: 'right' }}>
         <ProTable<API.Monitor.Operlog>
           headerTitle="信息"
@@ -375,7 +374,7 @@ const OperlogTableList: React.FC = () => {
         operatorTypeOptions={operatorTypeOptions}
         statusOptions={statusOptions}
       />
-    </PageContainer>
+    </div>
   );
 };
 

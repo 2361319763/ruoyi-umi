@@ -23,7 +23,6 @@ import {
 import {
   ActionType,
   FooterToolbar,
-  PageContainer,
   ProColumns,
   ProTable,
 } from '@ant-design/pro-components';
@@ -355,7 +354,7 @@ const UserTableList: React.FC = () => {
   ];
 
   return (
-    <PageContainer>
+    <div>
       {contextHolder}
       <Row gutter={[16, 24]}>
         <Col lg={6} md={24}>
@@ -577,7 +576,7 @@ const UserTableList: React.FC = () => {
         roles={roleList || []}
         roleIds={roleIds || []}
       />
-    </PageContainer>
+    </div>
   );
 };
 

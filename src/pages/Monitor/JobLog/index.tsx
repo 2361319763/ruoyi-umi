@@ -14,7 +14,6 @@ import {
 import {
   ActionType,
   FooterToolbar,
-  PageContainer,
   ProColumns,
   ProTable,
 } from '@ant-design/pro-components';
@@ -222,7 +221,7 @@ const JobLogTableList: React.FC = () => {
   ];
 
   return (
-    <PageContainer>
+    <div>
       <div style={{ width: '100%', float: 'right' }}>
         <ProTable<API.Monitor.JobLog>
           headerTitle="信息"
@@ -346,7 +345,7 @@ const JobLogTableList: React.FC = () => {
         statusOptions={statusOptions}
         jobGroupOptions={jobGroupOptions}
       />
-    </PageContainer>
+    </div>
   );
 };
 

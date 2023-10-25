@@ -126,7 +126,7 @@ export function convertCompatRouters(childrens: API.RoutersMenuItem[]): any[] {
       hideInMenu: item.hidden,
       component: item.component,
       authority: item.perms,
-      meta: item.meta,
+      meta: item.meta
     };
   });
 }

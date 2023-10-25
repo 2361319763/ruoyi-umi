@@ -14,7 +14,6 @@ import {
   RedoOutlined,
 } from '@ant-design/icons';
 import {
-  PageContainer,
   ProForm,
   ProFormText,
   ProFormTextArea,
@@ -137,7 +136,7 @@ const CacheList: React.FC = () => {
   }, []);
 
   return (
-    <PageContainer>
+    <div>
       <Row gutter={16}>
         <Col span={8}>
           <Card
@@ -260,7 +259,7 @@ const CacheList: React.FC = () => {
           </Card>
         </Col>
       </Row>
-    </PageContainer>
+    </div>
   );
 };
 export default CacheList;

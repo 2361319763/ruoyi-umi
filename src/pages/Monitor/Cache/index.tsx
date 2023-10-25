@@ -5,7 +5,6 @@ import {
   DesktopOutlined,
   PieChartOutlined,
 } from '@ant-design/icons';
-import { PageContainer } from '@ant-design/pro-components';
 import type { DescriptionsProps } from 'antd';
 import { Card, Col, Descriptions, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
@@ -139,7 +138,7 @@ const Cache: React.FC = () => {
   }, []);
 
   return (
-    <PageContainer>
+    <div>
       <Row gutter={[16, 16]}>
         <Col span={24}>
           <Card
@@ -178,7 +177,7 @@ const Cache: React.FC = () => {
           </Card>
         </Col>
       </Row>
-    </PageContainer>
+    </div>
   );
 };
 export default Cache;
