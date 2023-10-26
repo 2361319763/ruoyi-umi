@@ -7,13 +7,17 @@ import { getMatchMenuItem } from '@/services/session';
 interface PropsInterface {
   children: ReactNode;
 }
+interface TabInterface {
+  key: string;
+  tab: string | undefined;
+}
 
 const MainContent: React.FC<PropsInterface> = (props) => {
   const { location } = history;
   const { drop } = useAliveController();
   const matchingMenuItem = getMatchMenuItem(location.pathname)[0] || null;
   const [ noCache, setNoCache ] = useState(false);
-  const [ tabList, setTabList ] = useState([]);
+  const [ tabList, setTabList ] = useState<TabInterface[]>([]);
 
   useEffect(()=>{
     setNoCache(matchingMenuItem?.meta?.noCache);
@@ -23,7 +27,7 @@ const MainContent: React.FC<PropsInterface> = (props) => {
         tab: matchingMenuItem?.name
       }])
     }
-    console.log('MainContent history', matchingMenuItem, location,history);
+    // console.log('MainContent history', matchingMenuItem, location, history);
   },[location])
 
   const handleTabRemove = (key: string) => {

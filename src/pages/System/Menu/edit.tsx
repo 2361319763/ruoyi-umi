@@ -41,16 +41,16 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
     form.setFieldsValue({
       menuId: props.values.menuId,
       menuName: props.values.menuName,
-      parentId: props.values.parentId,
+      parentId: props.values.parentId || 0,
       orderNum: props.values.orderNum,
       path: props.values.path,
       component: props.values.component,
       query: props.values.query,
       isFrame: props.values.isFrame,
-      isCache: props.values.isCache,
+      isCache: props.values.isCache || '0',
       menuType: props.values.menuType,
       visible: props.values.visible,
-      status: props.values.status,
+      status: props.values.status || '0',
       perms: props.values.perms,
       icon: props.values.icon,
       createBy: props.values.createBy,
@@ -274,12 +274,12 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
           hidden={menuTypeId !== 'C'}
           rules={[
             {
-              required: false,
+              required: true,
               message: '请输入是否缓存！',
             },
           ]}
           fieldProps={{
-            defaultValue: 0,
+            defaultValue: '0',
           }}
         />
         <ProFormRadio.Group

@@ -38,11 +38,11 @@ export default [
     name: '系统管理',
     path: '/system',
     routes: [
-      {
-        name: '字典数据',
-        path: '/system/dict-data/index/:id',
-        component: './System/DictData',
-      },
+      // {
+      //   name: '字典数据',
+      //   path: '/system/dict-data/index/:id',
+      //   component: './System/DictData',
+      // },
       {
         name: '分配用户',
         path: '/system/role-auth/user/:id',

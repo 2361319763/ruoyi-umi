@@ -2,7 +2,6 @@ import { DownloadOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   ActionType,
   FooterToolbar,
-  PageContainer,
   ProColumns,
   ProDescriptions,
   ProDescriptionsItemProps,
@@ -225,7 +224,7 @@ const GenCodeView: React.FC = () => {
   ];
 
   return (
-    <PageContainer>
+    <div>
       <Card bordered={false}>
         <ProTable<GenCodeType>
           headerTitle="代码生成信息"
@@ -355,7 +354,7 @@ const GenCodeView: React.FC = () => {
           )}
         </Drawer>
       </Card>
-    </PageContainer>
+    </div>
   );
 };
 
