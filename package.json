@@ -34,6 +34,7 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "query-string": "^8.1.0",
+    "file-saver": "2.0.5",
     "react": "^18.2.0",
     "react-activation": "^0.12.4",
     "react-cropper": "^2.3.3",

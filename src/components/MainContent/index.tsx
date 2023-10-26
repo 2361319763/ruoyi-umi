@@ -34,10 +34,12 @@ const MainContent: React.FC<PropsInterface> = (props) => {
     const tabIndex = tabList.findIndex(J=>J.key===key);
     const newTabList = [...tabList.slice(0, tabIndex), ...tabList.slice(tabIndex + 1)];
     // console.log('handleTabRemove', key, tabIndex , newTabList, tabList);
-    if(tabIndex === newTabList.length) {
-      history.push(newTabList[tabIndex - 1]?.key || '/')
-    } else {
-      history.push(newTabList[tabIndex]?.key || '/')
+    if(key == location.pathname) {
+      if(tabIndex === newTabList.length) {
+        history.push(newTabList[tabIndex - 1]?.key || '/')
+      } else {
+        history.push(newTabList[tabIndex]?.key || '/')
+      }
     }
     drop(key);
     setTabList(newTabList);
