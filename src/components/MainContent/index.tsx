@@ -46,9 +46,10 @@ const MainContent: React.FC<PropsInterface> = (props) => {
   const matchingMenuItem = getMatchMenuItem(location.pathname)[0] || null;
   const [ noCache, setNoCache ] = useState(false);
   const [ tabList, setTabList ] = useState<TabInterface[]>([]);
+  const [ refreshKey, setRefreshKey ] = useState(0);
 
   useEffect(()=>{
-    setNoCache(matchingMenuItem?.meta?.noCache || true);
+    setNoCache(matchingMenuItem?.meta?.noCache ?? true);
     if (matchingMenuItem && tabList.findIndex(J=>J.key===location.pathname) === -1 && location.pathname!='/' && location.pathname!='/home' && matchingMenuItem?.component!='Layout') {
       setTabList([...tabList,{
         key: location.pathname,
@@ -56,7 +57,6 @@ const MainContent: React.FC<PropsInterface> = (props) => {
         meta: matchingMenuItem?.meta
       }])
     }
-    // console.log('MainContent history', matchingMenuItem, location, history);
   },[location])
 
   const handleTabRemove = (key: string) => {
@@ -76,7 +76,7 @@ const MainContent: React.FC<PropsInterface> = (props) => {
 
   const refreshSelectedTag = (key:string) => {
     if (noCache) {
-      history.go(0);
+      setRefreshKey((prevKey) => prevKey + 1);
     } else {
       refresh(key);
     }
@@ -155,7 +155,9 @@ const MainContent: React.FC<PropsInterface> = (props) => {
           </KeepAlive>
         }
         {
-          noCache && props.children
+          noCache && <div key={refreshKey}>
+            { props.children }
+          </div>
         }
       </AliveScope>
     </PageContainer>

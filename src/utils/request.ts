@@ -142,7 +142,6 @@ const requestConfig: RequestConfig = {
         });
         clearSessionToken();
         history.push(PageEnum.LOGIN);
-        return Promise.reject(msg);
       } else if (code === 500) {
         message.error(msg);
       } else if (code === 601) {
