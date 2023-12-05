@@ -4,7 +4,7 @@ import { history } from '@umijs/max';
 import { DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Dropdown, Space } from 'antd';
-import { PageContainer, PageHeaderProps } from '@ant-design/pro-components';
+import { PageContainer } from '@ant-design/pro-components';
 import { getMatchMenuItem } from '@/services/session';
 import Breadcrumb from "./Breadcrumb";
 
