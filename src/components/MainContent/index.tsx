@@ -62,7 +62,6 @@ const MainContent: React.FC<PropsInterface> = (props) => {
   const handleTabRemove = (key: string) => {
     const tabIndex = tabList.findIndex(J=>J.key===key);
     const newTabList = [...tabList.slice(0, tabIndex), ...tabList.slice(tabIndex + 1)];
-    // console.log('handleTabRemove', key, tabIndex , newTabList, tabList);
     if(key == location.pathname) {
       if(tabIndex === newTabList.length) {
         history.push(newTabList[tabIndex - 1]?.key || '/')
@@ -70,7 +69,7 @@ const MainContent: React.FC<PropsInterface> = (props) => {
         history.push(newTabList[tabIndex]?.key || '/')
       }
     }
-    drop(key);
+    !noCache && drop(key);
     setTabList(newTabList);
   }
 
@@ -150,7 +149,7 @@ const MainContent: React.FC<PropsInterface> = (props) => {
     >
       <AliveScope>
         {
-          !noCache && <KeepAlive cacheKey={location.pathname} name={location.pathname}>
+          !noCache && <KeepAlive autoFreeze={false} when={true} cacheKey={location.pathname} name={location.pathname}>
             { props.children }
           </KeepAlive>
         }
