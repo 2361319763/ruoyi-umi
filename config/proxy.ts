@@ -15,14 +15,14 @@ export default {
     // localhost:8000/api/** -> https://preview.pro.ant.design/api/**
     '/dev-api': {
       // 要代理的地址
-      target: 'http://localhost:8080',
+      target: 'http://101.42.51.195:8800',
       // 配置了这个可以从 http 代理到 https
       // 依赖 origin 的功能可能需要这个，比如 cookie
       changeOrigin: true,
       pathRewrite: { '^/dev-api': '' },
     },
     '/profile/avatar': {
-      target: 'http://localhost:8080/dev-api',
+      target: 'http://101.42.51.195:8800/dev-api',
       changeOrigin: true,
     },
   },

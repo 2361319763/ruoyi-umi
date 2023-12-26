@@ -168,7 +168,7 @@ const AuthUserTableList: React.FC = () => {
   ];
 
   return (
-    <PageContainer>
+    <div>
       <div style={{ width: '100%', float: 'right' }}>
         <ProTable<API.System.User>
           headerTitle="信息"
@@ -289,7 +289,7 @@ const AuthUserTableList: React.FC = () => {
           )
         }
       />
-    </PageContainer>
+    </div>
   );
 };
 
